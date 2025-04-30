@@ -1,6 +1,4 @@
-﻿using GestionSuiviFacture.API.Models;
-using GestionSuiviFacture.WPF.ViewModels;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 
 namespace GestionSuiviFacture.API.Services
 {
@@ -21,7 +19,7 @@ namespace GestionSuiviFacture.API.Services
                 //return new Etiquette{ Id = 1 };
         }
 
-        public async Task<EtiquetteViewModel> Load()
+        public async Task<Etiquette> Load()
         {
 
         }

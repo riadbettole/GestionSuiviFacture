@@ -28,7 +28,12 @@ namespace GestionSuiviFacture.WPF.Services
                 new Etiquette("-14894349", "JIBAL", DateTime.Now, StatusEtiquette.NOK, "Aechalla"),
                 new Etiquette("-14894350", "JIBAL", DateTime.Now, StatusEtiquette.NOK, "Aechalla"),
                 new Etiquette("-14894351", "JIBAL", DateTime.Now, StatusEtiquette.OK, "Aechalla"),
-                new Etiquette("-14894352", "JIBAL", DateTime.Now, StatusEtiquette.NOK, "Aechalla")
+                new Etiquette("-14894352", "JIBAL", DateTime.Now, StatusEtiquette.NOK, "Aechalla"),
+                new Etiquette("-14894343", "JIBAL", DateTime.Now, StatusEtiquette.NOK, "Aechalla"),
+                new Etiquette("-14894344", "JIBAL", DateTime.Now, StatusEtiquette.NOK, "Aechalla"),
+                new Etiquette("-14894345", "JIBAL", DateTime.Now, StatusEtiquette.ANNULE, "Aechalla"),
+                new Etiquette("-14894346", "COPAG", DateTime.Now, StatusEtiquette.NOK, "mbenaiad"),
+                new Etiquette("-14894347", "COPAG", DateTime.Now, StatusEtiquette.NOK, "mbenaiad")
             };
         }
     }
