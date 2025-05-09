@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace GestionSuiviFacture.WPF.Components
 {
@@ -26,6 +27,15 @@ namespace GestionSuiviFacture.WPF.Components
         public LayoutPageButton()
         {
             InitializeComponent();
+        }
+
+        public static readonly DependencyProperty CommandProperty =
+    DependencyProperty.Register("Command", typeof(ICommand), typeof(LayoutPageButton));
+
+        public ICommand Command
+        {
+            get => (ICommand)GetValue(CommandProperty);
+            set => SetValue(CommandProperty, value);
         }
     }
 }

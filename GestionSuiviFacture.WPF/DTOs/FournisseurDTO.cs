@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GestionSuiviFacture.WPF.DTOs
+{
+    public class FournisseurDTO
+    {
+        public int id_Fournisseur { get; set; }
+        public string cnuf { get; set; }
+        public string libelle_Fournisseur { get; set; }
+        public List<EtiquetteDTO> etiquettes { get; set; }
+    }
+}

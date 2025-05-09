@@ -3,11 +3,11 @@
 namespace GestionSuiviFacture.WPF.Views
 {
     /// <summary>
-    /// Interaction logic for Page1.xaml
+    /// Interaction logic for FactureEmballage.xaml
     /// </summary>
-    public partial class Facture : UserControl
+    public partial class FactureEmballage : UserControl
     {
-        public Facture()
+        public FactureEmballage()
         {
             InitializeComponent();
         }
