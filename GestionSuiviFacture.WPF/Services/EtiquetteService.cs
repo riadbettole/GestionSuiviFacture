@@ -1,4 +1,5 @@
 ﻿using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text.Json.Nodes;
 using GestionSuiviFacture.WPF.DTOs;
 using GestionSuiviFacture.WPF.Models;
@@ -22,6 +23,8 @@ namespace GestionSuiviFacture.WPF.Services
         {
             using (HttpClient client = new HttpClient())
             {
+                client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", AuthService.JwtToken);
+
                 string uri = "https://localhost:7167/api/etiquette?pageNumber=1&pageSize=10";
                 HttpResponseMessage response = await client.GetAsync(uri);
                 string jsonResponse = await response.Content.ReadAsStringAsync();

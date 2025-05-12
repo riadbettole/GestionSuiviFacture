@@ -4,8 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="clr-namespace:GestionSuiviFacture.WPF"
     xmlns:views="clr-namespace:GestionSuiviFacture.WPF.Views"
-    xmlns:vm="clr-namespace:GestionSuiviFacture.WPF.ViewModels"
-    StartupUri="MainWindow.xaml">
+    xmlns:vm="clr-namespace:GestionSuiviFacture.WPF.ViewModels">
     <Application.Resources>
         <FontFamily x:Key="AppFontFamily">Segoe UI</FontFamily>
 
@@ -22,6 +21,8 @@
         <DataTemplate DataType="{x:Type vm:ConsultationViewModel}">
             <views:Consultation />
         </DataTemplate>
-
+        <DataTemplate DataType="{x:Type vm:LoginViewModel}">
+            <views:Login />
+        </DataTemplate>
     </Application.Resources>
 </Application>

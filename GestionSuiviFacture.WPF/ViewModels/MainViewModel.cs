@@ -11,17 +11,16 @@ namespace GestionSuiviFacture.WPF.ViewModels
         public MainViewModel()
         {
             Navigation = new NavigationService();
-            Navigation.NavigateTo(new ConsultationViewModel());
         }
 
         [RelayCommand]
-        private void NavigateToFacture() => Navigation.NavigateTo(new FactureViewModel());
+        public void NavigateToFacture() => Navigation.NavigateTo(new FactureViewModel());
 
         [RelayCommand]
-        private void NavigateToFactureEmballage() => Navigation.NavigateTo(new FactureEmballageViewModel());
+        public void NavigateToFactureEmballage() => Navigation.NavigateTo(new FactureEmballageViewModel());
 
         [RelayCommand]
-        private void NavigateToConsultation() => Navigation.NavigateTo(new ConsultationViewModel());
+        public void NavigateToConsultation() => Navigation.NavigateTo(new ConsultationViewModel());
 
         public void Dispose()
         {
