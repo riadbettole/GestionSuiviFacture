@@ -9,16 +9,25 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\Calendar.png" />
+    <None Remove="Images\deconnexion.png" />
     <None Remove="Images\Excel.png" />
     <None Remove="Images\facture.png" />
     <None Remove="Images\factureEmba.png" />
     <None Remove="Images\marjane.png" />
     <None Remove="Images\MJlogo.png" />
     <None Remove="Images\search.png" />
+    <None Remove="Images\SearchBlue.png" />
     <None Remove="Images\SearchButton.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Images\Calendar.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\deconnexion.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Excel.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -49,6 +58,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\search.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\SearchBlue.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\SearchButton.png">

@@ -5,9 +5,47 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Components"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="ArrowButton" TargetType="Button">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="FontWeight" Value="Black" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Padding" Value="10,0,10,0" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Height" Value="30" />
+            <Style.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.3" />
+                    <Setter Property="Foreground" Value="Black" />
+                    <Setter Property="Background" Value="Transparent" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="ListViewItem">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="LightGray" />
+            <Setter Property="BorderThickness" Value="0,0,0,1" />
+            <Setter Property="Height" Value="35" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Foreground" Value="Black" />
+            <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
+        </Style>
+
+        <Style TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="Foreground" Value="#484CC5" />
+            <Setter Property="Margin" Value="0,10,0,10" />
+            <Setter Property="FontSize" Value="13" />
+            <Setter Property="Padding" Value="5" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="MinWidth" Value="120" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="400" />
@@ -15,71 +53,36 @@
         </Grid.RowDefinitions>
         <ListView
             Grid.Row="0"
-            BorderBrush="Transparent"
-            BorderThickness="0"
+            BorderBrush="#f5f5f5"
+            BorderThickness="0,0,0,1"
             ItemsSource="{Binding Etiquettes}">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <Setter Property="HorizontalContentAlignment" Value="Left" />
-                    <Setter Property="BorderThickness" Value="0" />
-                    <Setter Property="BorderBrush" Value="Transparent" />
-                    <Setter Property="BorderBrush" Value="LightGray" />
-                    <Setter Property="BorderThickness" Value="0,1,0,0" />
-                    <Setter Property="Height" Value="35" />
-                    <Setter Property="FontSize" Value="16" />
-                    <Setter Property="Foreground" Value="Black" />
-                    <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
-                </Style>
-            </ListView.ItemContainerStyle>
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
-                    <GridView.ColumnHeaderContainerStyle>
-                        <Style TargetType="{x:Type GridViewColumnHeader}">
-                            <Setter Property="Foreground" Value="#484CC5" />
-                            <Setter Property="Margin" Value="0,10,0,10" />
-                            <Setter Property="FontSize" Value="13" />
-
-                            <Setter Property="Template">
-                                <Setter.Value>
-                                    <ControlTemplate TargetType="{x:Type GridViewColumnHeader}">
-                                        <Border Padding="5,5,5,5">
-                                            <ContentPresenter HorizontalAlignment="Left" VerticalAlignment="Center" />
-                                        </Border>
-                                    </ControlTemplate>
-                                </Setter.Value>
-                            </Setter>
-                        </Style>
-                    </GridView.ColumnHeaderContainerStyle>
-
-                    <GridViewColumn Width="125" Header="Sequence">
+                    <GridViewColumn Header="Sequence">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Foreground="#484CC5" Text="{Binding NumSequence}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="125" Header="Fournisseur">
+                    <GridViewColumn Header="Fournisseur">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Fournisseur}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="125" Header="Date Traitement">
+                    <GridViewColumn Header="Date Traitement">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding DateTraitement}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="100" Header="Statut">
+                    <GridViewColumn Header="Statut">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <Border
-                                    Margin="2"
-                                    Padding="4"
-                                    VerticalAlignment="Center"
-                                    CornerRadius="5">
+                                <Border Padding="4" CornerRadius="5">
                                     <Border.Style>
                                         <Style TargetType="{x:Type Border}">
                                             <Setter Property="Background" Value="Transparent" />
@@ -98,8 +101,6 @@
                                     </Border.Style>
                                     <TextBlock
                                         Width="50"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
                                         FontSize="12"
                                         FontWeight="SemiBold"
                                         Text="{Binding Status}"
@@ -108,7 +109,7 @@
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
-                    <GridViewColumn Width="100" Header="Utilisateur">
+                    <GridViewColumn Header="Utilisateur">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Text="{Binding Utilisateur}" />
@@ -118,13 +119,56 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="0,7,0,0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="10*" />
-                <ColumnDefinition />
+                <ColumnDefinition Width="2.8*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Text="10 of 1000" />
-            <TextBlock Grid.Column="1" Text="&gt; &gt;&gt;" />
+            <StackPanel Grid.Column="0" Orientation="Horizontal">
+                <Border
+                    Width="32"
+                    Padding="12,8,12,08"
+                    VerticalAlignment="Center"
+                    Background="#C5C7FF">
+                    <TextBlock FontWeight="Bold" Text="{Binding Pagination.EndPosition}" />
+                </Border>
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="13"
+                    FontWeight="SemiBold"
+                    Text=" de  " />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    FontSize="13"
+                    FontWeight="SemiBold"
+                    Text="{Binding Pagination.TotalCount}" />
+            </StackPanel>
+            <StackPanel
+                Grid.Column="1"
+                Margin="0,-5,0,0"
+                Orientation="Horizontal">
+                <Button
+                    Command="{Binding Pagination.GoToFirstPageCommand}"
+                    Content="&lt;&lt;"
+                    IsEnabled="{Binding Pagination.HasPreviousPage}"
+                    Style="{StaticResource ArrowButton}" />
+                <Button
+                    Command="{Binding Pagination.GoToPreviousPageCommand}"
+                    Content="&lt;"
+                    IsEnabled="{Binding Pagination.HasPreviousPage}"
+                    Style="{StaticResource ArrowButton}" />
+                <Button
+                    Command="{Binding Pagination.GoToNextPageCommand}"
+                    Content="&gt;"
+                    IsEnabled="{Binding Pagination.HasNextPage}"
+                    Style="{StaticResource ArrowButton}" />
+                <Button
+                    Command="{Binding Pagination.GoToLastPageCommand}"
+                    Content="&gt;&gt;"
+                    IsEnabled="{Binding Pagination.HasNextPage}"
+                    Style="{StaticResource ArrowButton}" />
+
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>

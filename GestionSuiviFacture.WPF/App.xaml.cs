@@ -11,9 +11,12 @@ public partial class App : Application
 
         base.OnStartup(e);
 
+        LoginViewModel lvm = new LoginViewModel();
+        lvm.AssignAction(OnLoginSuccess);
+
         var loginWindow = new Login
         {
-            DataContext = new LoginViewModel(OnLoginSuccess)
+            DataContext = lvm
         };
 
         loginWindow.Show();
