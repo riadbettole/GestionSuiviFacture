@@ -4,13 +4,13 @@ namespace GestionSuiviFacture.WPF.Services
 {
     public interface IEtiquetteService
     {
-        Task<IEnumerable<Etiquette>> GetEtiquetteByFilter(
-            string? numSequence = null,
-            DateTime? debut = null,
-            DateTime? fin = null,
-            string? numCommande = null,
-            string? cnuf = null,
-            StatusEtiquette? statusEtiquette = null
+        Task<IEnumerable<Etiquette>> GetEtiquettesByFilterAsync(
+            DateTime? dateDebut = null,
+            DateTime? dateFin = null,
+            StatusEtiquette? statut = null,
+            string n_Sequence = null,
+            string n_Commande = null,
+            string cnuf = null
         );
     }
 }
