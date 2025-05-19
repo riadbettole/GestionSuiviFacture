@@ -1,0 +1,88 @@
+﻿<UserControl
+    x:Class="GestionSuiviFacture.WPF.Components.InfoFournisseurDisplay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Components"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="HeaderText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="DarkBlue" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+        <Style x:Key="TitleInfo" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#272727" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="0,20,0,0" />
+        </Style>
+        <Style x:Key="ContentInfo" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#272727" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="Light" />
+            <Setter Property="Margin" Value="0,2,0,0" />
+        </Style>
+        <Style x:Key="ImportantInfo" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FF0000" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="20" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Margin="20,0,20,0">
+        <TextBlock Style="{StaticResource HeaderText}" Text="Informations du fournisseur : " />
+        <TextBlock
+            Margin="0,20,0,10"
+            Style="{StaticResource ImportantInfo}"
+            Text="{Binding Commande.NomFournisseur}" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource TitleInfo}"
+                Text="CNUF" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="0"
+                Style="{StaticResource ContentInfo}"
+                Text="{Binding Commande.CNUF}" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Style="{StaticResource TitleInfo}"
+                Text="Rayon" />
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Style="{StaticResource ContentInfo}"
+                Text="{Binding Commande.Rayon}" />
+        </Grid>
+        <StackPanel>
+            <TextBlock Style="{StaticResource TitleInfo}" Text="Montant TTC BRV" />
+            <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.MontantTTC}" />
+        </StackPanel>
+        <StackPanel>
+            <TextBlock Style="{StaticResource TitleInfo}" Text="Date de Commande" />
+            <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.DateCommande}" />
+        </StackPanel>
+        <StackPanel>
+            <TextBlock Style="{StaticResource TitleInfo}" Text="Date de reception" />
+            <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.DateReception}" />
+
+        </StackPanel>
+    </StackPanel>
+
+</UserControl>

@@ -1,0 +1,145 @@
+﻿<UserControl
+    x:Class="GestionSuiviFacture.WPF.Components.BonLivraisonDisplay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Components"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="HeaderText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="DarkBlue" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+            <Setter Property="FontWeight" Value="Bold" />
+        </Style>
+
+        <Style x:Key="SmallHeaderText" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#545454" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+        </Style>
+        <Style x:Key="ButtonSubmit" TargetType="Button">
+            <Setter Property="Background" Value="#353535" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="3" />
+                </Style>
+            </Style.Resources>
+        </Style>
+    </UserControl.Resources>
+    <StackPanel Grid.Column="4" Margin="20,0,20,0">
+        <TextBlock Style="{StaticResource HeaderText}" Text="Bon de livraisons " />
+
+        <Border
+            Margin="0,15,0,0"
+            BorderBrush="Gray"
+            BorderThickness="1"
+            CornerRadius="8">
+            <ListView
+                Height="180"
+                Background="Transparent"
+                BorderBrush="Transparent"
+                BorderThickness="0"
+                ItemsSource="{Binding BonDeLivraisons}"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <Setter Property="HorizontalContentAlignment" Value="Center" />
+                        <Setter Property="BorderThickness" Value="0,0,0,0.5" />
+                        <Setter Property="BorderBrush" Value="Gray" />
+                        <Setter Property="Height" Value="30" />
+                        <Setter Property="Background" Value="Transparent" />
+
+                        <Setter Property="FontSize" Value="11" />
+                        <Setter Property="Foreground" Value="Black" />
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.View>
+                    <GridView AllowsColumnReorder="False">
+                        <GridView.ColumnHeaderContainerStyle>
+                            <Style TargetType="{x:Type GridViewColumnHeader}">
+                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="Margin" Value="0,10,0,10" />
+                                <Setter Property="BorderBrush" Value="Transparent" />
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                            </Style>
+                        </GridView.ColumnHeaderContainerStyle>
+                        <GridViewColumn Header="N de livraison">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <TextBlock
+                                        FontWeight="SemiBold"
+                                        Foreground="#484CC5"
+                                        Text="{Binding NumDeLivraison}"
+                                        TextAlignment="Center" />
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Montant TTC">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Border>
+                                        <TextBlock FontWeight="Bold" Text="{Binding MontantTTC}" />
+                                    </Border>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </Border>
+
+
+        <Grid Margin="0,25,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="10" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Style="{StaticResource SmallHeaderText}"
+                Text="Total BLs" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="0"
+                FontSize="16"
+                FontWeight="Bold"
+                Foreground="#1A237E"
+                Text="3" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Style="{StaticResource SmallHeaderText}"
+                Text="Montant total" />
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="1"
+                FontSize="16"
+                FontWeight="Bold"
+                Foreground="#1A237E"
+                Text="7,486.00 DH" />
+        </Grid>
+        <Button
+            Width="170"
+            Height="50"
+            Margin="0,24,0,0"
+            Style="{StaticResource ButtonSubmit}">
+            <TextBlock Text="Enregistrer la facture" />
+        </Button>
+    </StackPanel>
+
+</UserControl>
