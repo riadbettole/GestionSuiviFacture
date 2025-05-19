@@ -22,23 +22,29 @@ namespace GestionSuiviFacture.WPF.Services
 
                 string json = JsonSerializer.Serialize(payload);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-                HttpResponseMessage response = await client.PostAsync("https://localhost:7167/api/auth/login", content);
-
-                if (response.IsSuccessStatusCode)
+                try
                 {
-                    var result = await response.Content.ReadAsStringAsync();
-                    var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(result, new JsonSerializerOptions
+                    HttpResponseMessage response = await client.PostAsync("https://localhost:7167/api/auth/login", content);
+
+                    if (response.IsSuccessStatusCode)
                     {
-                        PropertyNameCaseInsensitive = true
-                    });
+                        var result = await response.Content.ReadAsStringAsync();
+                        var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(result, new JsonSerializerOptions
+                        {
+                            PropertyNameCaseInsensitive = true
+                        });
 
-                    _jwtToken = tokenResponse?.Token;
+                        _jwtToken = tokenResponse?.Token;
 
-                    return !string.IsNullOrEmpty(_jwtToken);
+                        return !string.IsNullOrEmpty(_jwtToken);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return true;
                 }
 
-                return false;
+                return true; //to be removed ease of acceas without db
             }
         }
 

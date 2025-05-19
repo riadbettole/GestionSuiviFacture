@@ -2,7 +2,7 @@
     x:Class="GestionSuiviFacture.WPF.Views.Facture"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:components="clr-namespace:GestionSuiviFacture.WPF.Components"
+    xmlns:component="clr-namespace:GestionSuiviFacture.WPF.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -18,7 +18,7 @@
 
         <Style x:Key="SmallHeaderText" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#545454" />
-            <Setter Property="FontSize" Value="9" />
+            <Setter Property="FontSize" Value="11" />
             <Setter Property="Margin" Value="0,0,0,10" />
             <Setter Property="FontWeight" Value="SemiBold" />
         </Style>
@@ -55,6 +55,8 @@
 
         <Style x:Key="InputFacture" TargetType="TextBox">
             <Setter Property="Height" Value="22" />
+            <Setter Property="FontSize" Value="15" />
+            <Setter Property="FontWeight" Value="Light" />
             <Setter Property="Margin" Value="0,0,0,0" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="BorderThickness" Value="0,0,0,2" />
@@ -135,6 +137,7 @@
                         Grid.Row="1"
                         Grid.Column="3"
                         Width="80"
+                        Padding="5"
                         Command="{Binding FindCommandeCommand}"
                         Content="Rechercher"
                         Style="{StaticResource ButtonSubmit}" />
@@ -163,56 +166,7 @@
                 <ColumnDefinition Width="auto" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <StackPanel Margin="20,0,20,0">
-                <TextBlock Style="{StaticResource HeaderText}" Text="Informations du fournisseur : " />
-                <TextBlock
-                    Margin="0,20,0,10"
-                    Style="{StaticResource ImportantInfo}"
-                    Text="{Binding Commande.NomFournisseur}" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Style="{StaticResource TitleInfo}"
-                        Text="CNUF" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        Style="{StaticResource ContentInfo}"
-                        Text="{Binding Commande.CNUF}" />
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Style="{StaticResource TitleInfo}"
-                        Text="Rayon" />
-                    <TextBlock
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        Style="{StaticResource ContentInfo}"
-                        Text="{Binding Commande.Rayon}" />
-                </Grid>
-                <StackPanel>
-                    <TextBlock Style="{StaticResource TitleInfo}" Text="Montant TTC BRV" />
-                    <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.MontantTTC}" />
-                </StackPanel>
-                <StackPanel>
-                    <TextBlock Style="{StaticResource TitleInfo}" Text="Date de Commande" />
-                    <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.DateCommande}" />
-                </StackPanel>
-                <StackPanel>
-                    <TextBlock Style="{StaticResource TitleInfo}" Text="Date de reception" />
-                    <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.DateReception}" />
-
-                </StackPanel>
-            </StackPanel>
+            <component:InfoFournisseurDisplay Grid.Column="0" />
             <Line
                 Grid.Column="1"
                 HorizontalAlignment="Center"
@@ -223,188 +177,7 @@
                 StrokeThickness="1"
                 Y1="-15"
                 Y2="400" />
-            <StackPanel Grid.Column="2" Margin="20,0,20,0">
-                <TextBlock
-                    Margin="-5,0,0,10"
-                    Style="{StaticResource HeaderText}"
-                    Text="Details facture" />
-                <Grid Margin="0,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Style="{StaticResource SmallHeaderText}"
-                        Text="N de la facture" />
-                    <TextBox
-                        x:Name="NumFactureTextBox"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        KeyDown="NumFactureInputBox_KeyDown"
-                        Style="{StaticResource InputFacture}" />
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="2"
-                        Style="{StaticResource SmallHeaderText}"
-                        Text="Montant TTC Facture" />
-                    <TextBox
-                        x:Name="MontantTTCTextBox"
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        KeyDown="MontantTTCInputBox_KeyDown"
-                        Style="{StaticResource InputFacture}" />
-                </Grid>
-                <TextBlock
-                    Margin="-5,20,0,10"
-                    FontSize="11"
-                    FontWeight="SemiBold"
-                    Foreground="#2653B4"
-                    Text="Details TVA" />
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="20" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="0.3*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Style="{StaticResource SmallHeaderText}"
-                        Text="Taux (%)" />
-                    <TextBox
-                        x:Name="TauxTextBox"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        KeyDown="TauxInputBox_KeyDown"
-                        Style="{StaticResource InputFacture}" />
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="2"
-                        Style="{StaticResource SmallHeaderText}"
-                        Text="MNT HT" />
-                    <TextBox
-                        x:Name="MntHTTextBox"
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        KeyDown="MntHTInputBox_KeyDown"
-                        Style="{StaticResource InputFacture}" />
-                    <Button
-                        x:Name="AddButton"
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        Width="25"
-                        Margin="0,0,0,-2"
-                        Background="#484CC5"
-                        Content="+"
-                        Foreground="White">
-                        <Button.Resources>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="CornerRadius" Value="3" />
-                            </Style>
-                        </Button.Resources>
-                    </Button>
-                </Grid>
-                <Border
-                    Margin="0,20,0,0"
-                    Background="#F5F5F5"
-                    CornerRadius="8">
-                    <ListView
-                        Height="110"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        BorderThickness="0"
-                        ItemsSource="{Binding TaxDetails}"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListViewItem}">
-                                <Setter Property="HorizontalContentAlignment" Value="Right" />
-                                <Setter Property="BorderThickness" Value="0" />
-                                <Setter Property="Height" Value="20" />
-                                <Setter Property="Margin" Value="-50,0,0,0" />
-                                <Setter Property="FontSize" Value="10" />
-                                <Setter Property="Foreground" Value="Black" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.View>
-                            <GridView AllowsColumnReorder="False">
-                                <GridView.ColumnHeaderContainerStyle>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}">
-                                        <Setter Property="Foreground" Value="#1A237E" />
-                                        <Setter Property="Background" Value="Transparent" />
-                                        <Setter Property="Margin" Value="0,10,50,10" />
-                                        <Setter Property="BorderBrush" Value="Transparent" />
-                                        <Setter Property="FontSize" Value="10" />
-                                        <Setter Property="FontWeight" Value="Bold" />
-                                        <Setter Property="HorizontalContentAlignment" Value="Right" />
-                                    </Style>
-                                </GridView.ColumnHeaderContainerStyle>
-                                <GridViewColumn Width="125" Header="Taux (%)">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding TauxPercentage}" TextAlignment="Right" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Width="125" Header="Montant HT">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding MontantHT}" TextAlignment="Right" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Width="125" Header="Montant TVA">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding MontantTVA}" TextAlignment="Right" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </Border>
-                <Grid Width="380" Margin="-10,10,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Border Grid.Column="0" Style="{StaticResource CardTotal}">
-                        <StackPanel>
-                            <TextBlock>Total TVA</TextBlock>
-                            <TextBlock>575.32 DH</TextBlock>
-                        </StackPanel>
-                    </Border>
-                    <Border Grid.Column="1" Style="{StaticResource CardTotal}">
-                        <StackPanel>
-                            <TextBlock Text="Total HT" />
-                            <TextBlock Text="2,949.80 DH" />
-                        </StackPanel>
-                    </Border>
-                    <Border
-                        Grid.Column="2"
-                        Background="#484CC5"
-                        Style="{StaticResource CardTotal}">
-                        <StackPanel>
-                            <TextBlock Foreground="White" Text="Total TTC" />
-                            <TextBlock Foreground="White" Text="3525.12 DH" />
-                        </StackPanel>
-                    </Border>
-                </Grid>
-            </StackPanel>
+            <component:SaisisInfoFactureDisplay x:Name="SaisisInfoFactureDisplay" Grid.Column="2" />
             <Line
                 Grid.Column="3"
                 HorizontalAlignment="Center"
@@ -415,114 +188,7 @@
                 StrokeThickness="1"
                 Y1="-15"
                 Y2="400" />
-            <StackPanel Grid.Column="4" Margin="20,0,20,0">
-                <TextBlock Style="{StaticResource HeaderText}" Text="Bon de livraisons " />
-
-                <Border
-                    Margin="0,15,0,0"
-                    BorderBrush="Gray"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <ListView
-                        Height="180"
-                        Background="Transparent"
-                        BorderBrush="Transparent"
-                        BorderThickness="0"
-                        ItemsSource="{Binding BonDeLivraisons}"
-                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-
-                        <ListView.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListViewItem}">
-                                <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                <Setter Property="BorderThickness" Value="0,0,0,0.5" />
-                                <Setter Property="BorderBrush" Value="Gray" />
-                                <Setter Property="Height" Value="30" />
-                                <Setter Property="Background" Value="Transparent" />
-
-                                <Setter Property="FontSize" Value="10" />
-                                <Setter Property="Foreground" Value="Black" />
-                            </Style>
-                        </ListView.ItemContainerStyle>
-                        <ListView.View>
-                            <GridView AllowsColumnReorder="False">
-                                <GridView.ColumnHeaderContainerStyle>
-                                    <Style TargetType="{x:Type GridViewColumnHeader}">
-                                        <Setter Property="Foreground" Value="Black" />
-                                        <Setter Property="Background" Value="Transparent" />
-                                        <Setter Property="Margin" Value="0,10,0,10" />
-                                        <Setter Property="BorderBrush" Value="Transparent" />
-                                        <Setter Property="FontSize" Value="14" />
-                                        <Setter Property="FontWeight" Value="SemiBold" />
-                                        <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                    </Style>
-                                </GridView.ColumnHeaderContainerStyle>
-                                <GridViewColumn Header="N de livraison">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <TextBlock
-                                                FontWeight="SemiBold"
-                                                Foreground="#484CC5"
-                                                Text="{Binding NumDeLivraison}"
-                                                TextAlignment="Center" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Montant TTC">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <Border>
-                                                <TextBlock FontWeight="Bold" Text="{Binding MontantTTC}" />
-                                            </Border>
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                </Border>
-
-
-                <Grid Margin="0,25,0,0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="10" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Text="Total BLs" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="0"
-                        FontSize="16"
-                        FontWeight="Bold"
-                        Foreground="#1A237E"
-                        Text="3" />
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Text="Montant total" />
-                    <TextBlock
-                        Grid.Row="2"
-                        Grid.Column="1"
-                        FontSize="16"
-                        FontWeight="Bold"
-                        Foreground="#1A237E"
-                        Text="7,486.00 DH" />
-                </Grid>
-                <Button
-                    Width="170"
-                    Height="50"
-                    Margin="0,24,0,0"
-                    Style="{StaticResource ButtonSubmit}">
-                    <TextBlock Text="Enregistrer la facture" />
-                </Button>
-            </StackPanel>
+            <component:BonLivraisonDisplay Grid.Column="4" />
         </Grid>
     </Grid>
 </UserControl>

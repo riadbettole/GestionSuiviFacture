@@ -1,5 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using GestionSuiviFacture.WPF.Components;
 using GestionSuiviFacture.WPF.ViewModels;
 
 namespace GestionSuiviFacture.WPF.Views
@@ -14,26 +16,12 @@ namespace GestionSuiviFacture.WPF.Views
             InitializeComponent();
         }
 
-        private void DateTextBox_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private void DateTextBox_Loaded(object sender, RoutedEventArgs e)
         {
             DateTextBox.Focus();
         }
 
-        private void DateInputBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                SiteTextBox.Focus();
-            }
-        }
-        private void SiteInputBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                CommandeTextBox.Focus();
-            }
-        }
-        private void NumCommandeInputBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void NumCommandeInputBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
@@ -41,41 +29,28 @@ namespace GestionSuiviFacture.WPF.Views
                 {
                     vm.FindCommandeCommand.Execute(null);
                 }
-                NumFactureTextBox.Focus();
-            }
-        }
-        private void NumFactureInputBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                MontantTTCTextBox.Focus();
-            }
-        }
-        private void MntHTInputBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (DataContext is FactureViewModel vm && vm.AddTaxDetailCommand.CanExecute(null))
-                {
-                    vm.AddTaxDetailCommand.Execute(null);
-                }
-                TauxTextBox.Focus();
+                SaisisInfoFactureDisplay.FocusNumFactureTextBox();
             }
         }
 
-        private void TauxInputBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void DateInputBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                MntHTTextBox.Focus();
+                SiteTextBox.Focus();
             }
         }
-        private void MontantTTCInputBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void SiteInputBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                TauxTextBox.Focus();
+                CommandeTextBox.Focus();
             }
         }
+      
+     
+
+        
+        
     }
 }

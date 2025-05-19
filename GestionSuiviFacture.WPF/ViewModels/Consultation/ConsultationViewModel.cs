@@ -34,6 +34,14 @@ namespace GestionSuiviFacture.WPF.ViewModels
         }
 
         [RelayCommand]
+
+        private async Task LoadEtiquettesFilterClicked()
+        {
+            Pagination.CurrentPage = 1;
+            await LoadEtiquettesFilter();
+        }
+
+        [RelayCommand]
         private async Task LoadEtiquettesFilter()
         {
             try
@@ -46,7 +54,8 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 //};
 
                 // Pass current page and page size from pagination to your service
-                var result = await _etiquetteService.GetEtiquettesByFilterAsync(
+
+                PaginatedResult<Etiquette> result = await _etiquetteService.GetEtiquettesByFilterAsync(
                     EndOfDay(Filters.DebutDateFilter),
                     EndOfDay(Filters.FinDateFilter),
                     ConvertStatusToEnum(Filters.StatusFilter),

@@ -72,6 +72,7 @@ public partial class PaginationViewModel : ObservableObject
         }
     }
 
+
     partial void OnCurrentPageChanged(int value)
     {
         OnPropertyChanged(nameof(HasPreviousPage));
