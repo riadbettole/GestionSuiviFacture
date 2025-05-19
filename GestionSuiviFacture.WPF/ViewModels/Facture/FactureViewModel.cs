@@ -28,6 +28,8 @@ namespace GestionSuiviFacture.WPF.ViewModels
     }
     public partial class FactureViewModel : ObservableObject, IDisposable
     {
+        [ObservableProperty] private PopupManager<FactureViewModel> alertePopup = new();
+
         [ObservableProperty]
         private ObservableCollection<TaxDetail> taxDetails;
         
@@ -97,5 +99,8 @@ namespace GestionSuiviFacture.WPF.ViewModels
         public void Dispose()
         {
         }
+
+        private void ShowPopup(FactureViewModel vm) => AlertePopup.Show(vm);
+        [RelayCommand] private void ClosePopup() => AlertePopup.Close();
     }
 }

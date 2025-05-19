@@ -9,31 +9,8 @@
     Background="White"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Key="HeaderText" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="DarkBlue" />
-            <Setter Property="FontSize" Value="12" />
-            <Setter Property="Margin" Value="0,0,0,10" />
-            <Setter Property="FontWeight" Value="Bold" />
-        </Style>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-        <Style x:Key="SmallHeaderText" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#545454" />
-            <Setter Property="FontSize" Value="11" />
-            <Setter Property="Margin" Value="0,0,0,10" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-        </Style>
-
-        <Style x:Key="TitleInfo" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#272727" />
-            <Setter Property="FontSize" Value="14" />
-            <Setter Property="Margin" Value="0,20,0,0" />
-        </Style>
-        <Style x:Key="ContentInfo" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#272727" />
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="FontWeight" Value="Light" />
-            <Setter Property="Margin" Value="0,2,0,0" />
-        </Style>
         <Style x:Key="ImportantInfo" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#FF0000" />
             <Setter Property="HorizontalAlignment" Value="Center" />
@@ -53,23 +30,6 @@
             <Setter Property="BorderBrush" Value="#353535" />
         </Style>
 
-        <Style x:Key="InputFacture" TargetType="TextBox">
-            <Setter Property="Height" Value="22" />
-            <Setter Property="FontSize" Value="15" />
-            <Setter Property="FontWeight" Value="Light" />
-            <Setter Property="Margin" Value="0,0,0,0" />
-            <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="BorderThickness" Value="0,0,0,2" />
-            <Setter Property="BorderBrush" Value="#353535" />
-            <Setter Property="Width" Value="200" />
-        </Style>
-
-        <Style x:Key="CardTotal" TargetType="Border">
-            <Setter Property="Background" Value="#F5F5F5" />
-            <Setter Property="CornerRadius" Value="4" />
-            <Setter Property="Width" Value="105" />
-            <Setter Property="Padding" Value="10" />
-        </Style>
 
         <Style x:Key="ButtonSubmit" TargetType="Button">
             <Setter Property="Background" Value="#353535" />
@@ -82,113 +42,123 @@
             </Style.Resources>
         </Style>
     </UserControl.Resources>
+
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-            <RowDefinition Height="auto" />
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
-            <StackPanel>
-                <Grid Margin="20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="0.3*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel>
+                    <Grid Margin="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="0.3*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Date : " />
+                        <TextBox
+                            x:Name="DateTextBox"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            KeyDown="DateInputBox_KeyDown"
+                            Loaded="DateTextBox_Loaded"
+                            Style="{StaticResource InputSearch}" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="Site : " />
+                        <TextBox
+                            x:Name="SiteTextBox"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            KeyDown="SiteInputBox_KeyDown"
+                            Style="{StaticResource InputSearch}" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Text="N de commande : " />
+                        <TextBox
+                            x:Name="CommandeTextBox"
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            KeyDown="NumCommandeInputBox_KeyDown"
+                            Style="{StaticResource InputSearch}" />
+                        <Button
+                            x:Name="SearchButton"
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Width="80"
+                            Padding="5"
+                            Command="{Binding FindCommandeCommand}"
+                            Content="Rechercher"
+                            Style="{StaticResource ButtonSubmit}" />
+                    </Grid>
                     <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="0"
-                        Text="Date : " />
-                    <TextBox
-                        x:Name="DateTextBox"
-                        Grid.Row="1"
-                        Grid.Column="0"
-                        KeyDown="DateInputBox_KeyDown"
-                        Loaded="DateTextBox_Loaded"
-                        Style="{StaticResource InputSearch}" />
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="1"
-                        Text="Site : " />
-                    <TextBox
-                        x:Name="SiteTextBox"
-                        Grid.Row="1"
-                        Grid.Column="1"
-                        KeyDown="SiteInputBox_KeyDown"
-                        Style="{StaticResource InputSearch}" />
-                    <TextBlock
-                        Grid.Row="0"
-                        Grid.Column="2"
-                        Text="N de commande : " />
-                    <TextBox
-                        x:Name="CommandeTextBox"
-                        Grid.Row="1"
-                        Grid.Column="2"
-                        KeyDown="NumCommandeInputBox_KeyDown"
-                        Style="{StaticResource InputSearch}" />
-                    <Button
-                        x:Name="SearchButton"
-                        Grid.Row="1"
-                        Grid.Column="3"
-                        Width="80"
-                        Padding="5"
-                        Command="{Binding FindCommandeCommand}"
-                        Content="Rechercher"
-                        Style="{StaticResource ButtonSubmit}" />
-                </Grid>
-                <TextBlock
-                    Margin="20,0,20,20"
-                    Style="{StaticResource ImportantInfo}"
-                    Text="Site : Marjane Hay Riad" />
-            </StackPanel>
+                        Margin="20,0,20,20"
+                        Style="{StaticResource ImportantInfo}"
+                        Text="Site : Marjane Hay Riad" />
+                </StackPanel>
+            </Grid>
+            <Line
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                SnapsToDevicePixels="True"
+                Stroke="Gray"
+                StrokeDashArray="8 8"
+                StrokeThickness="1"
+                X1="0"
+                X2="940" />
+            <Grid Grid.Row="2" Margin="0,30,0,40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="400" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <component:InfoFournisseurDisplay Grid.Column="0" />
+                <Line
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    SnapsToDevicePixels="True"
+                    Stroke="Gray"
+                    StrokeDashArray="8 8"
+                    StrokeThickness="1"
+                    Y1="-15"
+                    Y2="400" />
+                <component:SaisisInfoFactureDisplay x:Name="SaisisInfoFactureDisplay" Grid.Column="2" />
+                <Line
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    SnapsToDevicePixels="True"
+                    Stroke="Gray"
+                    StrokeDashArray="8 8"
+                    StrokeThickness="1"
+                    Y1="-15"
+                    Y2="400" />
+                <component:BonLivraisonDisplay Grid.Column="4" />
+            </Grid>
         </Grid>
-        <Line
-            Grid.Row="1"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Top"
-            SnapsToDevicePixels="True"
-            Stroke="Gray"
-            StrokeDashArray="8 8"
-            StrokeThickness="1"
-            X1="0"
-            X2="940" />
-        <Grid Grid.Row="2" Margin="0,30,0,40">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="400" />
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <component:InfoFournisseurDisplay Grid.Column="0" />
-            <Line
-                Grid.Column="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                SnapsToDevicePixels="True"
-                Stroke="Gray"
-                StrokeDashArray="8 8"
-                StrokeThickness="1"
-                Y1="-15"
-                Y2="400" />
-            <component:SaisisInfoFactureDisplay x:Name="SaisisInfoFactureDisplay" Grid.Column="2" />
-            <Line
-                Grid.Column="3"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                SnapsToDevicePixels="True"
-                Stroke="Gray"
-                StrokeDashArray="8 8"
-                StrokeThickness="1"
-                Y1="-15"
-                Y2="400" />
-            <component:BonLivraisonDisplay Grid.Column="4" />
+        <Grid x:Name="PopupOverlay" Visibility="{Binding AlertePopup.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Rectangle
+                Height="560"
+                Fill="Black"
+                Opacity="0.5" />
+            <component:AlerteDisplay />
         </Grid>
     </Grid>
 </UserControl>

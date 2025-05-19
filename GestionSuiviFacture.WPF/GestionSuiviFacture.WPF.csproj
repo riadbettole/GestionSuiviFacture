@@ -9,16 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Images\alert.png" />
     <None Remove="Images\Calendar.png" />
     <None Remove="Images\deconnexion.png" />
     <None Remove="Images\Excel.png" />
     <None Remove="Images\facture.png" />
     <None Remove="Images\factureEmba.png" />
-    <None Remove="Images\marjane.png" />
+    <None Remove="Images\GroupMarjaneWhite.png" />
     <None Remove="Images\MJlogo.png" />
     <None Remove="Images\search.png" />
     <None Remove="Images\SearchBlue.png" />
     <None Remove="Images\SearchButton.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\alert.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -29,9 +36,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Excel.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Images\marjane.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -52,6 +56,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\factureEmba.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\GroupMarjaneWhite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\MJlogo.png">

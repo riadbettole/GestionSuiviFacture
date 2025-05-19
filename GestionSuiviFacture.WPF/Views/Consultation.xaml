@@ -13,9 +13,6 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
-
-
-
         <StackPanel
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
