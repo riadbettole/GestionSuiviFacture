@@ -2,7 +2,8 @@
     x:Class="GestionSuiviFacture.WPF.Views.Facture"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:component="clr-namespace:GestionSuiviFacture.WPF.Components"
+    xmlns:common="clr-namespace:GestionSuiviFacture.WPF.Components.Common"
+    xmlns:components="clr-namespace:GestionSuiviFacture.WPF.Components.Facture"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -50,66 +51,7 @@
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <StackPanel>
-                    <Grid Margin="20">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="0.3*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Text="Date : " />
-                        <TextBox
-                            x:Name="DateTextBox"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            KeyDown="DateInputBox_KeyDown"
-                            Loaded="DateTextBox_Loaded"
-                            Style="{StaticResource InputSearch}" />
-                        <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            Text="Site : " />
-                        <TextBox
-                            x:Name="SiteTextBox"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            KeyDown="SiteInputBox_KeyDown"
-                            Style="{StaticResource InputSearch}" />
-                        <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="2"
-                            Text="N de commande : " />
-                        <TextBox
-                            x:Name="CommandeTextBox"
-                            Grid.Row="1"
-                            Grid.Column="2"
-                            KeyDown="NumCommandeInputBox_KeyDown"
-                            Style="{StaticResource InputSearch}" />
-                        <Button
-                            x:Name="SearchButton"
-                            Grid.Row="1"
-                            Grid.Column="3"
-                            Width="80"
-                            Padding="5"
-                            Command="{Binding FindCommandeCommand}"
-                            Content="Rechercher"
-                            Style="{StaticResource ButtonSubmit}" />
-                    </Grid>
-                    <TextBlock
-                        Margin="20,0,20,20"
-                        Style="{StaticResource ImportantInfo}"
-                        Text="Site : Marjane Hay Riad" />
-                </StackPanel>
-            </Grid>
+            <components:SearchSaisieDisplay x:Name="SearchDisplayControl" />
             <Line
                 Grid.Row="1"
                 HorizontalAlignment="Center"
@@ -128,7 +70,7 @@
                     <ColumnDefinition Width="auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <component:InfoFournisseurDisplay Grid.Column="0" />
+                <components:InfoFournisseurDisplay Grid.Column="0" />
                 <Line
                     Grid.Column="1"
                     HorizontalAlignment="Center"
@@ -139,7 +81,7 @@
                     StrokeThickness="1"
                     Y1="-15"
                     Y2="400" />
-                <component:SaisisInfoFactureDisplay x:Name="SaisisInfoFactureDisplay" Grid.Column="2" />
+                <components:SaisisInfoFactureDisplay x:Name="SaisisInfoFactureDisplay" Grid.Column="2" />
                 <Line
                     Grid.Column="3"
                     HorizontalAlignment="Center"
@@ -150,7 +92,7 @@
                     StrokeThickness="1"
                     Y1="-15"
                     Y2="400" />
-                <component:BonLivraisonDisplay Grid.Column="4" />
+                <components:BonLivraisonDisplay Grid.Column="4" />
             </Grid>
         </Grid>
         <Grid x:Name="PopupOverlay" Visibility="{Binding AlertePopup.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -158,7 +100,7 @@
                 Height="560"
                 Fill="Black"
                 Opacity="0.5" />
-            <component:AlerteDisplay />
+            <common:AlerteDisplay />
         </Grid>
     </Grid>
 </UserControl>

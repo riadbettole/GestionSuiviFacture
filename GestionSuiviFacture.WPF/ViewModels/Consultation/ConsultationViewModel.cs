@@ -8,13 +8,14 @@ namespace GestionSuiviFacture.WPF.ViewModels
 {
     public partial class ConsultationViewModel : ObservableObject, IDisposable
     {
-        //private readonly IEtiquetteService _etiquetteService;
         private readonly EtiquetteService _etiquetteService;
         private readonly ObservableCollection<EtiquetteViewModel> _etiquettes = new();
+
         [ObservableProperty] private SearchFilters filters = new();
         [ObservableProperty] private PaginationViewModel pagination = new();
         [ObservableProperty] private PopupManager<EtiquetteViewModel> etiquettePopup = new();
         public IEnumerable<EtiquetteViewModel> Etiquettes => _etiquettes;
+
 
         public ConsultationViewModel()
         {

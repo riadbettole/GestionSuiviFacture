@@ -1,8 +1,4 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using GestionSuiviFacture.WPF.Components;
-using GestionSuiviFacture.WPF.ViewModels;
+﻿using System.Windows.Controls;
 
 namespace GestionSuiviFacture.WPF.Views
 {
@@ -14,43 +10,16 @@ namespace GestionSuiviFacture.WPF.Views
         public Facture()
         {
             InitializeComponent();
+            SearchDisplayControl.EnterPressed += SearchDisplayControl_EnterPressed;
         }
 
-        private void DateTextBox_Loaded(object sender, RoutedEventArgs e)
+
+        private void SearchDisplayControl_EnterPressed(object sender, EventArgs e)
         {
-            DateTextBox.Focus();
+            SaisisInfoFactureDisplay.FocusNumFactureTextBox();
         }
 
-        private void NumCommandeInputBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (DataContext is FactureViewModel vm && vm.FindCommandeCommand.CanExecute(null))
-                {
-                    vm.FindCommandeCommand.Execute(null);
-                }
-                SaisisInfoFactureDisplay.FocusNumFactureTextBox();
-            }
-        }
 
-        private void DateInputBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                SiteTextBox.Focus();
-            }
-        }
-        private void SiteInputBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                CommandeTextBox.Focus();
-            }
-        }
-      
-     
 
-        
-        
     }
 }

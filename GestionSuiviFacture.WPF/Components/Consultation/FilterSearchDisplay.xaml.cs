@@ -2,14 +2,14 @@
 using System.Windows.Controls;
 using GestionSuiviFacture.WPF.ViewModels;
 
-namespace GestionSuiviFacture.WPF.Components
+namespace GestionSuiviFacture.WPF.Components.Consultation
 {
     /// <summary>
     /// Interaction logic for FilterSearchComponent.xaml
     /// </summary>
-    public partial class FilterSearchComponent : UserControl
+    public partial class FilterSearchDisplay : UserControl
     {
-        public FilterSearchComponent()
+        public FilterSearchDisplay()
         {
             InitializeComponent();
         }

@@ -1,0 +1,42 @@
+﻿<UserControl
+    x:Class="GestionSuiviFacture.WPF.Components.Common.StatutDisplay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Border
+        Height="{Binding DisplayHeight, RelativeSource={RelativeSource AncestorType=UserControl}}"
+        Padding="4"
+        VerticalAlignment="Center"
+        CornerRadius="5">
+        <Border.Style>
+            <Style TargetType="Border">
+                <Setter Property="Background" Value="Transparent" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding Status, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="OK">
+                        <Setter Property="Background" Value="#7DFFE1" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Status, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="NOK">
+                        <Setter Property="Background" Value="#FF7D7D" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Status, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="ANNULE">
+                        <Setter Property="Background" Value="#FFD67D" />
+                    </DataTrigger>
+                    <DataTrigger Binding="{Binding Status, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="AUCUN">
+                        <Setter Property="Background" Value="#FFBDBDBD" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+        </Border.Style>
+
+        <TextBlock
+            Width="{Binding DisplayWidth, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            VerticalAlignment="Center"
+            FontSize="{Binding DisplayFontSize, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            FontWeight="SemiBold"
+            Text="{Binding Status, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            TextAlignment="Center" />
+    </Border>
+</UserControl>

@@ -2,7 +2,7 @@
     x:Class="GestionSuiviFacture.WPF.Views.Consultation"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:components="clr-namespace:GestionSuiviFacture.WPF.Components"
+    xmlns:components="clr-namespace:GestionSuiviFacture.WPF.Components.Consultation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
     xmlns:i1="clr-namespace:Microsoft.VisualBasic;assembly=Microsoft.VisualBasic"
@@ -17,7 +17,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Orientation="Horizontal">
-            <components:FilterSearchComponent />
+            <components:FilterSearchDisplay />
             <Line
                 Canvas.Top="39"
                 Height="497"
@@ -50,7 +50,7 @@
                         Width="40"
                         Source="/Images/Excel.png" />
                 </Grid>
-                <components:EtiquettesSearchDisplay Grid.Row="1" />
+                <components:EtiquettesResultDisplay Grid.Row="1" />
             </Grid>
         </StackPanel>
 
@@ -59,7 +59,7 @@
                 Height="560"
                 Fill="Black"
                 Opacity="0.5" />
-            <components:DetailsFacture />
+            <components:DetailsFactureDisplay />
         </Grid>
     </Grid>
 </UserControl>

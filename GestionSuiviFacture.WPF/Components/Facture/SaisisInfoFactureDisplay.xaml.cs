@@ -1,8 +1,9 @@
-﻿using System.Windows.Controls;
+﻿using System.Text.RegularExpressions;
+using System.Windows.Controls;
 using System.Windows.Input;
 using GestionSuiviFacture.WPF.ViewModels;
 
-namespace GestionSuiviFacture.WPF.Components
+namespace GestionSuiviFacture.WPF.Components.Facture
 {
     /// <summary>
     /// Interaction logic for SaisisInfoFactureDisplay.xaml
@@ -43,9 +44,25 @@ namespace GestionSuiviFacture.WPF.Components
         {
             if (e.Key == Key.Enter)
             {
+                double tauxPercentage = 
+                    string.IsNullOrEmpty(TauxTextBox.Text) 
+                    ? 0.2 : Convert.ToDouble(TauxTextBox.Text);
+
+                double montantHT = string.IsNullOrEmpty(TauxTextBox.Text) 
+                    ? 0 : Convert.ToDouble(MntHTTextBox.Text);
+
+                var detail = new TaxDetail(
+                    tauxPercentage,
+                    montantHT
+                );
+
                 if (DataContext is FactureViewModel vm && vm.AddTaxDetailCommand.CanExecute(null))
                 {
-                    vm.AddTaxDetailCommand.Execute(null);
+                    vm.AddTaxDetailCommand.Execute(detail);
+                    vm.UpdateStatus();
+
+                    TauxTextBox.Text = "";
+                    MntHTTextBox.Text = "";
                 }
                 TauxTextBox.Focus();
             }
@@ -54,6 +71,29 @@ namespace GestionSuiviFacture.WPF.Components
         public void FocusNumFactureTextBox()
         {
             NumFactureTextBox.Focus();
+        }
+
+        private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox? textBox = sender as TextBox;
+
+            string fullText = textBox.Text.Insert(textBox.SelectionStart, e.Text);
+
+            // 3 decimal
+            Regex regex = new Regex(@"^\d*\.?\d{0,3}$");
+            e.Handled = !regex.IsMatch(fullText);
+        }
+
+
+        private void Taux_TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            TextBox? textBox = sender as TextBox;
+
+            string fullText = textBox.Text.Insert(textBox.SelectionStart, e.Text);
+
+            // 3 decimal
+            Regex regex = new Regex(@"^\d{1,3}$");
+            e.Handled = !regex.IsMatch(fullText);
         }
     }
 }

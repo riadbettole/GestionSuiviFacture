@@ -2,9 +2,163 @@
     x:Class="GestionSuiviFacture.WPF.Views.FactureEmballage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:GestionSuiviFacture.WPF.Components.Common"
+    xmlns:components="clr-namespace:GestionSuiviFacture.WPF.Components.Facture"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <Grid />
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+        <Style x:Key="ImportantInfo" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#FF0000" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="20" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Width" Value="200" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="TextWrapping" Value="Wrap" />
+        </Style>
+
+        <Style x:Key="InputSearch" TargetType="TextBox">
+            <Setter Property="Width" Value="200" />
+            <Setter Property="BorderThickness" Value="0,0,0,2" />
+            <Setter Property="Margin" Value="0,5,30,0" />
+            <Setter Property="TextAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="BorderBrush" Value="#353535" />
+        </Style>
+
+
+        <Style x:Key="ButtonSubmit" TargetType="Button">
+            <Setter Property="Background" Value="#353535" />
+            <Setter Property="Foreground" Value="White" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="3" />
+                </Style>
+            </Style.Resources>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Background="LightBlue">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid Grid.Row="0">
+                <StackPanel>
+                    <Grid Margin="20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="0.3*" />
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="0"
+                            Text="Date : " />
+                        <TextBox
+                            x:Name="DateTextBox"
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            KeyDown="DateInputBox_KeyDown"
+                            Loaded="DateTextBox_Loaded"
+                            Style="{StaticResource InputSearch}" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            Text="Site : " />
+                        <TextBox
+                            x:Name="SiteTextBox"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            KeyDown="SiteInputBox_KeyDown"
+                            Style="{StaticResource InputSearch}" />
+                        <TextBlock
+                            Grid.Row="0"
+                            Grid.Column="2"
+                            Text="N de commande : " />
+                        <TextBox
+                            x:Name="CommandeTextBox"
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            KeyDown="NumCommandeInputBox_KeyDown"
+                            Style="{StaticResource InputSearch}" />
+                        <Button
+                            x:Name="SearchButton"
+                            Grid.Row="1"
+                            Grid.Column="3"
+                            Width="80"
+                            Padding="5"
+                            Command="{Binding FindCommandeCommand}"
+                            Content="Rechercher"
+                            Style="{StaticResource ButtonSubmit}" />
+                    </Grid>
+                    <TextBlock
+                        Margin="20,0,20,20"
+                        Style="{StaticResource ImportantInfo}"
+                        Text="Site : Marjane Hay Riad" />
+                </StackPanel>
+            </Grid>
+            <Line
+                Grid.Row="1"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Top"
+                SnapsToDevicePixels="True"
+                Stroke="Gray"
+                StrokeDashArray="8 8"
+                StrokeThickness="1"
+                X1="0"
+                X2="940" />
+            <Grid Grid.Row="2" Margin="0,30,0,40">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="400" />
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <components:InfoFournisseurDisplay Grid.Column="0" />
+                <Line
+                    Grid.Column="1"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    SnapsToDevicePixels="True"
+                    Stroke="Gray"
+                    StrokeDashArray="8 8"
+                    StrokeThickness="1"
+                    Y1="-15"
+                    Y2="400" />
+                <components:SaisisInfoFactureDisplay x:Name="SaisisInfoFactureDisplay" Grid.Column="2" />
+                <Line
+                    Grid.Column="3"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Top"
+                    SnapsToDevicePixels="True"
+                    Stroke="Gray"
+                    StrokeDashArray="8 8"
+                    StrokeThickness="1"
+                    Y1="-15"
+                    Y2="400" />
+                <components:BonLivraisonDisplay Grid.Column="4" />
+            </Grid>
+        </Grid>
+        <Grid x:Name="PopupOverlay" Visibility="{Binding AlertePopup.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Rectangle
+                Height="560"
+                Fill="Black"
+                Opacity="0.5" />
+            <common:AlerteDisplay />
+        </Grid>
+    </Grid>
 </UserControl>

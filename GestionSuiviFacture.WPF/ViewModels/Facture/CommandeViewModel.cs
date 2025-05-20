@@ -15,7 +15,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         public string NomFournisseur => _commande.NomFournisseur;
         public string CNUF => _commande.CNUF;
         public string Rayon => _commande.Rayon.ToString();
-        public string MontantTTC => _commande.MontantTTC.ToString("C2");
+        public double MontantTTC => _commande.MontantTTC;
         public string DateCommande => _commande.DateCommande.ToString("dd/MM/yyyy");
         public string DateReception => _commande.DateReception.ToString("dd/MM/yyyy");
         public void Dispose()

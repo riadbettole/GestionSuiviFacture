@@ -2,16 +2,17 @@
 using System.Windows.Controls;
 using GestionSuiviFacture.WPF.ViewModels;
 
-namespace GestionSuiviFacture.WPF.Components
+namespace GestionSuiviFacture.WPF.Components.Common
 {
     /// <summary>
     /// Interaction logic for DetailsFacture.xaml
     /// </summary>
-    public partial class DetailsFacture : UserControl
+    public partial class AlerteDisplay : UserControl
     {
-        public DetailsFacture()
+        public AlerteDisplay()
         {
             InitializeComponent();
         }
+
     }
 }

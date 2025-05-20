@@ -3,17 +3,22 @@ using System.Windows.Controls;
 using GestionSuiviFacture.WPF.ViewModels;
 using System.Windows.Input;
 
-namespace GestionSuiviFacture.WPF.Views
+namespace GestionSuiviFacture.WPF.Components.Facture
 {
     /// <summary>
-    /// Interaction logic for FactureEmballage.xaml
+    /// Interaction logic for SearchSaisieDisplay.xaml
     /// </summary>
-    public partial class FactureEmballage : UserControl
+    public partial class SearchSaisieDisplay : UserControl
     {
-        public FactureEmballage()
+
+        public event EventHandler EnterPressed;
+
+
+        public SearchSaisieDisplay()
         {
             InitializeComponent();
         }
+
 
         private void DateTextBox_Loaded(object sender, RoutedEventArgs e)
         {
@@ -27,11 +32,11 @@ namespace GestionSuiviFacture.WPF.Views
                 if (DataContext is FactureViewModel vm && vm.FindCommandeCommand.CanExecute(null))
                 {
                     vm.FindCommandeCommand.Execute(null);
+                    EnterPressed?.Invoke(this, EventArgs.Empty);
                 }
-                SaisisInfoFactureDisplay.FocusNumFactureTextBox();
             }
         }
-
+            
         private void DateInputBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -46,7 +51,5 @@ namespace GestionSuiviFacture.WPF.Views
                 CommandeTextBox.Focus();
             }
         }
-
-
     }
 }

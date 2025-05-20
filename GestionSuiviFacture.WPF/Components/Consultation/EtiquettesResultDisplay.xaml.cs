@@ -3,14 +3,14 @@ using System.Windows.Controls;
 using GestionSuiviFacture.WPF.ViewModels;
 using System.Windows.Input;
 
-namespace GestionSuiviFacture.WPF.Components
+namespace GestionSuiviFacture.WPF.Components.Consultation
 {
     /// <summary>
-    /// Interaction logic for EtiquettesSearchDisplay.xaml
+    /// Interaction logic for EtiquettesResultDisplay.xaml
     /// </summary>
-    public partial class EtiquettesSearchDisplay : UserControl
+    public partial class EtiquettesResultDisplay : UserControl
     {
-        public EtiquettesSearchDisplay()
+        public EtiquettesResultDisplay()
         {
             InitializeComponent();
         }

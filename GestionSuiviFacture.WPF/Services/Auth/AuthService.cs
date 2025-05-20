@@ -7,7 +7,7 @@ namespace GestionSuiviFacture.WPF.Services
 {
     class AuthService
     {
-        private static string _jwtToken;
+        private static string _jwtToken = "";
         public static string JwtToken => _jwtToken;
 
         public async Task<bool> LoginAsync(string username, string password)
@@ -39,7 +39,7 @@ namespace GestionSuiviFacture.WPF.Services
                         return !string.IsNullOrEmpty(_jwtToken);
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     return true;
                 }

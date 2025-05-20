@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace GestionSuiviFacture.WPF.Components
+namespace GestionSuiviFacture.WPF.Components.Facture
 {
     /// <summary>
     /// Interaction logic for BonLivraisonDisplay.xaml
