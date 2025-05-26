@@ -13,7 +13,7 @@ namespace GestionSuiviFacture.WPF.Services
                 90,
                 3525.85,
                 DateTime.Now,
-                DateTime.Now
+                DateTime.Now.AddMonths(1)
             );
         }
         public Task<Commande> GetCommande()

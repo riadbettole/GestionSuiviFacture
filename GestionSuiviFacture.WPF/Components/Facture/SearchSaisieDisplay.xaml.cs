@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using GestionSuiviFacture.WPF.ViewModels;
 using System.Windows.Input;
+using System.Windows.Controls.Primitives;
 
 namespace GestionSuiviFacture.WPF.Components.Facture
 {
@@ -37,6 +38,15 @@ namespace GestionSuiviFacture.WPF.Components.Facture
             }
         }
             
+        public void CleanAll()
+        {
+            DateTextBox.SelectedDate = DateTime.Now;
+            SiteTextBox.Clear();
+            CommandeTextBox.Clear();
+
+            DateTextBox.Focus();
+        }
+
         private void DateInputBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)

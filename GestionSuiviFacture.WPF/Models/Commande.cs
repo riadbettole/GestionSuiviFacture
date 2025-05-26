@@ -6,6 +6,6 @@
     int Rayon,
     double MontantTTC,
     DateTime DateCommande,
-    DateTime DateReception
+    DateTime DateEcheance
 );
 }

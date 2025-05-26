@@ -39,6 +39,7 @@
                                 <DatePickerTextBox
                                     x:Name="PART_TextBox"
                                     Grid.Column="0"
+                                    Margin="5,0,0,0"
                                     VerticalContentAlignment="Center"
                                     BorderThickness="0"
                                     FontStyle="Italic"
@@ -89,10 +90,6 @@
             <Setter Property="Width" Value="200" />
             <Setter Property="Height" Value="30" />
             <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="TextAlignment" Value="Center" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
@@ -110,16 +107,16 @@
                                 <Grid Grid.Column="0">
                                     <ScrollViewer
                                         x:Name="PART_ContentHost"
-                                        Margin="0"
+                                        Margin="5,0,0,0"
                                         Padding="0"
                                         HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Stretch"
+                                        VerticalAlignment="Center"
                                         Background="Transparent"
                                         BorderThickness="0"
                                         IsTabStop="False" />
                                     <TextBlock
                                         x:Name="placeholder"
-                                        HorizontalAlignment="Center"
+                                        Margin="5,0,0,0"
                                         VerticalAlignment="Center"
                                         FontStyle="Italic"
                                         Foreground="Gray"
@@ -180,6 +177,7 @@
                 <TextBlock
                     Grid.Row="0"
                     Grid.Column="0"
+                    Margin="30,0,0,0"
                     Text="Date : " />
 
 
@@ -188,14 +186,14 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     Width="200"
-                    DisplayDateEnd="{Binding Filters.FinDateFilter, UpdateSourceTrigger=PropertyChanged}"
                     KeyDown="DateInputBox_KeyDown"
                     Loaded="DateTextBox_Loaded"
-                    SelectedDate="{Binding Filters.DebutDateFilter, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedDate="{Binding SaisieFacture.DateFacture, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource LDatePicker}" />
                 <TextBlock
                     Grid.Row="0"
                     Grid.Column="1"
+                    Margin="30,0,0,0"
                     Text="Site : " />
                 <TextBox
                     x:Name="SiteTextBox"
@@ -206,6 +204,7 @@
                 <TextBlock
                     Grid.Row="0"
                     Grid.Column="2"
+                    Margin="30,0,0,0"
                     Text="N de commande : " />
                 <TextBox
                     x:Name="CommandeTextBox"

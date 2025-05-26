@@ -116,7 +116,7 @@
                 Margin="0,-45,0,0"
                 Source="/Images/MJlogo.png" />
             <Grid Grid.Column="1">
-                <Border Background="#353535" CornerRadius="90" />
+                <Border Background="#353535" CornerRadius="0 90 90 90" />
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />

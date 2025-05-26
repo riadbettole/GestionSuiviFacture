@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using GestionSuiviFacture.WPF.Components.Common;
+using System.Windows.Controls;
 
 namespace GestionSuiviFacture.WPF.Views
 {
@@ -11,6 +12,7 @@ namespace GestionSuiviFacture.WPF.Views
         {
             InitializeComponent();
             SearchDisplayControl.EnterPressed += SearchDisplayControl_EnterPressed;
+            AlertDisplayControl.ButtonPressed += SearchDisplayControl_ButtonPressed;
         }
 
 
@@ -19,6 +21,11 @@ namespace GestionSuiviFacture.WPF.Views
             SaisisInfoFactureDisplay.FocusNumFactureTextBox();
         }
 
+
+        private void SearchDisplayControl_ButtonPressed(object sender, EventArgs e)
+        {
+            SearchDisplayControl.CleanAll();
+        }
 
 
     }

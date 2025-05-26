@@ -46,9 +46,9 @@ namespace GestionSuiviFacture.WPF.Components.Facture
             {
                 double tauxPercentage = 
                     string.IsNullOrEmpty(TauxTextBox.Text) 
-                    ? 0.2 : Convert.ToDouble(TauxTextBox.Text);
+                    ? 20 : Convert.ToDouble(TauxTextBox.Text);
 
-                double montantHT = string.IsNullOrEmpty(TauxTextBox.Text) 
+                double montantHT = string.IsNullOrEmpty(MntHTTextBox.Text) 
                     ? 0 : Convert.ToDouble(MntHTTextBox.Text);
 
                 var detail = new TaxDetail(

@@ -212,7 +212,7 @@
                     </ListView.View>
                 </ListView>
             </Border>
-            <Grid Width="380" Margin="-10,10,0,0">
+            <Grid Width="450" Margin="-20,10,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="*" />
@@ -240,6 +240,7 @@
                     </StackPanel>
                 </Border>
             </Grid>
+
         </StackPanel>
     </Grid>
 </UserControl>
