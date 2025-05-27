@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using GestionSuiviFacture.WPF.ViewModels;
+using GestionSuiviFacture.WPF.ViewModels.Facture;
 
 namespace GestionSuiviFacture.WPF.Components.Facture
 {

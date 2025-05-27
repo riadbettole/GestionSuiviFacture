@@ -45,7 +45,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid>
+        <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -62,13 +62,13 @@
                 StrokeThickness="1"
                 X1="0"
                 X2="940" />
-            <Grid Grid.Row="2" Margin="0,30,0,0">
+            <Grid Grid.Row="2" Margin="30,30,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="60" />
+                    <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <Grid Margin="30,0,0,0">
+                <Grid >
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
@@ -86,15 +86,14 @@
                     StrokeThickness="1"
                     Y1="-15"
                     Y2="400" />
-
                 <components:SaisisInfoFactureDisplay x:Name="SaisisInfoFactureDisplay" Grid.Column="2" />
 
 
             </Grid>
 
         </Grid>
-        <!--<Grid x:Name="PopupOverlay" Visibility="{Binding AlertePopup.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">-->
-        <Grid x:Name="PopupOverlay" Visibility="Hidden">
+        <Grid x:Name="PopupOverlay" Visibility="{Binding AlertePopup.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+        <!--<Grid x:Name="PopupOverlay" Visibility="Hidden">-->
             <Rectangle
                 Height="560"
                 Fill="Black"

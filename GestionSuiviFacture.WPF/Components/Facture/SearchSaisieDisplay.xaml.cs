@@ -24,6 +24,11 @@ namespace GestionSuiviFacture.WPF.Components.Facture
         private void DateTextBox_Loaded(object sender, RoutedEventArgs e)
         {
             DateTextBox.Focus();
+
+            if (DateTextBox.Template.FindName("PART_TextBox", DateTextBox) is DatePickerTextBox datePickerTextBox)
+            {
+                datePickerTextBox.KeyDown += DateInputBox_KeyDown;
+            }
         }
 
         private void NumCommandeInputBox_KeyDown(object sender, KeyEventArgs e)

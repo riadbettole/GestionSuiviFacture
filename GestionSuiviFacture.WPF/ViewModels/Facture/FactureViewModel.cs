@@ -3,78 +3,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GestionSuiviFacture.WPF.Models;
 using GestionSuiviFacture.WPF.Services;
+using GestionSuiviFacture.WPF.ViewModels.Facture;
 
 namespace GestionSuiviFacture.WPF.ViewModels
 {
-    public partial class TaxDetail : ObservableObject
-    {
-        [ObservableProperty]
-        private double _tauxPercentage;
-
-        public TaxDetail(double tauxPercentage, double montantHT)
-        {
-            TauxPercentage = tauxPercentage;
-            MontantHT = montantHT;
-            calculTVA();
-        }
-
-        [ObservableProperty] private double _montantHT;
-
-        [ObservableProperty] private double _montantTVA;
-
-
-
-        public void calculTVA()
-        {
-            MontantTVA = MontantHT * TauxPercentage / 100;
-        }
-    }
-
-    public partial class BonDeLivraison : ObservableObject
-    {
-        [ObservableProperty]
-        private string numDeLivraison;
-
-        [ObservableProperty]
-        private double montantTTC;
-
-        [ObservableProperty] private DateTime dateReception;
-
-    }
-
-    public partial class InfoSaisieFacture : ObservableObject
-    {
-
-        [ObservableProperty]
-        public ObservableCollection<TaxDetail> ligneFacture;
-
-        [ObservableProperty] private string numFacture;
-        [ObservableProperty] private double montantTTC;
-
-        [ObservableProperty] private double totalTVA = 0f;
-        [ObservableProperty] private double totalHT = 0f;
-        [ObservableProperty] private double totalTTC = 0f;
-
-        [ObservableProperty] private DateTime dateFacture = DateTime.Now;
-
-        public InfoSaisieFacture()
-        {
-            LigneFacture = new ObservableCollection<TaxDetail>();
-        }
-
-        public void UpdateTotals(TaxDetail taxDetail)
-        {
-            TotalTVA += taxDetail.MontantTVA;
-            TotalHT += taxDetail.MontantHT;
-            TotalTTC = TotalTVA + TotalHT;
-        }
-
-        public void AddTax(TaxDetail taxDetail)
-        {
-            LigneFacture.Add(taxDetail);
-            UpdateTotals(taxDetail);
-        }
-    }
 
     public partial class FactureViewModel : ObservableObject, IDisposable
     {
@@ -91,35 +23,45 @@ namespace GestionSuiviFacture.WPF.ViewModels
         private CommandeViewModel _commande;
         private readonly SaisieService _saisieService;
 
-
+        [ObservableProperty] private double _montantTotal = 0;
         [ObservableProperty] private string _statut = "AUCUN";
 
         public FactureViewModel()
         {
             _saisieService = new SaisieService();
             SaisieFacture = new InfoSaisieFacture();
-            BonDeLivraisons = new ObservableCollection<BonDeLivraison>()
-            {
-                new BonDeLivraison
-                {
-                    NumDeLivraison = "99301912",
-                    MontantTTC = 1250.00,
-                    DateReception = DateTime.Now,
-                },
-                new BonDeLivraison
-                {
-                    NumDeLivraison = "99302035",
-                    MontantTTC = 3750.25,
-                    DateReception = DateTime.Now.AddDays(-3)
-                },
-                new BonDeLivraison
-                {
-                    NumDeLivraison = "99303126",
-                    MontantTTC = 2485.75,
-                    DateReception = DateTime.Now.AddDays(-5)
-                }
-            };
+            BonDeLivraisons = new ObservableCollection<BonDeLivraison>();
+            CleanUpCommande();
         }
+
+        private void UpdateMontantTotal()
+        {
+            double total = 0;
+
+            foreach(BonDeLivraison bl in BonDeLivraisons)
+            {
+                total += bl.MontantTTC;
+            }
+
+            MontantTotal = total;
+        }
+
+        [RelayCommand]
+        private async Task FindCommande(String id)
+        {
+            Commande commande = await _saisieService.GetCommande();
+            IEnumerable<BonDeLivraison> bonDeLivraison = await _saisieService.GetBonLivraison();
+            UpdateCommande(commande);
+            UpdateBonDeLivraison(bonDeLivraison);
+            UpdateMontantTotal();
+            CheckAlert();
+        }
+
+        private void UpdateBonDeLivraison(IEnumerable<BonDeLivraison> bonDeLivraison)
+        {
+            BonDeLivraisons = new ObservableCollection<BonDeLivraison>(bonDeLivraison);
+        }
+
 
         private void UpdateCommande(Commande commande)
         {
@@ -134,14 +76,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
             SaisieFacture.AddTax(taxDetail);
         }
 
-        [RelayCommand]
-        private async Task FindCommande(String id)
-        {
-            Commande commande = await _saisieService.GetCommande();
-            UpdateCommande(commande);
-            CheckAlert();
-        }
-
+        
         private void CheckAlert()
         {
             Boolean alertShouldPop = false;
@@ -185,9 +120,26 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         public void ClosePopupAndClean()
         {
-            Commande = null;
+            CleanUpCommande();
             AlertePopup.Close();
         }
+
+        private void CleanUpCommande()
+        {
+            var emptyCommande = new Commande(
+                "-----",          // NomFournisseur
+                "-----",          // CNUF
+                "-----",          // CNUF
+                0,           // Rayon
+                0,           // MontantTTC
+                DateTime.MinValue,  // DateCommande
+                DateTime.MinValue   // DateEcheance
+            );
+
+            BonDeLivraisons.Clear();
+            Commande = new CommandeViewModel(emptyCommande);
+        }
+
 
         internal void UpdateStatus()
         {

@@ -15,13 +15,12 @@
         </Style>
     </UserControl.Resources>
 
-    <StackPanel Margin="0,20,0,0">
+    <StackPanel Margin="0,25,0,0">
         <TextBlock Style="{StaticResource HeaderText}" Text="Bons de livraison" />
 
         <Border
             HorizontalAlignment="Left"
-            Background="#efefef"
-            BorderBrush="Transparent"
+            BorderBrush="Black"
             BorderThickness="1"
             CornerRadius="4">
             <ListView
@@ -79,7 +78,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Width="120" Header="Montant">
+                        <GridViewColumn Width="120" Header="Montant TTC">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock

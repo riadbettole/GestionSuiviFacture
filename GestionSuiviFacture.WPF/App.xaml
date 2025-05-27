@@ -12,6 +12,7 @@
             <Setter Property="FontFamily" Value="{StaticResource AppFontFamily}" />
         </Style>
 
+
         <DataTemplate DataType="{x:Type vm:FactureViewModel}">
             <views:Facture />
         </DataTemplate>

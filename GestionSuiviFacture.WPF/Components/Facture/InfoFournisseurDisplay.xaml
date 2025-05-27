@@ -67,7 +67,7 @@
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="1">
                 <TextBlock Style="{StaticResource TitleInfo}" Text="Montant Total" />
-                <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.MontantTTC, StringFormat={}{0:N2} DH}" />
+                <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding MontantTotal, StringFormat={}{0:N2} DH}" />
             </StackPanel>
             <StackPanel Grid.Row="0" Grid.Column="2">
                 <TextBlock Style="{StaticResource TitleInfo}" Text="Date de Commande" />
