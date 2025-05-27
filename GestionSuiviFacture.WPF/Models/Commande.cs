@@ -4,7 +4,7 @@
     string? NomFournisseur,
     string? CNUF,
     string? Site,
-    int Rayon,
+    string? Rayon,
     double MontantTTC,
     DateTime DateCommande,
     DateTime DateEcheance

@@ -1,5 +1,4 @@
-﻿using GestionSuiviFacture.WPF.Components.Common;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace GestionSuiviFacture.WPF.Views
 {

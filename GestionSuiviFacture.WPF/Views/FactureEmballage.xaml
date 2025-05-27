@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Background="White"
     mc:Ignorable="d">
     <UserControl.Resources>
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -43,73 +44,14 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid Background="LightBlue">
-        <Grid>
+    <Grid Background="Aqua">
+        <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <Grid Grid.Row="0">
-                <StackPanel>
-                    <Grid Margin="20">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="0.3*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Text="Date : " />
-                        <TextBox
-                            x:Name="DateTextBox"
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            KeyDown="DateInputBox_KeyDown"
-                            Loaded="DateTextBox_Loaded"
-                            Style="{StaticResource InputSearch}" />
-                        <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="1"
-                            Text="Site : " />
-                        <TextBox
-                            x:Name="SiteTextBox"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            KeyDown="SiteInputBox_KeyDown"
-                            Style="{StaticResource InputSearch}" />
-                        <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="2"
-                            Text="N de commande : " />
-                        <TextBox
-                            x:Name="CommandeTextBox"
-                            Grid.Row="1"
-                            Grid.Column="2"
-                            KeyDown="NumCommandeInputBox_KeyDown"
-                            Style="{StaticResource InputSearch}" />
-                        <Button
-                            x:Name="SearchButton"
-                            Grid.Row="1"
-                            Grid.Column="3"
-                            Width="80"
-                            Padding="5"
-                            Command="{Binding FindCommandeCommand}"
-                            Content="Rechercher"
-                            Style="{StaticResource ButtonSubmit}" />
-                    </Grid>
-                    <TextBlock
-                        Margin="20,0,20,20"
-                        Style="{StaticResource ImportantInfo}"
-                        Text="Site : Marjane Hay Riad" />
-                </StackPanel>
-            </Grid>
+            <components:SearchSaisieDisplay x:Name="SearchDisplayControl" />
             <Line
                 Grid.Row="1"
                 HorizontalAlignment="Center"
@@ -120,15 +62,20 @@
                 StrokeThickness="1"
                 X1="0"
                 X2="940" />
-            <Grid Grid.Row="2" Margin="0,30,0,40">
+            <Grid Grid.Row="2" Margin="30,30,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="400" />
+                    <ColumnDefinition Width="60" />
                     <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <components:InfoFournisseurDisplay Grid.Column="0" />
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+                    <components:InfoFournisseurDisplay Grid.Row="0" />
+                    <components:BonLivraisonDisplay Grid.Row="1" />
+                </Grid>
                 <Line
                     Grid.Column="1"
                     HorizontalAlignment="Center"
@@ -140,25 +87,18 @@
                     Y1="-15"
                     Y2="400" />
                 <components:SaisisInfoFactureDisplay x:Name="SaisisInfoFactureDisplay" Grid.Column="2" />
-                <Line
-                    Grid.Column="3"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    SnapsToDevicePixels="True"
-                    Stroke="Gray"
-                    StrokeDashArray="8 8"
-                    StrokeThickness="1"
-                    Y1="-15"
-                    Y2="400" />
-                <components:BonLivraisonDisplay Grid.Column="4" />
+
+
             </Grid>
+
         </Grid>
         <Grid x:Name="PopupOverlay" Visibility="{Binding AlertePopup.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <!--<Grid x:Name="PopupOverlay" Visibility="Hidden">-->
             <Rectangle
                 Height="560"
                 Fill="Black"
                 Opacity="0.5" />
-            <common:AlerteDisplay />
+            <common:AlerteDisplay x:Name="AlertDisplayControl" />
         </Grid>
     </Grid>
 </UserControl>

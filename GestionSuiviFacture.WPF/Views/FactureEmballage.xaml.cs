@@ -13,40 +13,21 @@ namespace GestionSuiviFacture.WPF.Views
         public FactureEmballage()
         {
             InitializeComponent();
+            SearchDisplayControl.EnterPressed += SearchDisplayControl_EnterPressed;
+            AlertDisplayControl.ButtonPressed += SearchDisplayControl_ButtonPressed;
         }
 
-        private void DateTextBox_Loaded(object sender, RoutedEventArgs e)
+
+        private void SearchDisplayControl_EnterPressed(object sender, EventArgs e)
         {
-            DateTextBox.Focus();
+            SaisisInfoFactureDisplay.FocusNumFactureTextBox();
         }
 
-        private void NumCommandeInputBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                if (DataContext is FactureViewModel vm && vm.FindCommandeCommand.CanExecute(null))
-                {
-                    vm.FindCommandeCommand.Execute(null);
-                }
-                SaisisInfoFactureDisplay.FocusNumFactureTextBox();
-            }
-        }
 
-        private void DateInputBox_KeyDown(object sender, KeyEventArgs e)
+        private void SearchDisplayControl_ButtonPressed(object sender, EventArgs e)
         {
-            if (e.Key == Key.Enter)
-            {
-                SiteTextBox.Focus();
-            }
+            SearchDisplayControl.CleanAll();
         }
-        private void SiteInputBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                CommandeTextBox.Focus();
-            }
-        }
-
 
     }
 }

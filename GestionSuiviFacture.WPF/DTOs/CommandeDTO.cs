@@ -1,19 +1,45 @@
-﻿using System;
+﻿using GestionSuiviFacture.WPF.DTOs;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
-namespace GestionSuiviFacture.WPF.DTOs
+public class CommandeDTO
 {
-    public class CommandeDTO
-    {
-        public int id_Commande { get; set; }
-        public string n_Commande { get; set; }
-        public DateTime date_Commande { get; set; }
-        public string groupe { get; set; }
-        public string rayon { get; set; }
-        public List<EtiquetteDTO> etiquettes { get; set; }
-        public string n_Site { get; set; }
-    }
+    [JsonPropertyName("$id")]
+    public string? Id { get; set; }
+
+    [JsonPropertyName("libelleFournisseur")]
+    public string? LibelleFournisseur { get; set; }
+
+    [JsonPropertyName("cnuf")]
+    public string? Cnuf { get; set; }
+
+    [JsonPropertyName("groupe")]
+    public string? groupe { get; set; }
+    [JsonPropertyName("rayon")]
+    public string? Rayon { get; set; }
+    [JsonPropertyName("n_Commande")]
+    public string? n_Commande { get; set; }
+
+    [JsonPropertyName("date_Commande")]
+    public DateTime date_Commande { get; set; }
+
+    [JsonPropertyName("montantBRV")]
+    public double MontantBRV { get; set; }
+
+    [JsonPropertyName("date_Echeance")]
+    public DateTime DateEcheance { get; set; }
+
+    [JsonPropertyName("bonsLivraison")]
+    public BonLivraisonWrapper? BonsLivraison { get; set; }
+
+}
+
+public class BonLivraisonWrapper
+{
+    [JsonPropertyName("$id")]
+    public string? Id { get; set; }
+
+    [JsonPropertyName("$values")]
+    public List<BonDeLivraisonDTO>? Values { get; set; }
 }

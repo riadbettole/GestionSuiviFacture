@@ -11,6 +11,5 @@ namespace GestionSuiviFacture.WPF.DTOs
         public int id_Fournisseur { get; set; }
         public string cnuf { get; set; }
         public string libelle_Fournisseur { get; set; }
-        public List<EtiquetteDTO> etiquettes { get; set; }
     }
 }

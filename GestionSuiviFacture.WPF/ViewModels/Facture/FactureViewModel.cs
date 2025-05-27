@@ -1,19 +1,20 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GestionSuiviFacture.WPF.Models;
 using GestionSuiviFacture.WPF.Services;
 using GestionSuiviFacture.WPF.ViewModels.Facture;
+using GestionSuiviFacture.WPF.ViewModels.Facture.Helpers;
+using System.Collections.ObjectModel;
 
 namespace GestionSuiviFacture.WPF.ViewModels
 {
 
     public partial class FactureViewModel : ObservableObject, IDisposable
     {
-        [ObservableProperty] 
+        [ObservableProperty]
         private PopupManager<FactureViewModel> alertePopup = new();
 
-        [ObservableProperty] 
+        [ObservableProperty]
         private InfoSaisieFacture _saisieFacture;
 
         [ObservableProperty]
@@ -21,14 +22,14 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         [ObservableProperty]
         private CommandeViewModel _commande;
-        private readonly SaisieService _saisieService;
+        private readonly CommandeService _commandeService;
 
         [ObservableProperty] private double _montantTotal = 0;
         [ObservableProperty] private string _statut = "AUCUN";
 
         public FactureViewModel()
         {
-            _saisieService = new SaisieService();
+            _commandeService = new CommandeService();
             SaisieFacture = new InfoSaisieFacture();
             BonDeLivraisons = new ObservableCollection<BonDeLivraison>();
             CleanUpCommande();
@@ -38,7 +39,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         {
             double total = 0;
 
-            foreach(BonDeLivraison bl in BonDeLivraisons)
+            foreach (BonDeLivraison bl in BonDeLivraisons)
             {
                 total += bl.MontantTTC;
             }
@@ -49,8 +50,8 @@ namespace GestionSuiviFacture.WPF.ViewModels
         [RelayCommand]
         private async Task FindCommande(String id)
         {
-            Commande commande = await _saisieService.GetCommande();
-            IEnumerable<BonDeLivraison> bonDeLivraison = await _saisieService.GetBonLivraison();
+            Commande commande = await _commandeService.GetCommande();
+            IEnumerable<BonDeLivraison> bonDeLivraison = await _commandeService.GetBonLivraison();
             UpdateCommande(commande);
             UpdateBonDeLivraison(bonDeLivraison);
             UpdateMontantTotal();
@@ -76,7 +77,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
             SaisieFacture.AddTax(taxDetail);
         }
 
-        
+
         private void CheckAlert()
         {
             Boolean alertShouldPop = false;
@@ -114,7 +115,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         private void ShowPopup(string title, string message, string color, string dates)
         {
-            AlertePopup.Show( null, title,  message,  color, dates);
+            AlertePopup.Show(null, title, message, color, dates);
         }
         [RelayCommand] private void ClosePopup() => AlertePopup.Close();
 
@@ -130,7 +131,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 "-----",          // NomFournisseur
                 "-----",          // CNUF
                 "-----",          // CNUF
-                0,           // Rayon
+                "---",           // Rayon
                 0,           // MontantTTC
                 DateTime.MinValue,  // DateCommande
                 DateTime.MinValue   // DateEcheance
@@ -145,7 +146,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         {
             int difference = 20;
             //string statut = "";
-            if(SaisieFacture.MontantTTC > Commande.MontantTTC + difference)
+            if (SaisieFacture.MontantTTC > Commande.MontantTTC + difference)
             {
                 Statut = "NOK";
                 return;

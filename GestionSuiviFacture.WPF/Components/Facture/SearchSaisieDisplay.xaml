@@ -195,6 +195,7 @@
                     x:Name="SiteTextBox"
                     Grid.Row="1"
                     Grid.Column="1"
+                    Text="{Binding SaisieFacture.NumSite, UpdateSourceTrigger=PropertyChanged}"
                     KeyDown="SiteInputBox_KeyDown"
                     Style="{StaticResource InputSearch}" />
                 <TextBlock
@@ -206,6 +207,7 @@
                     x:Name="CommandeTextBox"
                     Grid.Row="1"
                     Grid.Column="2"
+                    Text="{Binding SaisieFacture.NumCommande, UpdateSourceTrigger=PropertyChanged}"
                     KeyDown="NumCommandeInputBox_KeyDown"
                     Style="{StaticResource InputSearch}" />
                 <Button
