@@ -13,12 +13,15 @@ namespace GestionSuiviFacture.WPF.ViewModels
     {
         [ObservableProperty]
         private PopupManager<FactureViewModel> alertePopup = new();
+        
+        [ObservableProperty]
+        private PopupManager<FactureViewModel> notFoundPopup = new();
 
         [ObservableProperty]
         private InfoSaisieFacture _saisieFacture;
 
         [ObservableProperty]
-        private ObservableCollection<BonDeLivraison> bonDeLivraisons;
+        private ObservableCollection<BonDeLivraisonViewModel> bonDeLivraisons;
 
         [ObservableProperty]
         private CommandeViewModel _commande;
@@ -31,7 +34,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         {
             _commandeService = new CommandeService();
             SaisieFacture = new InfoSaisieFacture();
-            BonDeLivraisons = new ObservableCollection<BonDeLivraison>();
+            BonDeLivraisons = new ObservableCollection<BonDeLivraisonViewModel>();
             CleanUpCommande();
         }
 
@@ -39,9 +42,9 @@ namespace GestionSuiviFacture.WPF.ViewModels
         {
             double total = 0;
 
-            foreach (BonDeLivraison bl in BonDeLivraisons)
+            foreach (BonDeLivraisonViewModel bl in BonDeLivraisons)
             {
-                total += bl.MontantTTC;
+                total += bl.montantTTC;
             }
 
             MontantTotal = total;
@@ -50,17 +53,37 @@ namespace GestionSuiviFacture.WPF.ViewModels
         [RelayCommand]
         private async Task FindCommande(String id)
         {
-            Commande commande = await _commandeService.GetCommande();
-            IEnumerable<BonDeLivraison> bonDeLivraison = await _commandeService.GetBonLivraison();
+            Commande commande = await _commandeService.GetCommandeByFilterAsync(SaisieFacture.DateFacture, SaisieFacture.NumSite, SaisieFacture.NumCommande);
+
+            if(commande == null)
+            {
+                NoCommandFound();
+                return;
+            }
+            IEnumerable<BonDeLivraison> bonDeLivraison = commande.BonDeLivraison;
             UpdateCommande(commande);
             UpdateBonDeLivraison(bonDeLivraison);
             UpdateMontantTotal();
             CheckAlert();
         }
 
+        private void NoCommandFound()
+        {
+    
+           
+            string title = "COMMANDE OU SITE INTROUVABLE";
+            string message = "Ce numero de commande ou site est introuvable. Vérifiez avant de continuer.";
+            string  color = "#FF5C5C";
+                string dates = string.Empty;
+
+            NotFoundPopup.Show(this, title, message, color, dates);
+        }
+
         private void UpdateBonDeLivraison(IEnumerable<BonDeLivraison> bonDeLivraison)
         {
-            BonDeLivraisons = new ObservableCollection<BonDeLivraison>(bonDeLivraison);
+            BonDeLivraisons = new ObservableCollection<BonDeLivraisonViewModel>(
+                    bonDeLivraison.Select(b => new BonDeLivraisonViewModel(b))
+                );
         }
 
 
@@ -84,12 +107,12 @@ namespace GestionSuiviFacture.WPF.ViewModels
             string title = "FACTURE EN RETARD", color = "#FFCF00", dates = "",
                 message = "La facture a un retard de plus de 6 jours. Vérifiez avant de continuer.";
 
-            foreach (BonDeLivraison bl in BonDeLivraisons)
+            foreach (BonDeLivraisonViewModel bl in BonDeLivraisons)
             {
-                if (SaisieFacture.DateFacture > bl.DateReception.AddDays(6))
+                if (SaisieFacture.DateFacture > bl.dateReception.AddDays(6))
                 {
                     alertShouldPop = true;
-                    dates += bl.DateReception.ToShortDateString().ToString() + ", ";
+                    dates += bl.dateReception.ToShortDateString().ToString() + ", ";
                 }
             }
             dates = dates.TrimEnd(',', ' ');
@@ -134,7 +157,8 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 "---",           // Rayon
                 0,           // MontantTTC
                 DateTime.MinValue,  // DateCommande
-                DateTime.MinValue   // DateEcheance
+                DateTime.MinValue,   // DateEcheance
+                new List<BonDeLivraison>()
             );
 
             BonDeLivraisons.Clear();
@@ -161,7 +185,11 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 Statut = "OK";
             }
 
+           
             //Statut = statut;
         }
+
+        [RelayCommand]
+        public void CloseNotFound() => NotFoundPopup.Close();
     }
 }

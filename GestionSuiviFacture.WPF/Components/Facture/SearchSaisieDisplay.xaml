@@ -37,13 +37,12 @@
                                 <DatePickerTextBox
                                     x:Name="PART_TextBox"
                                     Grid.Column="0"
+                                    Margin="5,0,0,0"
                                     VerticalContentAlignment="Center"
                                     BorderThickness="0"
-                                    Margin="5 0 0 0"
                                     FontStyle="Italic"
                                     Foreground="Gray"
-                                    Text="Choisir une date..."
-                                     />
+                                    Text="Choisir une date..." />
                                 <TextBlock
                                     Grid.Column="0"
                                     HorizontalAlignment="Center"
@@ -157,77 +156,78 @@
             </Style.Resources>
         </Style>
     </UserControl.Resources>
-    <Grid Grid.Row="0">
-        <StackPanel>
-            <Grid Margin="20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="0.3*" />
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="0"
-                    Margin="30,0,0,0"
-                    Text="Date : " />
+
+    <StackPanel>
+        <Grid Margin="10,30,30,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="0.3*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="0"
+                Margin="30,0,0,0"
+                Text="Date : " />
 
 
-                <DatePicker
-                    x:Name="DateTextBox"
-                    Grid.Row="1"
-                    Grid.Column="0"
-                    Width="200"
-                    KeyDown="DateInputBox_KeyDown"
-                    Loaded="DateTextBox_Loaded"
-                    SelectedDate="{Binding SaisieFacture.DateFacture, UpdateSourceTrigger=PropertyChanged}"
-                    Style="{StaticResource LDatePicker}" />
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="1"
-                    Margin="30,0,0,0"
-                    Text="Site : " />
-                <TextBox
-                    x:Name="SiteTextBox"
-                    Grid.Row="1"
-                    Grid.Column="1"
-                    Text="{Binding SaisieFacture.NumSite, UpdateSourceTrigger=PropertyChanged}"
-                    KeyDown="SiteInputBox_KeyDown"
-                    Style="{StaticResource InputSearch}" />
-                <TextBlock
-                    Grid.Row="0"
-                    Grid.Column="2"
-                    Margin="30,0,0,0"
-                    Text="N de commande : " />
-                <TextBox
-                    x:Name="CommandeTextBox"
-                    Grid.Row="1"
-                    Grid.Column="2"
-                    Text="{Binding SaisieFacture.NumCommande, UpdateSourceTrigger=PropertyChanged}"
-                    KeyDown="NumCommandeInputBox_KeyDown"
-                    Style="{StaticResource InputSearch}" />
-                <Button
-                    x:Name="SearchButton"
-                    Grid.Row="1"
-                    Grid.Column="3"
-                    Width="80"
-                    Margin="-10,0,0,0"
-                    Padding="5"
-                    Command="{Binding FindCommandeCommand}"
-                    Content="Rechercher"
-                    Style="{StaticResource ButtonSearch}" />
-            </Grid>
+            <DatePicker
+                x:Name="DateTextBox"
+                Grid.Row="1"
+                Grid.Column="0"
+                Width="200"
+                KeyDown="DateInputBox_KeyDown"
+                Loaded="DateTextBox_Loaded"
+                SelectedDate="{Binding SaisieFacture.DateFacture, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource LDatePicker}" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="1"
+                Margin="30,0,0,0"
+                Text="Site : " />
+            <TextBox
+                x:Name="SiteTextBox"
+                Grid.Row="1"
+                Grid.Column="1"
+                KeyDown="SiteInputBox_KeyDown"
+                Style="{StaticResource InputSearch}"
+                Text="{Binding SaisieFacture.NumSite, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="2"
+                Margin="30,0,0,0"
+                Text="N de commande : " />
+            <TextBox
+                x:Name="CommandeTextBox"
+                Grid.Row="1"
+                Grid.Column="2"
+                KeyDown="NumCommandeInputBox_KeyDown"
+                Style="{StaticResource InputSearch}"
+                Text="{Binding SaisieFacture.NumCommande, UpdateSourceTrigger=PropertyChanged}" />
+            <Button
+                x:Name="SearchButton"
+                Grid.Row="1"
+                Grid.Column="3"
+                Width="80"
+                Margin="-10,0,0,0"
+                Padding="5"
+                Command="{Binding FindCommandeCommand}"
+                Content="Rechercher"
+                Style="{StaticResource ButtonSearch}" />
+        </Grid>
 
-            <TextBlock Margin="20 0 20 20"
-                      HorizontalAlignment="Center"
-                       VerticalAlignment="Center"
-                Style="{StaticResource ImportantInfo}"
-                Text="{Binding Commande.Site}" />
-        </StackPanel>
-    </Grid>
+        <TextBlock
+            Margin="-20,0,0,20"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Style="{StaticResource ImportantInfo}"
+            Text="{Binding Commande.Site}" />
+    </StackPanel>
+
 
 </UserControl>

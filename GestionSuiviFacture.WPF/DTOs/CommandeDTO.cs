@@ -1,7 +1,4 @@
-﻿using GestionSuiviFacture.WPF.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 public class CommandeDTO
 {
@@ -10,6 +7,9 @@ public class CommandeDTO
 
     [JsonPropertyName("libelleFournisseur")]
     public string? LibelleFournisseur { get; set; }
+    
+    [JsonPropertyName("libelle_Site")]
+    public string? LibelleSite { get; set; }
 
     [JsonPropertyName("cnuf")]
     public string? Cnuf { get; set; }
@@ -41,5 +41,5 @@ public class BonLivraisonWrapper
     public string? Id { get; set; }
 
     [JsonPropertyName("$values")]
-    public List<BonDeLivraisonDTO>? Values { get; set; }
+    public IEnumerable<BonDeLivraisonDTO>? Values { get; set; }
 }

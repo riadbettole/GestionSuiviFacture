@@ -9,6 +9,7 @@
     Title="MainWindow"
     Width="960"
     Height="560"
+    Icon="/Images/GroupMarjaneWhite.png"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"

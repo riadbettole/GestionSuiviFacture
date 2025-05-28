@@ -13,11 +13,4 @@ public class BonDeLivraisonDTO
 
     [JsonPropertyName("montantTTC")]
     public double MontantTTC { get; set; }
-
-    public BonDeLivraisonDTO(string? numeroLivraison, DateTime dateReception, double montantTTC)
-    {
-        NumeroLivraison = numeroLivraison;
-        DateReception = dateReception;
-        MontantTTC = montantTTC;
-    }
 }

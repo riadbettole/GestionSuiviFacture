@@ -12,6 +12,13 @@ namespace GestionSuiviFacture.WPF.ViewModels.Filters
         [ObservableProperty] private DateTime debutDateFilter = DateTime.Now;
         [ObservableProperty] private DateTime finDateFilter = DateTime.Now;
         [ObservableProperty] private string statusFilter = "TOUT";
+
+        [ObservableProperty]
+        private bool _isNormalFactureType = true;
+
+        [ObservableProperty]
+        private bool _isEmballageFactureType;
+
         [ObservableProperty]
         private IEnumerable<String> statusOptions =
         [
@@ -22,10 +29,6 @@ namespace GestionSuiviFacture.WPF.ViewModels.Filters
         ];
         [ObservableProperty]
         private FactureType selectedFactureType = FactureType.None;
-
-        //[ObservableProperty]
-        public bool IsNormalFactureType => SelectedFactureType == FactureType.Normal;
-        public bool IsEmballageFactureType => SelectedFactureType == FactureType.Emballage;
 
         public FilterFieldStateManager FieldStates { get; } = new();
 
@@ -46,6 +49,18 @@ namespace GestionSuiviFacture.WPF.ViewModels.Filters
         private void UpdateTextBoxStates()
         {
             FieldStates.UpdateStates(NumSequenceFilter, NumCommandeFilter, CnufFilter);
+        }
+
+        partial void OnIsNormalFactureTypeChanged(bool value)
+        {
+            if (value)
+                IsEmballageFactureType = false;
+        }
+
+        partial void OnIsEmballageFactureTypeChanged(bool value)
+        {
+            if (value)
+                IsNormalFactureType = false;
         }
     }
 }

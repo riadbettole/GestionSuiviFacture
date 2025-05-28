@@ -11,6 +11,7 @@
     AllowsTransparency="True"
     Background="Transparent"
     BorderBrush="Transparent"
+    Icon="/Images/GroupMarjaneWhite.png"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
@@ -102,6 +103,8 @@
     </Window.Resources>
     <Border
         Background="White"
+        BorderBrush="Black"
+        BorderThickness="0.5,0.5,0,0.5"
         CornerRadius="30 90 90 30"
         MouseLeftButtonDown="DragBar_MouseLeftButtonDown">
         <Grid>
@@ -109,6 +112,54 @@
                 <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="3*" />
             </Grid.ColumnDefinitions>
+            <StackPanel
+                Margin="20,10,00,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                Panel.ZIndex="1"
+                Orientation="Horizontal">
+
+                <Button
+                    Name="CloseButton"
+                    Width="25"
+                    Height="25"
+                    Background="#555"
+                    BorderBrush="#666"
+                    BorderThickness="1"
+                    Click="CloseButton_Click"
+                    Content="×"
+                    Cursor="Hand"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Foreground="White">
+                    <Button.Style>
+                        <Style TargetType="Button">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="Button">
+                                        <Border
+                                            x:Name="border"
+                                            Background="{TemplateBinding Background}"
+                                            BorderBrush="{TemplateBinding BorderBrush}"
+                                            BorderThickness="{TemplateBinding BorderThickness}"
+                                            CornerRadius="12">
+                                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="#DC4545" />
+                                            </Trigger>
+                                            <Trigger Property="IsPressed" Value="True">
+                                                <Setter TargetName="border" Property="Background" Value="#B53030" />
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </Button.Style>
+                </Button>
+            </StackPanel>
 
             <Image
                 Grid.Column="0"

@@ -1,0 +1,98 @@
+﻿<UserControl
+    x:Class="GestionSuiviFacture.WPF.Components.Common.NotFoundAlertDisplay"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Components.Common"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style x:Key="ButtonChoice" TargetType="Button">
+            <Setter Property="Margin" Value="10,0,0,0" />
+            <Setter Property="Padding" Value="5,4,5,4" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="3" />
+                </Style>
+            </Style.Resources>
+        </Style>
+    </UserControl.Resources>
+    <Border
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        Background="White"
+        BorderBrush="Black"
+        BorderThickness="1"
+        CornerRadius="20">
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto" />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+            <Grid Margin="20,20,20,20">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="15" />
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Path
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,-8,0,0"
+                    VerticalAlignment="Center"
+                    Data="M 3.167969 38.082031 L 36.847656 38.082031 C 39.203125 38.082031 40.71875 35.597656 39.652344 33.5 L 22.8125 3.660156 C 21.652344 1.339844 18.328125 1.339844 17.167969 3.660156 L 0.328125 33.5 C -0.703125 35.597656 0.8125 38.082031 3.167969 38.082031 Z M 22.652344 31.144531 C 22.652344 32.695312 21.523438 33.886719 19.910156 33.886719 C 18.296875 33.886719 17.167969 32.695312 17.167969 31.144531 L 17.167969 31.082031 C 17.167969 29.53125 18.296875 28.339844 19.910156 28.339844 C 21.523438 28.339844 22.652344 29.53125 22.652344 31.082031 Z M 18.425781 10.984375 L 21.589844 10.984375 C 22.460938 10.984375 22.976562 11.726562 22.878906 12.660156 L 21.492188 24.789062 C 21.394531 25.660156 20.8125 26.210938 20.007812 26.210938 C 19.199219 26.210938 18.621094 25.660156 18.523438 24.789062 L 17.136719 12.660156 C 17.039062 11.726562 17.554688 10.984375 18.425781 10.984375 Z M 18.425781 10.984375 "
+                    Stroke="{Binding NotFoundPopup.Color}"
+                    StrokeThickness="2" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    FontSize="20"
+                    FontWeight="SemiBold"
+                    Foreground="{Binding NotFoundPopup.Color}"
+                    Text="{Binding NotFoundPopup.Title}" />
+
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Margin="0,5,0,0"
+                    HorizontalAlignment="Center"
+                    FontWeight="Black"
+                    Text="-&gt;" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Width="300"
+                    Height="65"
+                    Margin="0,0,0,-20"
+                    FontSize="16"
+                    Text="{Binding NotFoundPopup.Message}"
+                    TextWrapping="Wrap" />
+
+
+
+
+            </Grid>
+
+            <Button
+                Grid.Row="1"
+                Width="130"
+                Margin="-10,0,40,20"
+                HorizontalAlignment="Right"
+                Background="#FF5C5C"
+                Command="{Binding CloseNotFoundCommand}"
+                Content="Continuer"
+                Foreground="White"
+                Style="{StaticResource ButtonChoice}" />
+
+        </Grid>
+    </Border>
+</UserControl>

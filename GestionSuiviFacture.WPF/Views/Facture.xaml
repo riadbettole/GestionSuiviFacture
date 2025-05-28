@@ -45,7 +45,7 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid >
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
@@ -68,7 +68,7 @@
                     <ColumnDefinition Width="60" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
-                <Grid >
+                <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
@@ -93,12 +93,20 @@
 
         </Grid>
         <Grid x:Name="PopupOverlay" Visibility="{Binding AlertePopup.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-        <!--<Grid x:Name="PopupOverlay" Visibility="Hidden">-->
+            <!--<Grid x:Name="PopupOverlay" Visibility="Hidden">-->
             <Rectangle
                 Height="560"
                 Fill="Black"
                 Opacity="0.5" />
             <common:AlerteDisplay x:Name="AlertDisplayControl" />
+        </Grid>
+        <Grid x:Name="NotFoundOverlay" Visibility="{Binding NotFoundPopup.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <!--<Grid x:Name="PopupOverlay" Visibility="Hidden">-->
+            <Rectangle
+                Height="560"
+                Fill="Black"
+                Opacity="0.5" />
+            <common:NotFoundAlertDisplay x:Name="NotFoundOverlayControl" />
         </Grid>
     </Grid>
 </UserControl>

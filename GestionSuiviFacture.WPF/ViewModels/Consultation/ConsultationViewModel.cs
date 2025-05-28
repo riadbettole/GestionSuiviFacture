@@ -14,6 +14,8 @@ namespace GestionSuiviFacture.WPF.ViewModels
         [ObservableProperty] private SearchFilters filters = new();
         [ObservableProperty] private PaginationViewModel pagination = new();
         [ObservableProperty] private PopupManager<EtiquetteViewModel> etiquettePopup = new();
+        [ObservableProperty] private PopupManager<EtiquetteViewModel> notFoundPopup = new();
+
         public IEnumerable<EtiquetteViewModel> Etiquettes => _etiquettes;
 
 
@@ -25,7 +27,6 @@ namespace GestionSuiviFacture.WPF.ViewModels
             Pagination = new PaginationViewModel();
             Pagination.PageChanged += OnPageChanged;
 
-            LoadEtiquettesFilterCommand.Execute(null);
         }
 
         private void OnPageChanged(object sender, int page)
@@ -54,7 +55,6 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 //    _ => null
                 //};
 
-                // Pass current page and page size from pagination to your service
 
                 PaginatedResult<Etiquette> result = await _etiquetteService.GetEtiquettesByFilterAsync(
                     EndOfDay(Filters.DebutDateFilter),
@@ -63,11 +63,21 @@ namespace GestionSuiviFacture.WPF.ViewModels
                     Filters.NumSequenceFilter,
                     Filters.NumCommandeFilter,
                     Filters.CnufFilter,
-                    Pagination.CurrentPage,                // Pass current page
-                    Pagination.PageSize);                  // Pass page size
+                    Pagination.CurrentPage,                
+                    Pagination.PageSize);                  
 
                 UpdateEtiquettes(result.Items);
-                Pagination.TotalCount = result.TotalCount;
+
+                if(result.Items.Count() == 1)
+                {
+                    ShowPopupCommand.Execute(result.Items.First());
+                }
+                else if(result.Items.Count() == 0)
+                {
+                    ShowAlert(null);
+                }
+
+                    Pagination.TotalCount = result.TotalCount;
                 Pagination.CurrentCount = result.Items.Count();
             }
             catch (Exception) { }
@@ -92,7 +102,6 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         public void Dispose()
         {
-            // Unsubscribe from event when disposing
             if (Pagination != null)
                 Pagination.PageChanged -= OnPageChanged;
 
@@ -102,5 +111,17 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         [RelayCommand] private void ShowPopup(EtiquetteViewModel vm) => EtiquettePopup.Show(vm);
         [RelayCommand] private void ClosePopup() => EtiquettePopup.Close();
+
+        private void ShowAlert(EtiquetteViewModel vm)
+        {
+            string title = "FACTURE INTROUVABLE";
+            string message = "Aucune facture n'a été trouvé. Vérifiez avant de continuer.";
+            string color = "#FF5C5C";
+            string dates = string.Empty;
+
+            NotFoundPopup.Show(null, title, message, color, dates);
+        }
+        [RelayCommand] private void CloseNotFoundCommand() => NotFoundPopup.Close();
+
     }
 }

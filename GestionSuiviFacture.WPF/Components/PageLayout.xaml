@@ -5,7 +5,7 @@
     xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Components"
     x:Name="root">
 
-    <Grid>
+    <Grid Canvas.Left="0" Canvas.Top="0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
@@ -54,5 +54,37 @@
         </Grid>
 
         <ContentPresenter Grid.Column="1" Content="{Binding DataContext.Navigation.CurrentViewModel, ElementName=root}" />
+        <StackPanel
+            Grid.Column="1"
+            Margin="0,5,5,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Top"
+            Panel.ZIndex="1"
+            Orientation="Horizontal">
+
+            <Button
+                Name="MinimizeButton"
+                Width="30"
+                Height="30"
+                Margin="0,0,2,0"
+                Background="Transparent"
+                BorderBrush="Gray"
+                Click="MinimizeButton_Click"
+                Content="−"
+                FontSize="16"
+                Foreground="Gray" />
+
+            <Button
+                Name="CloseButton"
+                Width="30"
+                Height="30"
+                Background="Transparent"
+                BorderBrush="Gray"
+                Click="CloseButton_Click"
+                Content="×"
+                FontSize="18"
+                Foreground="Gray" />
+        </StackPanel>
     </Grid>
+
 </UserControl>

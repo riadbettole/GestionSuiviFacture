@@ -7,6 +7,7 @@
     string? Rayon,
     double MontantTTC,
     DateTime DateCommande,
-    DateTime DateEcheance
+    DateTime DateEcheance,
+    IEnumerable<BonDeLivraison> BonDeLivraison
 );
 }

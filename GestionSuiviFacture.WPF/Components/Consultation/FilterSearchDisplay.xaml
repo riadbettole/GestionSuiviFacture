@@ -349,13 +349,13 @@
                 Height="30"
                 Margin="0,0,40,0"
                 Content="Normal"
-                IsChecked="{Binding Filters.IsNormalFactureType, Mode=OneWay}"
+                IsChecked="{Binding Filters.IsNormalFactureType, Mode=TwoWay}"
                 Style="{StaticResource CustomToggleButton}" />
             <ToggleButton
                 Width="100"
                 Height="30"
                 Content="Emballage"
-                IsChecked="{Binding Filters.IsEmballageFactureType, Mode=OneWay}"
+                IsChecked="{Binding Filters.IsEmballageFactureType, Mode=TwoWay}"
                 Style="{StaticResource CustomToggleButton}" />
         </StackPanel>
     </StackPanel>

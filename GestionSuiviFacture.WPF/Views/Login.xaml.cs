@@ -24,6 +24,16 @@ namespace GestionSuiviFacture.WPF.Views
             };
         }
 
+        private void MinimizeButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.WindowState = WindowState.Minimized;
+        }
+
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
         private void DragBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             Window window = Window.GetWindow(this);

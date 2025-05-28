@@ -1,6 +1,6 @@
 ﻿using GestionSuiviFacture.WPF.DTOs;
 using GestionSuiviFacture.WPF.Models;
-using GestionSuiviFacture.WPF.ViewModels.Facture;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -13,7 +13,7 @@ namespace GestionSuiviFacture.WPF.Services
     {
         private readonly HttpClient _httpClient;
         public Commande? _commande;
-        public IEnumerable<BonDeLivraison>? _bonDeLivraison;
+        public IEnumerable<BonDeLivraisonDTO>? _bonDeLivraison;
         private const string BaseUrl = "https://localhost:7167/api";
 
         public CommandeService()
@@ -27,10 +27,7 @@ namespace GestionSuiviFacture.WPF.Services
             return Task.FromResult(_commande);
         }
 
-        public Task<IEnumerable<BonDeLivraison>?> GetBonLivraison()
-        {
-            return Task.FromResult(_bonDeLivraison);
-        }
+
 
         public async Task<Commande?> GetCommandeByFilterAsync(
             DateTime? dateFacture = null,
@@ -46,6 +43,10 @@ namespace GestionSuiviFacture.WPF.Services
             {
                 _commande = MapToModel(commandeDto);
                 _bonDeLivraison = MapToBonDeLivraison(commandeDto);
+            }
+            else
+            {
+                _commande = null;
             }
 
             return _commande;
@@ -67,15 +68,13 @@ namespace GestionSuiviFacture.WPF.Services
                 };
 
                 var commandeDto = JsonSerializer.Deserialize<CommandeDTO>(jsonString, options);
-                Debug.WriteLine($"Deserialized DTO: {commandeDto?.LibelleFournisseur}");
-                Debug.WriteLine($"Bon Livraisons Count: {commandeDto?.BonsLivraison?.Values?.Count ?? 0}");
 
                 return commandeDto;
             }
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error fetching commandes: {ex.Message}");
-                throw;
+                return null;
             }
         }
 
@@ -101,20 +100,37 @@ namespace GestionSuiviFacture.WPF.Services
             return new Commande(
                 NomFournisseur: dto.LibelleFournisseur,
                 CNUF: dto.Cnuf,
-                Site: null, // Not present in your JSON
+                Site: dto.LibelleSite, 
                 Rayon: dto.Rayon,
                 MontantTTC: dto.MontantBRV,
                 DateCommande: dto.date_Commande,
-                DateEcheance: dto.DateEcheance
+                DateEcheance: dto.DateEcheance,
+                BonDeLivraison: MapToModelBL(dto.BonsLivraison.Values)
             );
         }
 
-        private IEnumerable<BonDeLivraison> MapToBonDeLivraison(CommandeDTO dto)
+        private IEnumerable<BonDeLivraison> MapToModelBL(IEnumerable<BonDeLivraisonDTO> dtos)
+        {
+            List<BonDeLivraison> bls = [];
+
+            foreach(BonDeLivraisonDTO dto in dtos)
+            {
+                bls.Add(new BonDeLivraison(
+                    dto.NumeroLivraison,
+                    dto.DateReception,
+                    dto.MontantTTC
+                    ));
+            }
+
+            return bls;
+        }
+
+        private IEnumerable<BonDeLivraisonDTO> MapToBonDeLivraison(CommandeDTO dto)
         {
             if (dto.BonsLivraison?.Values == null)
-                return Enumerable.Empty<BonDeLivraison>();
+                return Enumerable.Empty<BonDeLivraisonDTO>();
 
-            return dto.BonsLivraison.Values.Select(blDto => new BonDeLivraison
+            return dto.BonsLivraison.Values.Select(blDto => new BonDeLivraisonDTO
             {
                 NumeroLivraison = blDto.NumeroLivraison,
                 DateReception = blDto.DateReception,

@@ -72,7 +72,7 @@
                                         VerticalAlignment="Center"
                                         FontSize="14"
                                         Foreground="#484CC5"
-                                        Text="{Binding NumDeLivraison}"
+                                        Text="{Binding numDeLivraison}"
                                         TextAlignment="Center" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -84,7 +84,7 @@
                                     <TextBlock
                                         VerticalAlignment="Center"
                                         FontSize="14"
-                                        Text="{Binding MontantTTC, StringFormat={}{0:N0} DH}"
+                                        Text="{Binding montantTTC, StringFormat={}{0:N0} DH}"
                                         TextAlignment="Center" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
@@ -96,7 +96,7 @@
                                     <TextBlock
                                         VerticalAlignment="Center"
                                         FontSize="14"
-                                        Text="{Binding DateReception, StringFormat=dd/MM/yyyy}"
+                                        Text="{Binding dateReception, StringFormat=dd/MM/yyyy}"
                                         TextAlignment="Center" />
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

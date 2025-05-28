@@ -14,7 +14,7 @@ namespace GestionSuiviFacture.WPF.Components.Common
         public AlerteDisplay()
         {
             InitializeComponent();
-        }
+        }   
 
         public void ClosePopupAndClean()
         {
