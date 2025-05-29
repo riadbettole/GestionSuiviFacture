@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using GestionSuiviFacture.WPF.DTOs;
 using GestionSuiviFacture.WPF.Models;
 using GestionSuiviFacture.WPF.Services;
+using GestionSuiviFacture.WPF.Services.Saisie;
 using GestionSuiviFacture.WPF.ViewModels.Facture;
 using GestionSuiviFacture.WPF.ViewModels.Facture.Helpers;
 using System.Collections.ObjectModel;
@@ -26,6 +28,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         [ObservableProperty]
         private CommandeViewModel _commande;
         private readonly CommandeService _commandeService;
+        private readonly FactureService _factureService;
 
         [ObservableProperty] private double _montantTotal = 0;
         [ObservableProperty] private string _statut = "AUCUN";
@@ -34,6 +37,8 @@ namespace GestionSuiviFacture.WPF.ViewModels
         public FactureViewModel()
         {
             _commandeService = new CommandeService();
+            _factureService = new FactureService();
+
             SaisieFacture = new InfoSaisieFacture();
             BonDeLivraisons = new ObservableCollection<BonDeLivraisonViewModel>();
             CleanUpCommande();
@@ -100,8 +105,35 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
 
         [RelayCommand]
-        private void SaveFacture()
+        private async void SaveFacture()
         {
+            var etiquetteDto = new EtiquetteFrontendDTO
+            {
+                DateFacture = SaisieFacture.DateFacture,
+                NSite = SaisieFacture.NumSite,
+                Site = Commande.Site,
+                LibelleFournisseur = Commande.NomFournisseur,
+                Cnuf = Commande.CNUF,
+                NumCommande = SaisieFacture.NumCommande,
+                DateCommande = Commande.DateCommande,
+                DateEcheance = Commande.DateEcheance,
+                Rayon = Commande.Rayon,
+                MontantBRV = Commande.MontantTTC,
+                Statut = Statut,
+                NumFacture = SaisieFacture.NumFacture,
+                MontantTTCFacture = SaisieFacture.MontantTTC,
+                LigneFactureDTOs = SaisieFacture.LigneFacture.Select(tax => new LigneFactureDTO
+                {
+                    montant_HT = tax.MontantHT,
+                    taux = tax.TauxPercentage
+                }),
+                Utilisateur = 1
+            };
+
+
+            //bool success = await etiquetteService.PostEtiquetteAsync(etiquetteDto);
+            await _factureService.PostEtiquetteAsync(etiquetteDto);
+
             CleanUpSaisie();
         }
 

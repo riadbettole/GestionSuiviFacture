@@ -1,6 +1,4 @@
-﻿using GestionSuiviFacture.WPF.DTOs;
-using GestionSuiviFacture.WPF.Models;
-using System.Collections.Generic;
+﻿using GestionSuiviFacture.WPF.Models;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -36,7 +34,7 @@ namespace GestionSuiviFacture.WPF.Services
             var queryString = BuildFilterQueryString(numSite, numCommande);
             RefreshAuthorizationHeader();
 
-            var commandeDto = await FetchCommandDTOs($"{BaseUrl}/BonLivraison/INFOGOLD{queryString}");
+            var commandeDto = await FetchCommandDTOs($"{BaseUrl}/BonLivraison/commande{queryString}");
 
             if (commandeDto != null)
             {
@@ -98,7 +96,7 @@ namespace GestionSuiviFacture.WPF.Services
             return new Commande(
                 NomFournisseur: dto.LibelleFournisseur,
                 CNUF: dto.Cnuf,
-                Site: dto.LibelleSite, 
+                Site: dto.LibelleSite,
                 Rayon: dto.Rayon,
                 MontantTTC: dto.MontantBRV,
                 DateCommande: dto.date_Commande,
@@ -111,7 +109,7 @@ namespace GestionSuiviFacture.WPF.Services
         {
             List<BonDeLivraison> bls = [];
 
-            foreach(BonDeLivraisonDTO dto in dtos)
+            foreach (BonDeLivraisonDTO dto in dtos)
             {
                 bls.Add(new BonDeLivraison(
                     dto.NumeroLivraison,

@@ -1,16 +1,16 @@
-﻿using System.Net.Http;
+﻿using GestionSuiviFacture.WPF.DTOs;
+using System.Diagnostics;
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
 namespace GestionSuiviFacture.WPF.Services.Saisie
 {
-    public class FactureService
+    class FactureService
     {
         private readonly HttpClient _httpClient;
-
-
-        private const string _baseUrl = "https://localhost:7167/api/";
+        private const string BaseUrl = "https://localhost:7167/api";
 
         public FactureService()
         {
@@ -18,18 +18,30 @@ namespace GestionSuiviFacture.WPF.Services.Saisie
             RefreshAuthorizationHeader();
         }
 
-        public async Task PostFacture()
+        public async Task<bool> PostEtiquetteAsync(EtiquetteFrontendDTO etiquetteDto)
         {
+            try
+            {
+                RefreshAuthorizationHeader();
 
-        }
+                var jsonContent = JsonSerializer.Serialize(etiquetteDto, new JsonSerializerOptions
+                {
+                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                });
 
-        public async Task PostJsonAsync<T>(string relativeUrl, T data)
-        {
-            var json = JsonSerializer.Serialize(data);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
+                var httpContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync($"{_baseUrl}/{relativeUrl.TrimStart('/')}", content);
-            response.EnsureSuccessStatusCode();
+                var response = await _httpClient.PostAsync($"{BaseUrl}/Etiquette", httpContent);
+                response.EnsureSuccessStatusCode();
+
+                Debug.WriteLine("Etiquette created successfully");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine($"Error posting etiquette: {ex.Message}");
+                return false;
+            }
         }
 
         private void RefreshAuthorizationHeader()

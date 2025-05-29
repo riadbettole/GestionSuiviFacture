@@ -5,9 +5,9 @@ namespace GestionSuiviFacture.WPF.ViewModels.Facture
     public partial class TaxDetail : ObservableObject
     {
         [ObservableProperty]
-        private double _tauxPercentage;
+        private int _tauxPercentage;
 
-        public TaxDetail(double tauxPercentage, double montantHT)
+        public TaxDetail(int tauxPercentage, double montantHT)
         {
             TauxPercentage = tauxPercentage;
             MontantHT = montantHT;
