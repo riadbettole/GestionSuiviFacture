@@ -91,6 +91,7 @@
                     Grid.Row="1"
                     Grid.Column="0"
                     KeyDown="NumFactureInputBox_KeyDown"
+                    Text="{Binding SaisieFacture.NumFacture}"
                     Style="{StaticResource InputFacture}" />
                 <TextBlock
                     Grid.Row="0"
@@ -103,6 +104,7 @@
                     x:Name="MontantTTCTextBox"
                     Grid.Row="1"
                     Grid.Column="2"
+                    Text="{Binding SaisieFacture.MontantTTC}"
                     KeyDown="MontantTTCInputBox_KeyDown"
                     PreviewTextInput="TextBox_PreviewTextInput"
                     Style="{StaticResource InputFacture}" />
@@ -265,7 +267,7 @@
                     Width="80"
                     Padding="5 10 5 10"
                     Margin="-10 0 0 0"
-                    Command="{Binding FindCommandeCommand}"
+                    Command="{Binding SaveFactureCommand}"
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Content="Traiter"

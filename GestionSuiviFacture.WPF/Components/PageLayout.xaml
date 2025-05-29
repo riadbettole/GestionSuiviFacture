@@ -32,7 +32,7 @@
                 Grid.Row="1"
                 Margin="0,-15,0,0"
                 Columns="1"
-                Rows="3">
+                Rows="4">
                 <local:LayoutPageButton
                     Command="{Binding NavigateToFactureCommand}"
                     Header="F.Normal"
@@ -40,16 +40,11 @@
                 <local:LayoutPageButton
                     Command="{Binding NavigateToFactureEmballageCommand}"
                     Header="F.Emballage"
-                    Image="pack://application:,,,/Images/factureEmba.png" />
+                    Image="pack://application:,,,/Images/facture.png" />
                 <local:LayoutPageButton
                     Command="{Binding NavigateToConsultationCommand}"
                     Header="Consultation"
                     Image="pack://application:,,,/Images/search.png" />
-                <!--<local:LayoutPageButton
-                    Margin="0,0,0,0"
-                    Command="{Binding NavigateToConsultationCommand}"
-                    Header="Deconnexion"
-                    Image="pack://application:,,,/Images/deconnexion.png" />-->
             </UniformGrid>
         </Grid>
 

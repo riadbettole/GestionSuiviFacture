@@ -24,11 +24,6 @@ namespace GestionSuiviFacture.WPF.Components.Facture
         private void DateTextBox_Loaded(object sender, RoutedEventArgs e)
         {
             DateTextBox.Focus();
-
-            if (DateTextBox.Template.FindName("PART_TextBox", DateTextBox) is DatePickerTextBox datePickerTextBox)
-            {
-                datePickerTextBox.KeyDown += DateInputBox_KeyDown;
-            }
         }
 
         private void NumCommandeInputBox_KeyDown(object sender, KeyEventArgs e)
@@ -42,7 +37,15 @@ namespace GestionSuiviFacture.WPF.Components.Facture
                 }
             }
         }
-            
+
+        private void DateInputBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                SiteTextBox.Focus();
+            }
+        }
+
         public void CleanAll()
         {
             DateTextBox.SelectedDate = DateTime.Now;
@@ -52,13 +55,6 @@ namespace GestionSuiviFacture.WPF.Components.Facture
             DateTextBox.Focus();
         }
 
-        private void DateInputBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                SiteTextBox.Focus();
-            }
-        }
         private void SiteInputBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -66,5 +62,7 @@ namespace GestionSuiviFacture.WPF.Components.Facture
                 CommandeTextBox.Focus();
             }
         }
+
+
     }
 }

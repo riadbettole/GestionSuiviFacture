@@ -59,7 +59,7 @@
                 SnapsToDevicePixels="True"
                 Stroke="Gray"
                 StrokeDashArray="8 8"
-                StrokeThickness="1"
+                StrokeThickness="1.2"
                 X1="0"
                 X2="940" />
             <Grid Grid.Row="2" Margin="30,30,0,0">

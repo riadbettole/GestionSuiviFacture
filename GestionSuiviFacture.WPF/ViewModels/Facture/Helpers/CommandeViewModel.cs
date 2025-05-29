@@ -16,9 +16,9 @@ namespace GestionSuiviFacture.WPF.ViewModels.Facture.Helpers
         public string CNUF => _commande.CNUF;
         public string Site => _commande.Site;
         public string Rayon => _commande.Rayon;
-        public double MontantTTC => _commande.MontantTTC;
-        public DateTime DateCommande => _commande.DateCommande;
-        public DateTime DateEcheance => _commande.DateEcheance;
+        public double? MontantTTC => _commande.MontantTTC;
+        public DateTime? DateCommande => _commande.DateCommande;
+        public DateTime? DateEcheance => _commande.DateEcheance;
         public void Dispose()
         {
         }

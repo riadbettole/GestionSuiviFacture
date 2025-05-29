@@ -13,7 +13,7 @@ namespace GestionSuiviFacture.WPF.ViewModels.Facture
         [ObservableProperty] private string numSite;
         [ObservableProperty] private string numFacture;
 
-        [ObservableProperty] private double montantTTC;
+        [ObservableProperty] private double? montantTTC;
 
         [ObservableProperty] private double totalTVA = 0f;
         [ObservableProperty] private double totalHT = 0f;

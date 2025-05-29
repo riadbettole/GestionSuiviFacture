@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Components.Facture"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    
     mc:Ignorable="d">
     <UserControl.Resources>
 
@@ -109,6 +110,7 @@
                                         VerticalAlignment="Center"
                                         Background="Transparent"
                                         BorderThickness="0"
+                                        Margin="5 0 0 0"
                                         IsTabStop="False" />
                                     <TextBlock
                                         x:Name="placeholder"
@@ -116,6 +118,7 @@
                                         FontStyle="Italic"
                                         Foreground="Gray"
                                         IsHitTestVisible="False"
+                                        Margin="5 0 0 0"
                                         Text="Search..."
                                         Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 </Grid>
@@ -181,10 +184,11 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Width="200"
-                KeyDown="DateInputBox_KeyDown"
+                PreviewKeyDown="DateInputBox_PreviewKeyDown"
                 Loaded="DateTextBox_Loaded"
                 SelectedDate="{Binding SaisieFacture.DateFacture, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource LDatePicker}" />
+            
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="1"

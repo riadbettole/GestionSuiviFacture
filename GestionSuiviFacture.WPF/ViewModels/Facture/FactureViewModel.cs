@@ -13,7 +13,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
     {
         [ObservableProperty]
         private PopupManager<FactureViewModel> alertePopup = new();
-        
+
         [ObservableProperty]
         private PopupManager<FactureViewModel> notFoundPopup = new();
 
@@ -29,6 +29,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         [ObservableProperty] private double _montantTotal = 0;
         [ObservableProperty] private string _statut = "AUCUN";
+
 
         public FactureViewModel()
         {
@@ -55,7 +56,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         {
             Commande commande = await _commandeService.GetCommandeByFilterAsync(SaisieFacture.NumSite, SaisieFacture.NumCommande);
 
-            if(commande == null)
+            if (commande == null)
             {
                 NoCommandFound();
                 return;
@@ -70,9 +71,9 @@ namespace GestionSuiviFacture.WPF.ViewModels
         private void NoCommandFound()
         {
             NotFoundPopup.Show(
-                this, 
-                "COMMANDE OU SITE INTROUVABLE", 
-                "Ce numero de commande ou site est introuvable. Vérifiez avant de continuer.", 
+                this,
+                "COMMANDE OU SITE INTROUVABLE",
+                "Ce numero de commande ou site est introuvable. Vérifiez avant de continuer.",
                 "#FF5C5C");
         }
 
@@ -97,6 +98,12 @@ namespace GestionSuiviFacture.WPF.ViewModels
             SaisieFacture.AddTax(taxDetail);
         }
 
+
+        [RelayCommand]
+        private void SaveFacture()
+        {
+            CleanUpSaisie();
+        }
 
         private void CheckAlert()
         {
@@ -152,14 +159,26 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 "-----",          // CNUF
                 "-----",          // CNUF
                 "---",           // Rayon
-                0,           // MontantTTC
-                DateTime.MinValue,  // DateCommande
-                DateTime.MinValue,   // DateEcheance
+                null,           // MontantTTC
+                null,  // DateCommande
+                null,   // DateEcheance
                 new List<BonDeLivraison>()
             );
+            _montantTotal = 0;
 
             BonDeLivraisons.Clear();
             Commande = new CommandeViewModel(emptyCommande);
+        }
+
+        private void CleanUpSaisie()
+        {
+            SaisieFacture.NumFacture = "";
+            SaisieFacture.MontantTTC = null;
+            SaisieFacture.LigneFacture.Clear();
+            SaisieFacture.TotalHT = 0;
+            SaisieFacture.TotalTVA = 0;
+            SaisieFacture.TotalTTC = 0;
+            Statut = "ANNULE";
         }
 
 
@@ -182,7 +201,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 Statut = "OK";
             }
 
-           
+
             //Statut = statut;
         }
 

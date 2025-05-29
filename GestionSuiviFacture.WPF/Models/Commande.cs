@@ -5,9 +5,9 @@
     string? CNUF,
     string? Site,
     string? Rayon,
-    double MontantTTC,
-    DateTime DateCommande,
-    DateTime DateEcheance,
+    double? MontantTTC,
+    DateTime? DateCommande,
+    DateTime? DateEcheance,
     IEnumerable<BonDeLivraison> BonDeLivraison
 );
 }
