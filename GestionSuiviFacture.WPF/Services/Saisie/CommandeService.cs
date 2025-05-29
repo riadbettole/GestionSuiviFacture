@@ -30,11 +30,10 @@ namespace GestionSuiviFacture.WPF.Services
 
 
         public async Task<Commande?> GetCommandeByFilterAsync(
-            DateTime? dateFacture = null,
             string? numSite = null,
             string? numCommande = null)
         {
-            var queryString = BuildFilterQueryString(dateFacture, numSite, numCommande);
+            var queryString = BuildFilterQueryString(numSite, numCommande);
             RefreshAuthorizationHeader();
 
             var commandeDto = await FetchCommandDTOs($"{BaseUrl}/BonLivraison/INFOGOLD{queryString}");
@@ -79,14 +78,13 @@ namespace GestionSuiviFacture.WPF.Services
         }
 
         private string BuildFilterQueryString(
-            DateTime? dateFacture = null,
             string? numSite = null,
             string? numCommande = null)
         {
             var parameters = HttpUtility.ParseQueryString(string.Empty);
 
-            if (dateFacture.HasValue)
-                parameters["date_facture"] = dateFacture.Value.ToString("yyyy-MM-dd");
+            //if (dateFacture.HasValue)
+            //    parameters["date_facture"] = dateFacture.Value.ToString("yyyy-MM-dd");
             if (!string.IsNullOrEmpty(numSite))
                 parameters["n_site"] = numSite;
             if (!string.IsNullOrEmpty(numCommande))

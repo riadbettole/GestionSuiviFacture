@@ -53,7 +53,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         [RelayCommand]
         private async Task FindCommande(String id)
         {
-            Commande commande = await _commandeService.GetCommandeByFilterAsync(SaisieFacture.DateFacture, SaisieFacture.NumSite, SaisieFacture.NumCommande);
+            Commande commande = await _commandeService.GetCommandeByFilterAsync(SaisieFacture.NumSite, SaisieFacture.NumCommande);
 
             if(commande == null)
             {
@@ -69,14 +69,11 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         private void NoCommandFound()
         {
-    
-           
-            string title = "COMMANDE OU SITE INTROUVABLE";
-            string message = "Ce numero de commande ou site est introuvable. Vérifiez avant de continuer.";
-            string  color = "#FF5C5C";
-                string dates = string.Empty;
-
-            NotFoundPopup.Show(this, title, message, color, dates);
+            NotFoundPopup.Show(
+                this, 
+                "COMMANDE OU SITE INTROUVABLE", 
+                "Ce numero de commande ou site est introuvable. Vérifiez avant de continuer.", 
+                "#FF5C5C");
         }
 
         private void UpdateBonDeLivraison(IEnumerable<BonDeLivraison> bonDeLivraison)

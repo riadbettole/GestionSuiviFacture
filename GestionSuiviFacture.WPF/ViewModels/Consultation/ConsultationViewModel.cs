@@ -54,9 +54,9 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 //    FactureType.Emballage => "Emballage",
                 //    _ => null
                 //};
-
-
-                PaginatedResult<Etiquette> result = await _etiquetteService.GetEtiquettesByFilterAsync(
+                PaginatedResult<Etiquette> result = new();
+           
+                result = await _etiquetteService.GetEtiquettesByFilterAsync(
                     EndOfDay(Filters.DebutDateFilter),
                     EndOfDay(Filters.FinDateFilter),
                     ConvertStatusToEnum(Filters.StatusFilter),
@@ -64,23 +64,32 @@ namespace GestionSuiviFacture.WPF.ViewModels
                     Filters.NumCommandeFilter,
                     Filters.CnufFilter,
                     Pagination.CurrentPage,                
-                    Pagination.PageSize);                  
+                    Pagination.PageSize);
 
                 UpdateEtiquettes(result.Items);
 
-                if(result.Items.Count() == 1)
+                if (result.Items.Count() == 1)
                 {
                     ShowPopupCommand.Execute(result.Items.First());
                 }
                 else if(result.Items.Count() == 0)
                 {
-                    ShowAlert(null);
+                    string title = "FACTURE INTROUVABLE";
+                    string message = "Aucune facture n'a été trouvé. Vérifiez avant de continuer.";
+                    string color = "#FF5C5C";
+                    ShowAlert(title, message, color);
                 }
 
-                    Pagination.TotalCount = result.TotalCount;
+                Pagination.TotalCount = result.TotalCount;
                 Pagination.CurrentCount = result.Items.Count();
             }
-            catch (Exception) { }
+            catch (Exception) 
+            {
+                ShowAlert(
+                      "PAS DE CONNEXION",
+                      "Aucune connexion n'a été établie. Vérifiez avant de continuer.",
+                      "#FF5C5C");
+            }
         }
 
         private void UpdateEtiquettes(IEnumerable<Etiquette> etiquettes)
@@ -112,16 +121,11 @@ namespace GestionSuiviFacture.WPF.ViewModels
         [RelayCommand] private void ShowPopup(EtiquetteViewModel vm) => EtiquettePopup.Show(vm);
         [RelayCommand] private void ClosePopup() => EtiquettePopup.Close();
 
-        private void ShowAlert(EtiquetteViewModel vm)
+        private void ShowAlert(string title, string message, string color)
         {
-            string title = "FACTURE INTROUVABLE";
-            string message = "Aucune facture n'a été trouvé. Vérifiez avant de continuer.";
-            string color = "#FF5C5C";
-            string dates = string.Empty;
-
-            NotFoundPopup.Show(null, title, message, color, dates);
+            NotFoundPopup.Show(null, title, message, color, string.Empty);
         }
-        [RelayCommand] private void CloseNotFoundCommand() => NotFoundPopup.Close();
+        [RelayCommand] private void CloseNotFound() => NotFoundPopup.Close();
 
     }
 }

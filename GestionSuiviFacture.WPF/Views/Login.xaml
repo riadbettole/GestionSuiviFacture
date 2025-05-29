@@ -127,7 +127,7 @@
                     BorderBrush="#666"
                     BorderThickness="1"
                     Click="CloseButton_Click"
-                    Content="×"
+                    Content="X"
                     Cursor="Hand"
                     FontSize="16"
                     FontWeight="Bold"
