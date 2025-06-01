@@ -64,5 +64,13 @@ namespace GestionSuiviFacture.WPF.Views
                 }
             }
         }
+
+        private void PasswordInputBox_PasswordChanged(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is LoginViewModel viewModel)
+            {
+                viewModel.Password = ((PasswordBox)sender).Password;
+            }
+        }
     }
 }

@@ -24,7 +24,7 @@ namespace GestionSuiviFacture.WPF.ViewModels.Filters
         [
             "STATUS OK",
             "STATUS NOK",
-            "STATUS ANNULE",
+            "STATUS ANNULÉ",
             "TOUT",
         ];
         [ObservableProperty]

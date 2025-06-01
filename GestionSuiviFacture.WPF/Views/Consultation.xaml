@@ -40,7 +40,7 @@
                     VerticalAlignment="Center"
                     FontSize="20"
                     FontWeight="SemiBold"
-                    Text="Resultats" />
+                    Text="Résultats" />
                 <components:EtiquettesResultDisplay Grid.Row="1" />
             </Grid>
         </StackPanel>

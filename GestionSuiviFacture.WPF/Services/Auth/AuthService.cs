@@ -41,10 +41,10 @@ namespace GestionSuiviFacture.WPF.Services
                 }
                 catch (Exception)
                 {
-                    return true;
+                    return false;
                 }
 
-                return true; //to be removed ease of acceas without db
+                return false; //to be removed ease of acceas without db
             }
         }
 

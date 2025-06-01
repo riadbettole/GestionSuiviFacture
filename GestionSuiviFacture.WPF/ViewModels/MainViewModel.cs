@@ -6,6 +6,22 @@ namespace GestionSuiviFacture.WPF.ViewModels
 {
     public partial class MainViewModel : ObservableObject, IDisposable
     {
+        [ObservableProperty]
+        private string currentUser = "Admin User"; // Get from your auth service
+
+        [ObservableProperty]
+        private string currentPageTitle = "Tableau de bord";
+
+        [ObservableProperty]
+        private string currentPageSubtitle = "Bienvenue dans le système de gestion";
+
+        [RelayCommand]
+        private void Disconnect()
+        {
+            // Clear user session
+            // Navigate back to login
+            // Close current window and show login
+        }
         public NavigationService Navigation { get; }
 
         public MainViewModel()

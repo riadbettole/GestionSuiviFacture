@@ -59,7 +59,7 @@
             ItemsSource="{Binding Etiquettes}">
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
-                    <GridViewColumn Header="Sequence">
+                    <GridViewColumn Header="Séquence">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
                                 <TextBlock Foreground="#484CC5" Text="{Binding NumSequence}" />
@@ -86,6 +86,7 @@
                                 <common:StatutDisplay
                                     Grid.Row="2"
                                     Grid.Column="1"
+                                    Margin="25,0,0,0"
                                     DisplayFontSize="12"
                                     DisplayHeight="20"
                                     DisplayWidth="50"
@@ -96,7 +97,8 @@
                     <GridViewColumn Header="Utilisateur">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <TextBlock Text="{Binding Utilisateur}" />
+                                <!--<TextBlock Text="{Binding Utilisateur}" />-->
+                                <TextBlock Text="ryad" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>
@@ -129,7 +131,7 @@
             </StackPanel>
             <StackPanel
                 Grid.Column="1"
-                Margin="0,-5,0,0"
+                Margin="-30,-5,0,0"
                 Orientation="Horizontal">
                 <Button
                     Command="{Binding Pagination.GoToFirstPageCommand}"

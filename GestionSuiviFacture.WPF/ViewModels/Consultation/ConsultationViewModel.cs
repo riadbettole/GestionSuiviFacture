@@ -57,7 +57,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 PaginatedResult<Etiquette> result = new();
            
                 result = await _etiquetteService.GetEtiquettesByFilterAsync(
-                    EndOfDay(Filters.DebutDateFilter),
+                    StartOfDay(Filters.DebutDateFilter),
                     EndOfDay(Filters.FinDateFilter),
                     ConvertStatusToEnum(Filters.StatusFilter),
                     Filters.NumSequenceFilter,
@@ -68,9 +68,13 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
                 UpdateEtiquettes(result.Items);
 
-                if (result.Items.Count() == 1)
+
+                Pagination.TotalCount = result.TotalCount;
+                Pagination.CurrentCount = result.Items.Count();
+
+                if (result.Items.Count() == 1 && Pagination.TotalCount == 1)
                 {
-                    ShowPopupCommand.Execute(result.Items.First());
+                    ShowPopupCommand.Execute(new EtiquetteViewModel(result.Items.First()));
                 }
                 else if(result.Items.Count() == 0)
                 {
@@ -80,8 +84,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
                     ShowAlert(title, message, color);
                 }
 
-                Pagination.TotalCount = result.TotalCount;
-                Pagination.CurrentCount = result.Items.Count();
+                
             }
             catch (Exception) 
             {
@@ -99,7 +102,12 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 _etiquettes.Add(new EtiquetteViewModel(etiquette));
         }
 
-        private DateTime EndOfDay(DateTime date) => new(date.Year, date.Month, date.Day, 23, 59, 59);
+        private DateTime StartOfDay(DateTime date) => new(date.Year, date.Month, date.Day, 00, 00, 00);
+        private DateTime EndOfDay(DateTime date)
+        {
+            DateTime newDate = date.AddDays(1);
+            return new(newDate.Year, newDate.Month, newDate.Day, 00, 00, 01);
+        }
 
         private StatusEtiquette? ConvertStatusToEnum(string status) => status switch
         {

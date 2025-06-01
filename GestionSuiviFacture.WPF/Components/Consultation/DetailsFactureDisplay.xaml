@@ -51,7 +51,7 @@
                     FontSize="24"
                     FontWeight="SemiBold"
                     Foreground="#484CC5"
-                    Text="Details de la facture" />
+                    Text="Détails de la facture" />
 
                 <Button
                     Grid.Column="3"
@@ -114,11 +114,12 @@
                         <TextBlock
                             Grid.Row="0"
                             Grid.Column="0"
+                            Margin="0,0,0,20"
                             Style="{StaticResource Header}"
-                            Text="Informations Generales" />
+                            Text="Informations Générales" />
 
 
-                        <TextBlock
+                        <!--<TextBlock
                             Grid.Row="2"
                             Grid.Column="0"
                             Style="{StaticResource Title}"
@@ -127,7 +128,7 @@
                             Grid.Row="2"
                             Grid.Column="1"
                             Style="{StaticResource InfoValue}"
-                            Text="{Binding NumReception}" />
+                            Text="{Binding NumReception}" />-->
 
                         <TextBlock
                             Grid.Row="3"
@@ -144,7 +145,7 @@
                             Grid.Row="4"
                             Grid.Column="0"
                             Style="{StaticResource Title}"
-                            Text="N Sequence" />
+                            Text="N Séquence" />
                         <TextBlock
                             Grid.Row="4"
                             Grid.Column="1"
@@ -174,45 +175,49 @@
                             Text="{Binding Cnuf}" />
 
                     </Grid>
-                    <Grid Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="2">
                         <TextBlock
                             Grid.Row="0"
                             Grid.Column="0"
+                            Margin="0,0,0,20"
                             Style="{StaticResource Header}"
-                            Text="Informations Financieres" />
+                            Text="Informations Financières" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Montant BRV" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Width="144"
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding MontantBRV, StringFormat={}{0:N2} DH}" />
 
-                        <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="Montant BF" />
-                        <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Style="{StaticResource InfoValue}"
-                            Text="{Binding MontantBF}" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Montant Facture" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding MontantFacture, StringFormat={}{0:N2} DH}" />
 
-                        <TextBlock
-                            Grid.Row="2"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="Montant Facture" />
-                        <TextBlock
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Style="{StaticResource InfoValue}"
-                            Text="{Binding MontantFacture}" />
+                        </Grid>
+                    </StackPanel>
 
-                    </Grid>
                 </Grid>
                 <Line
                     Grid.Column="1"
@@ -230,54 +235,66 @@
                         <RowDefinition Height="20" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-
-                        </Grid.RowDefinitions>
+                    <StackPanel>
                         <TextBlock
                             Grid.Row="0"
                             Grid.Column="0"
+                            Margin="0,0,0,20"
                             Style="{StaticResource Header}"
-                            Text="Informations Temporels" />
+                            Text="Informations Temporelles" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Date Facture" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Width="120"
+                                Text="{Binding DateFacture, StringFormat='{}{0:dd/MM/yyyy}'}"
+                                TextAlignment="Right" />
 
-                        <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="Date Traitement" />
-                        <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Text="{Binding DateTraitement}" />
 
-                        <TextBlock
-                            Grid.Row="2"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="Date Reception" />
-                        <TextBlock
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Text="{Binding DateReception}" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Date Commande" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Width="120"
+                                Text="{Binding DateCommande, StringFormat='{}{0:dd/MM/yyyy}'}"
+                                TextAlignment="Right" />
 
-                        <TextBlock
-                            Grid.Row="3"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="Date Commande" />
-                        <TextBlock
-                            Grid.Row="3"
-                            Grid.Column="1"
-                            Text="{Binding DateCommande}" />
-                    </Grid>
+                            <TextBlock
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Date Traitement" />
+                            <TextBlock
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Width="120"
+                                Text="{Binding DateTraitement, StringFormat='{}{0:dd/MM/yyyy}'}"
+                                TextAlignment="Right" />
+
+
+
+                        </Grid>
+
+                    </StackPanel>
 
                     <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
@@ -307,7 +324,7 @@
                             Grid.Row="1"
                             Grid.Column="1"
                             Style="{StaticResource InfoValue}"
-                            Text="{Binding Utilisateur}" />
+                            Text="ryad" />
 
 
                         <TextBlock
@@ -319,7 +336,7 @@
                             Grid.Row="2"
                             Grid.Column="1"
                             Style="{StaticResource InfoValue}"
-                            Text="{Binding UtilisateurAnnule}" />
+                            Text="{Binding UtilisateurAnnule, TargetNullValue=-----}" />
 
                         <TextBlock
                             Grid.Row="3"
@@ -330,7 +347,7 @@
                             Grid.Row="3"
                             Grid.Column="1"
                             Style="{StaticResource InfoValue}"
-                            Text="{Binding MotifAnnulation}" />
+                            Text="{Binding MotifAnnulation, TargetNullValue=-----}" />
 
                         <TextBlock
                             Grid.Row="4"
@@ -344,7 +361,7 @@
                             Grid.ColumnSpan="2"
                             Height="50"
                             Style="{StaticResource InfoValue}"
-                            Text="{Binding Description}" />
+                            Text="{Binding Description, TargetNullValue=------------------------------}" />
 
                     </Grid>
                 </Grid>
@@ -361,11 +378,83 @@
                 <Grid Grid.Column="4">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="auto" />
-                        <RowDefinition Height="20" />
+                        <RowDefinition Height="0" />
                         <RowDefinition Height="auto" />
                         <RowDefinition Height="20" />
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="2">
+                        <TextBlock Style="{StaticResource Header}" Text="Lignes de factures" />
+                        <ListView
+                            Margin="-10,0,0,0"
+                            Background="Transparent"
+                            BorderBrush="Transparent"
+                            BorderThickness="0"
+                            ItemsSource="{Binding LignesFacture}"
+                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                            <ListView.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListViewItem}">
+                                    <Setter Property="HorizontalContentAlignment" Value="Right" />
+                                    <Setter Property="BorderThickness" Value="0" />
+                                    <Setter Property="Height" Value="20" />
+                                    <Setter Property="FontSize" Value="10" />
+                                    <Setter Property="Foreground" Value="Black" />
+                                </Style>
+                            </ListView.ItemContainerStyle>
+                            <ListView.View>
+                                <GridView AllowsColumnReorder="False">
+                                    <GridView.ColumnHeaderContainerStyle>
+                                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                                            <Setter Property="Foreground" Value="#1A237E" />
+                                            <Setter Property="Background" Value="Transparent" />
+                                            <Setter Property="BorderBrush" Value="Transparent" />
+                                            <Setter Property="FontSize" Value="10" />
+                                            <Setter Property="FontWeight" Value="Bold" />
+                                            <Setter Property="HorizontalContentAlignment" Value="Right" />
+                                            <Setter Property="Width" Value="60" />
+                                            <Setter Property="ContentTemplate">
+                                                <Setter.Value>
+                                                    <DataTemplate>
+                                                        <TextBlock
+                                                            Text="{Binding}"
+                                                            TextAlignment="Right"
+                                                            TextWrapping="Wrap" />
+                                                    </DataTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </GridView.ColumnHeaderContainerStyle>
+                                    <GridViewColumn Width="60" Header="Taux&#x0a;(%)">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding Taux}" TextAlignment="Right" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Montant HT">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding MontantHT, StringFormat={}{0:N2} DH}" TextAlignment="Right" />
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Montant TVA">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <TextBlock Text="{Binding MontantTVA, StringFormat={}{0:N2} DH}" TextAlignment="Right" />
+
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                    </StackPanel>
+
 
                     <Grid Grid.Row="0">
                         <Grid.ColumnDefinitions>
@@ -387,7 +476,7 @@
                             Grid.Row="1"
                             Grid.Column="0"
                             Style="{StaticResource Title}"
-                            Text="Libelle Site" />
+                            Text="Libellé Site" />
                         <TextBlock
                             Grid.Row="1"
                             Grid.Column="1"
@@ -406,7 +495,7 @@
 
                     </Grid>
 
-                    <Grid Grid.Row="2">
+                    <Grid Grid.Row="4">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="auto" />
                             <ColumnDefinition Width="auto" />
@@ -448,76 +537,6 @@
                             Status="{Binding Status}" />
                     </Grid>
 
-                    <StackPanel Grid.Row="4">
-                        <TextBlock Style="{StaticResource Header}" Text="Lignes de factures" />
-                        <ListView
-                            Margin="-10,0,0,0"
-                            Background="Transparent"
-                            BorderBrush="Transparent"
-                            BorderThickness="0"
-                            ItemsSource="{Binding TaxDetails}"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-
-                            <ListView.ItemContainerStyle>
-                                <Style TargetType="{x:Type ListViewItem}">
-                                    <Setter Property="HorizontalContentAlignment" Value="Right" />
-                                    <Setter Property="BorderThickness" Value="0" />
-                                    <Setter Property="Height" Value="10" />
-                                    <Setter Property="FontSize" Value="10" />
-                                    <Setter Property="Foreground" Value="Black" />
-                                </Style>
-                            </ListView.ItemContainerStyle>
-                            <ListView.View>
-                                <GridView AllowsColumnReorder="False">
-                                    <GridView.ColumnHeaderContainerStyle>
-                                        <Style TargetType="{x:Type GridViewColumnHeader}">
-                                            <Setter Property="Foreground" Value="#1A237E" />
-                                            <Setter Property="Background" Value="Transparent" />
-                                            <Setter Property="BorderBrush" Value="Transparent" />
-                                            <Setter Property="FontSize" Value="10" />
-                                            <Setter Property="FontWeight" Value="Bold" />
-                                            <Setter Property="HorizontalContentAlignment" Value="Right" />
-                                            <Setter Property="Width" Value="60" />
-                                            <Setter Property="ContentTemplate">
-                                                <Setter.Value>
-                                                    <DataTemplate>
-                                                        <TextBlock
-                                                            Text="{Binding}"
-                                                            TextAlignment="Right"
-                                                            TextWrapping="Wrap" />
-                                                    </DataTemplate>
-                                                </Setter.Value>
-                                            </Setter>
-                                        </Style>
-                                    </GridView.ColumnHeaderContainerStyle>
-                                    <GridViewColumn Width="60" Header="Taux&#x0a;(%)">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding TauxPercentage}" TextAlignment="Right" />
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Montant HT">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding MontantHT}" TextAlignment="Right" />
-
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                    <GridViewColumn Header="Montant TVA">
-                                        <GridViewColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <TextBlock Text="{Binding MontantTVA}" TextAlignment="Right" />
-
-                                            </DataTemplate>
-                                        </GridViewColumn.CellTemplate>
-                                    </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-
-                    </StackPanel>
 
                 </Grid>
             </Grid>

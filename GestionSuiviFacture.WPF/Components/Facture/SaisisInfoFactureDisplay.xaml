@@ -35,27 +35,27 @@
         <Style x:Key="CardTotal" TargetType="Border">
             <Setter Property="CornerRadius" Value="4" />
             <Setter Property="MinWidth" Value="80" />
-            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderBrush" Value="Black" />
             <Setter Property="BorderThickness" Value="1" />
-            
+
             <Setter Property="Padding" Value="10" />
-            <Setter Property="Margin" Value="0 0 10 0" />
+            <Setter Property="Margin" Value="0,0,10,0" />
         </Style>
         <Style x:Key="ButtonSubmit" TargetType="Button">
             <Setter Property="Background" Value="#353535" />
             <Setter Property="Foreground" Value="White" />
             <Setter Property="BorderBrush" Value="Transparent" />
-            
+
             <Style.Resources>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="CornerRadius" Value="3" />
                 </Style>
             </Style.Resources>
-            
-    
+
+
         </Style>
     </UserControl.Resources>
-    <Grid >
+    <Grid>
         <common:StatutDisplay
             Grid.Row="2"
             Grid.Column="1"
@@ -66,11 +66,8 @@
             DisplayHeight="32"
             DisplayWidth="80"
             Status="{Binding Statut}" />
-        <StackPanel Grid.Column="2" >
-            <TextBlock
-                
-                Style="{StaticResource HeaderText}"
-                Text="Details facture" />
+        <StackPanel Grid.Column="2">
+            <TextBlock Style="{StaticResource HeaderText}" Text="Détails facture" />
             <Grid Margin="0,10,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -85,14 +82,14 @@
                     Grid.Row="0"
                     Grid.Column="0"
                     Style="{StaticResource SmallHeaderText}"
-                    Text="N de la facture" />
+                    Text="N° de la facture" />
                 <TextBox
                     x:Name="NumFactureTextBox"
                     Grid.Row="1"
                     Grid.Column="0"
                     KeyDown="NumFactureInputBox_KeyDown"
-                    Text="{Binding SaisieFacture.NumFacture}"
-                    Style="{StaticResource InputFacture}" />
+                    Style="{StaticResource InputFacture}"
+                    Text="{Binding SaisieFacture.NumFacture}" />
                 <TextBlock
                     Grid.Row="0"
                     Grid.Column="2"
@@ -104,17 +101,17 @@
                     x:Name="MontantTTCTextBox"
                     Grid.Row="1"
                     Grid.Column="2"
-                    Text="{Binding SaisieFacture.MontantTTC}"
                     KeyDown="MontantTTCInputBox_KeyDown"
                     PreviewTextInput="TextBox_PreviewTextInput"
-                    Style="{StaticResource InputFacture}" />
+                    Style="{StaticResource InputFacture}"
+                    Text="{Binding SaisieFacture.MontantTTC}" />
             </Grid>
             <TextBlock
-                Margin="-5,20,0,10"
+                Margin="0,20,0,10"
                 FontSize="11"
                 FontWeight="SemiBold"
                 Foreground="#2653B4"
-                Text="Details TVA" />
+                Text="Détails TVA" />
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -238,26 +235,29 @@
                 <StackPanel Orientation="Horizontal">
                     <Border Grid.Column="0" Style="{StaticResource CardTotal}">
                         <StackPanel>
-                                <TextBlock FontWeight="Bold" Text="Total TVA"/>
-                                <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
-                                           Text="{Binding SaisieFacture.TotalTVA, StringFormat={}{0:N2} DH}" />
+                            <TextBlock FontWeight="Bold" Text="Total TVA" />
+                            <TextBlock
+                                Text="{Binding SaisieFacture.TotalTVA, StringFormat={}{0:N2} DH}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
                         </StackPanel>
                     </Border>
                     <Border Grid.Column="1" Style="{StaticResource CardTotal}">
                         <StackPanel>
-                                <TextBlock FontWeight="Bold" Text="Total HT" />
-                            <TextBlock TextWrapping="NoWrap" TextTrimming="CharacterEllipsis" 
-                                Text="{Binding SaisieFacture.TotalHT, StringFormat={}{0:N2} DH}" />
+                            <TextBlock FontWeight="Bold" Text="Total HT" />
+                            <TextBlock
+                                Text="{Binding SaisieFacture.TotalHT, StringFormat={}{0:N2} DH}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
                         </StackPanel>
                     </Border>
-                    <Border
-                        Grid.Column="2"
-                        Style="{StaticResource CardTotal}">
+                    <Border Grid.Column="2" Style="{StaticResource CardTotal}">
                         <StackPanel>
                             <TextBlock FontWeight="Bold" Text="Total TTC" />
-                            <TextBlock TextWrapping="NoWrap"
-                                TextTrimming="CharacterEllipsis" 
-                                Text="{Binding SaisieFacture.TotalTTC, StringFormat={}{0:N2} DH}" />
+                            <TextBlock
+                                Text="{Binding SaisieFacture.TotalTTC, StringFormat={}{0:N2} DH}"
+                                TextTrimming="CharacterEllipsis"
+                                TextWrapping="NoWrap" />
                         </StackPanel>
                     </Border>
                 </StackPanel>
@@ -265,13 +265,13 @@
                     x:Name="SubmitButton"
                     Grid.Column="1"
                     Width="80"
-                    Padding="5 10 5 10"
-                    Margin="-10 0 0 0"
-                    Command="{Binding SaveFactureCommand}"
-                    VerticalAlignment="Center"
+                    Margin="-10,0,0,0"
+                    Padding="5,10,5,10"
                     HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    Command="{Binding SaveFactureCommand}"
                     Content="Traiter"
-                    Style="{StaticResource ButtonSubmit}"/>
+                    Style="{StaticResource ButtonSubmit}" />
             </Grid>
 
         </StackPanel>

@@ -109,24 +109,32 @@ namespace GestionSuiviFacture.WPF.ViewModels
         {
             var etiquetteDto = new EtiquetteFrontendDTO
             {
-                DateFacture = SaisieFacture.DateFacture,
+                NumCommande = SaisieFacture.NumCommande,
+
                 NSite = SaisieFacture.NumSite,
                 Site = Commande.Site,
                 LibelleFournisseur = Commande.NomFournisseur,
                 Cnuf = Commande.CNUF,
-                NumCommande = SaisieFacture.NumCommande,
+
                 DateCommande = Commande.DateCommande,
                 DateEcheance = Commande.DateEcheance,
+                DateFacture = SaisieFacture.DateFacture,
+
                 Rayon = Commande.Rayon,
                 MontantBRV = Commande.MontantTTC,
+                Groupe = Commande.Groupe,
+
                 Statut = Statut,
+
                 NumFacture = SaisieFacture.NumFacture,
                 MontantTTCFacture = SaisieFacture.MontantTTC,
+
                 LigneFactureDTOs = SaisieFacture.LigneFacture.Select(tax => new LigneFactureDTO
                 {
                     montant_HT = tax.MontantHT,
                     taux = tax.TauxPercentage
                 }),
+
                 Utilisateur = 1
             };
 
@@ -135,6 +143,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
             await _factureService.PostEtiquetteAsync(etiquetteDto);
 
             CleanUpSaisie();
+            CleanUpCommande();
         }
 
         private void CheckAlert()
@@ -189,14 +198,15 @@ namespace GestionSuiviFacture.WPF.ViewModels
             var emptyCommande = new Commande(
                 "-----",          // NomFournisseur
                 "-----",          // CNUF
-                "-----",          // CNUF
+                "-----",          // Site
                 "---",           // Rayon
-                null,           // MontantTTC
+                "-----",          // GROUPE
+                0,           // MontantBRV
                 null,  // DateCommande
                 null,   // DateEcheance
                 new List<BonDeLivraison>()
             );
-            _montantTotal = 0;
+            MontantTotal = 0;
 
             BonDeLivraisons.Clear();
             Commande = new CommandeViewModel(emptyCommande);
@@ -206,11 +216,12 @@ namespace GestionSuiviFacture.WPF.ViewModels
         {
             SaisieFacture.NumFacture = "";
             SaisieFacture.MontantTTC = null;
+            
             SaisieFacture.LigneFacture.Clear();
             SaisieFacture.TotalHT = 0;
             SaisieFacture.TotalTVA = 0;
             SaisieFacture.TotalTTC = 0;
-            Statut = "ANNULE";
+            Statut = "AUCUN";
         }
 
 

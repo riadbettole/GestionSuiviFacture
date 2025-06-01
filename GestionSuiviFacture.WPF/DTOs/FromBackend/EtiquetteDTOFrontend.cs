@@ -2,7 +2,7 @@
 {
     public class EtiquetteFrontendDTO
     {
-        public DateTime? DateFacture { get; set; }
+        public string? NumCommande { get; set; }
 
         // INFO FOURNISSEURS
         public string? NSite { get; set; }
@@ -10,10 +10,13 @@
         public string? LibelleFournisseur { get; set; }
         public string? Cnuf { get; set; }
 
-        public string? NumCommande { get; set; }
+
         public DateTime? DateCommande { get; set; }
         public DateTime? DateEcheance { get; set; }
+        public DateTime? DateFacture { get; set; }
+
         public string? Rayon { get; set; }
+        public string? Groupe { get; set; }
 
         public double? MontantBRV { get; set; }
 

@@ -5,7 +5,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Components.Facture"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    
     mc:Ignorable="d">
     <UserControl.Resources>
 
@@ -105,20 +104,20 @@
                                 <Grid Grid.Column="0">
                                     <ScrollViewer
                                         x:Name="PART_ContentHost"
+                                        Margin="5,0,0,0"
                                         Padding="0"
                                         HorizontalAlignment="Stretch"
                                         VerticalAlignment="Center"
                                         Background="Transparent"
                                         BorderThickness="0"
-                                        Margin="5 0 0 0"
                                         IsTabStop="False" />
                                     <TextBlock
                                         x:Name="placeholder"
+                                        Margin="5,0,0,0"
                                         VerticalAlignment="Center"
                                         FontStyle="Italic"
                                         Foreground="Gray"
                                         IsHitTestVisible="False"
-                                        Margin="5 0 0 0"
                                         Text="Search..."
                                         Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
                                 </Grid>
@@ -176,7 +175,7 @@
                 Grid.Row="0"
                 Grid.Column="0"
                 Margin="30,0,0,0"
-                Text="Date : " />
+                Text="Date Facture: " />
 
 
             <DatePicker
@@ -184,16 +183,16 @@
                 Grid.Row="1"
                 Grid.Column="0"
                 Width="200"
-                PreviewKeyDown="DateInputBox_PreviewKeyDown"
                 Loaded="DateTextBox_Loaded"
+                PreviewKeyDown="DateInputBox_PreviewKeyDown"
                 SelectedDate="{Binding SaisieFacture.DateFacture, UpdateSourceTrigger=PropertyChanged}"
                 Style="{StaticResource LDatePicker}" />
-            
+
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="1"
                 Margin="30,0,0,0"
-                Text="Site : " />
+                Text="N° de site : " />
             <TextBox
                 x:Name="SiteTextBox"
                 Grid.Row="1"
@@ -205,7 +204,7 @@
                 Grid.Row="0"
                 Grid.Column="2"
                 Margin="30,0,0,0"
-                Text="N de commande : " />
+                Text="N° de commande : " />
             <TextBox
                 x:Name="CommandeTextBox"
                 Grid.Row="1"

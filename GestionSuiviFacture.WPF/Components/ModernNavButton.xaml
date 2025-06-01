@@ -24,7 +24,7 @@
                                     </Border>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="LightBlue" TargetName="Border" />
+                                            <Setter TargetName="Border" Property="Background" Value="LightBlue" />
                                         </Trigger>
                                     </ControlTemplate.Triggers>
                                 </ControlTemplate>

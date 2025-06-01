@@ -5,6 +5,7 @@
     string? CNUF,
     string? Site,
     string? Rayon,
+    string? Groupe,
     double? MontantTTC,
     DateTime? DateCommande,
     DateTime? DateEcheance,

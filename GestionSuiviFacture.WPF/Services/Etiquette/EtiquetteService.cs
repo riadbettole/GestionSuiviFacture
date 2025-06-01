@@ -112,9 +112,11 @@ public class EtiquetteService
             var items = jsonObject["items"] ?? jsonObject["Items"];
             var totalCount = jsonObject["totalCount"]?.Value<int>() ?? 0;
 
+            var last = items?.ToObject<List<EtiquetteDTO>>() ?? new List<EtiquetteDTO>();
+
             return new PaginatedResult<EtiquetteDTO>
             {
-                Items = items?.ToObject<List<EtiquetteDTO>>() ?? new List<EtiquetteDTO>(),
+                Items = last,
                 TotalCount = totalCount
             };
         }
@@ -127,27 +129,33 @@ public class EtiquetteService
 
     private Etiquette MapToModel(EtiquetteDTO dto)
     {
+        var lignesFacture = dto.facture?.lignesFactures?.Select(lf => new LigneFacture
+        {
+            Id = lf.id_LigneFacture,
+            Taux = lf.taux,
+            MontantHT = lf.mnHT,
+        }).ToList() ?? new List<LigneFacture>();
+
         return new Etiquette(
             Magasin: dto.site?.n_Site,
             Cnuf: dto.fournisseur?.cnuf,
             NumSequence: dto.n_sequence,
             NumFacture: dto.facture?.n_Facture,
-            NumReception: dto.reception?.n_Reception.ToString(),
             NumCommande: dto.commande?.n_Commande,
             DateTraitement: dto.date_Traitement,
-            DateReception: dto.reception?.date_Reception ?? DateTime.MinValue,
             DateCommande: dto.commande?.date_Commande ?? DateTime.MinValue,
-            DateRapprochement: DateTime.MinValue,
+            DateFacture: dto.facture.date_Facture,
             Status: MapEnumStatus(dto.statut),
             Fournisseur: dto.fournisseur?.libelle_Fournisseur,
-            MontantBF: 0,
-            MontantFacture: dto.facture?.total_TTC ?? 0,
+            MontantBRV: dto.commande.MontantBRV,
+            MontantFacture: (double)dto.facture?.montant_Facture,
             Utilisateur: null,
             UtilisateurAnnule: null,
             MotifAnnulation: null,
             Description: null,
             LibelleSite: dto.site?.libelle_Site,
-            GroupeSite: dto.commande?.groupe
+            GroupeSite: dto.commande?.groupe,
+            LignesFacture: lignesFacture
         );
     }
 

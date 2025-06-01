@@ -266,7 +266,7 @@
                 Grid.Column="0"
                 Margin="0,0,0,5"
                 Style="{StaticResource LTextBlock}"
-                Text="Date Debut" />
+                Text="Date Début" />
             <DatePicker
                 Grid.Row="1"
                 Grid.Column="0"
@@ -292,7 +292,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Style="{StaticResource LTextBlock}"
-            Text="Numero Sequence" />
+            Text="Numéro Séquence" />
         <TextBox
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
@@ -304,7 +304,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Style="{StaticResource LTextBlock}"
-            Text="Numero Commande" />
+            Text="Numéro Commande" />
         <TextBox
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
@@ -316,7 +316,7 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
             Style="{StaticResource LTextBlock}"
-            Text="C.N.U.F" />
+            Text="CNUF" />
         <TextBox
             HorizontalAlignment="Left"
             VerticalAlignment="Center"
