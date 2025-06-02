@@ -22,8 +22,10 @@
 
         <!--  Gradient Brushes  -->
         <LinearGradientBrush x:Key="PrimaryGradient" StartPoint="0,0" EndPoint="1,1">
-            <GradientStop Offset="0" Color="#667eea" />
-            <GradientStop Offset="1" Color="#764ba2" />
+            <!--<GradientStop Offset="0" Color="#667eea" />
+            <GradientStop Offset="1" Color="#764ba2" />-->
+            <GradientStop Offset="0" Color="#353535" />
+            <GradientStop Offset="1" Color="#667eea" />
         </LinearGradientBrush>
 
         <LinearGradientBrush x:Key="ButtonGradient" StartPoint="0,0" EndPoint="1,1">

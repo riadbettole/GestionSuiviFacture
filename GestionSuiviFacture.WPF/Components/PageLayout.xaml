@@ -155,12 +155,12 @@
                         Header="Factures Normales"
                         Icon="📄" />
 
-                    <local:ModernNavButton
+                    <!--<local:ModernNavButton
                         Margin="0,8,0,0"
                         Command="{Binding NavigateToFactureEmballageCommand}"
                         Description="Gestion des emballages"
                         Header="Factures Emballage"
-                        Icon="📦" />
+                        Icon="📦" />-->
 
                     <local:ModernNavButton
                         Margin="0,8,0,0"
@@ -172,10 +172,10 @@
                     <!--  Add more navigation items as needed  -->
                     <Separator Margin="0,20,0,15" Background="#34495E" />
 
-                    <local:ModernNavButton
+                    <!--<local:ModernNavButton
                         Description="Configuration système"
                         Header="Paramètres"
-                        Icon="⚙️" />
+                        Icon="⚙️" />-->
                 </StackPanel>
 
                 <!--  Bottom Section with Disconnect  -->
