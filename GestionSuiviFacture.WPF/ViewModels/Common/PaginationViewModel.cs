@@ -10,7 +10,7 @@ public partial class PaginationViewModel : ObservableObject
     private int currentPage = 1;
 
     [ObservableProperty]
-    private int pageSize = 2;
+    private int pageSize = 10;
 
     [ObservableProperty]
     private int totalCount;

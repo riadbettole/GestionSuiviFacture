@@ -4,9 +4,6 @@ using System.Windows.Input;
 
 namespace GestionSuiviFacture.WPF.Components
 {
-    /// <summary>
-    /// Interaction logic for PageLayout.xaml
-    /// </summary>
     public partial class PageLayout : UserControl
     {
         public PageLayout()
@@ -16,8 +13,9 @@ namespace GestionSuiviFacture.WPF.Components
 
         private void DragBar_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            Window window = Window.GetWindow(this);
-            window.DragMove();
+            
+                Window window = Window.GetWindow(this);
+                window?.DragMove();
         }
 
         private void MinimizeButton_Click(object sender, RoutedEventArgs e)
@@ -27,6 +25,7 @@ namespace GestionSuiviFacture.WPF.Components
 
         private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
+            // You might want to add a confirmation dialog here
             Window.GetWindow(this).Close();
         }
     }

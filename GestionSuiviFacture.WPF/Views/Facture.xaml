@@ -44,68 +44,58 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Background="#FFFFFF">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
-            <components:SearchSaisieDisplay x:Name="SearchDisplayControl" />
-            <Line
-                Grid.Row="1"
-                HorizontalAlignment="Center"
-                VerticalAlignment="Top"
-                SnapsToDevicePixels="True"
-                Stroke="Gray"
-                StrokeDashArray="8 8"
-                StrokeThickness="1.2"
-                X1="0"
-                X2="940" />
-            <Grid Grid.Row="2" Margin="30,30,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" />
-                    <ColumnDefinition Width="60" />
-                    <ColumnDefinition Width="auto" />
-                </Grid.ColumnDefinitions>
+            <Border
+                Margin="15,15,15,0"
+                Padding="15"
+                Background="White"
+                BorderBrush="Black"
+                BorderThickness="0"
+                CornerRadius="8">
+                <components:SearchSaisieDisplay x:Name="SearchDisplayControl" />
+            </Border>
+            <Border
+                Grid.Row="2"
+                Margin="15"
+                Padding="15"
+                Background="White"
+                BorderBrush="Black"
+                BorderThickness="0"
+                CornerRadius="8">
                 <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <components:InfoFournisseurDisplay Grid.Row="0" />
-                    <components:BonLivraisonDisplay Grid.Row="1" />
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.8*" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <components:InfoFournisseurDisplay Grid.Row="0" />
+                        <components:BonLivraisonDisplay Grid.Row="1" />
+                    </Grid>
+
+                    <components:SaisisInfoFactureDisplay x:Name="SaisisInfoFactureDisplay" Grid.Column="2" />
+
+
                 </Grid>
-                <Line
-                    Grid.Column="1"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    SnapsToDevicePixels="True"
-                    Stroke="Gray"
-                    StrokeDashArray="8 8"
-                    StrokeThickness="1"
-                    Y1="-15"
-                    Y2="400" />
-                <components:SaisisInfoFactureDisplay x:Name="SaisisInfoFactureDisplay" Grid.Column="2" />
-
-
-            </Grid>
-
+            </Border>
         </Grid>
         <Grid x:Name="PopupOverlay" Visibility="{Binding AlertePopup.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
             <!--<Grid x:Name="PopupOverlay" Visibility="Hidden">-->
-            <Rectangle
-                Height="560"
-                Fill="Black"
-                Opacity="0.5" />
+            <Rectangle Fill="Black" Opacity="0.5" />
             <common:AlerteDisplay x:Name="AlertDisplayControl" />
         </Grid>
         <Grid x:Name="NotFoundOverlay" Visibility="{Binding NotFoundPopup.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
             <!--<Grid x:Name="PopupOverlay" Visibility="Hidden">-->
-            <Rectangle
-                Height="560"
-                Fill="Black"
-                Opacity="0.5" />
+            <Rectangle Fill="Black" Opacity="0.5" />
             <common:NotFoundAlertDisplay x:Name="NotFoundOverlayControl" />
         </Grid>
     </Grid>

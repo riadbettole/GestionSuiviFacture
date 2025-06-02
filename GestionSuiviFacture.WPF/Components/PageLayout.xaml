@@ -5,81 +5,289 @@
     xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Components"
     x:Name="root">
 
-    <Grid Canvas.Left="0" Canvas.Top="0">
+    <UserControl.Resources>
+        <!--  Modern Gradient Brushes  -->
+        <LinearGradientBrush x:Key="SidebarGradient" StartPoint="0,0" EndPoint="0,1">
+            <GradientStop Offset="0" Color="#353535" />
+            <GradientStop Offset="1" Color="#34495E" />
+        </LinearGradientBrush>
+
+        <LinearGradientBrush x:Key="HeaderGradient" StartPoint="0,0" EndPoint="1,0">
+            <GradientStop Offset="0" Color="#34495E" />
+            <GradientStop Offset="1" Color="#2C3E50" />
+        </LinearGradientBrush>
+
+        <!--  Button Styles  -->
+        <Style x:Key="WindowControlButton" TargetType="Button">
+            <Setter Property="Width" Value="35" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Foreground" Value="#666" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#F0F0F0" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E0E0E0" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style
+            x:Key="CloseButton"
+            BasedOn="{StaticResource WindowControlButton}"
+            TargetType="Button">
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#E74C3C" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="250" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <Grid
+        <!--  Modern Sidebar  -->
+        <Border
             Grid.Column="0"
-            Background="#353535"
-            Grid.IsSharedSizeScope="True"
+            Background="{StaticResource SidebarGradient}"
+            CornerRadius="15,0,0,15"
             MouseLeftButtonDown="DragBar_MouseLeftButtonDown">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!--  Header Section  -->
+                <StackPanel Grid.Row="0" Margin="20,25,20,30">
+                    <Image
+                        Width="80"
+                        Height="80"
+                        Margin="0,0,0,15"
+                        Source="/Images/GroupMarjaneWhite.png">
+                        <Image.Effect>
+                            <DropShadowEffect
+                                BlurRadius="10"
+                                Opacity="0.5"
+                                ShadowDepth="3"
+                                Color="#20000000" />
+                        </Image.Effect>
+                    </Image>
+
+                    <TextBlock
+                        FontSize="18"
+                        FontWeight="SemiBold"
+                        Foreground="White"
+                        Text="Gestion Factures"
+                        TextAlignment="Center" />
+
+                    <TextBlock
+                        Margin="0,5,0,0"
+                        FontSize="12"
+                        Foreground="#BDC3C7"
+                        Text="Système de suivi"
+                        TextAlignment="Center" />
+
+                    <!--  User Info Section  -->
+                    <Border
+                        Margin="0,20,0,0"
+                        Padding="15,10"
+                        Background="#34495E"
+                        CornerRadius="10">
+                        <StackPanel Orientation="Horizontal">
+                            <Border
+                                Width="35"
+                                Height="35"
+                                Margin="0,0,10,0"
+                                Background="#3498DB"
+                                CornerRadius="17.5">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    FontSize="16"
+                                    FontWeight="Bold"
+                                    Foreground="White"
+                                    Text="U" />
+                            </Border>
+                            <StackPanel VerticalAlignment="Center">
+                                <TextBlock
+                                    FontSize="14"
+                                    FontWeight="Medium"
+                                    Foreground="White"
+                                    Text="{Binding CurrentUser, FallbackValue='Utilisateur'}" />
+                                <TextBlock
+                                    FontSize="11"
+                                    Foreground="#95A5A6"
+                                    Text="Connecté" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+
+                <!--  Navigation Buttons  -->
+                <StackPanel Grid.Row="1" Margin="15,0,15,0">
+                    <local:ModernNavButton
+                        Command="{Binding NavigateToFactureCommand}"
+                        Description="Gestion des factures standards"
+                        Header="Factures Normales"
+                        Icon="📄" />
+
+                    <local:ModernNavButton
+                        Margin="0,8,0,0"
+                        Command="{Binding NavigateToFactureEmballageCommand}"
+                        Description="Gestion des emballages"
+                        Header="Factures Emballage"
+                        Icon="📦" />
+
+                    <local:ModernNavButton
+                        Margin="0,8,0,0"
+                        Command="{Binding NavigateToConsultationCommand}"
+                        Description="Recherche et consultation"
+                        Header="Consultation"
+                        Icon="🔍" />
+
+                    <!--  Add more navigation items as needed  -->
+                    <Separator Margin="0,20,0,15" Background="#34495E" />
+
+                    <local:ModernNavButton
+                        Description="Configuration système"
+                        Header="Paramètres"
+                        Icon="⚙️" />
+                </StackPanel>
+
+                <!--  Bottom Section with Disconnect  -->
+                <StackPanel Grid.Row="2" Margin="15,0,15,25">
+                    <Button
+                        Height="45"
+                        Background="#E74C3C"
+                        BorderThickness="0"
+                        Command="{Binding DisconnectCommand}"
+                        Cursor="Hand">
+                        <Button.Style>
+                            <Style TargetType="Button">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border
+                                                x:Name="border"
+                                                Background="{TemplateBinding Background}"
+                                                CornerRadius="8">
+                                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#C0392B" />
+                                                </Trigger>
+                                                <Trigger Property="IsPressed" Value="True">
+                                                    <Setter TargetName="border" Property="Background" Value="#A93226" />
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </Button.Style>
+                        <StackPanel Orientation="Horizontal">
+
+                            <TextBlock
+                                VerticalAlignment="Center"
+                                FontSize="14"
+                                FontWeight="Medium"
+                                Foreground="White"
+                                Text="Déconnexion" />
+                        </StackPanel>
+                    </Button>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!--  Main Content Area  -->
+        <Grid Grid.Column="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
+                <RowDefinition Height="60" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <Image
+            <!--  Top Header Bar  -->
+            <Border
                 Grid.Row="0"
-                Width="60"
-                Height="65"
-                Margin="0,20,0,50"
-                Source="/Images/GroupMarjaneWhite.png" />
+                Background="#F8F9FA"
+                CornerRadius="0,15,0,0"
+                MouseLeftButtonDown="DragBar_MouseLeftButtonDown">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
-            <UniformGrid
+                    <!--  Page Title  -->
+                    <StackPanel
+                        Grid.Column="0"
+                        Margin="25,0,0,0"
+                        VerticalAlignment="Center">
+                        <TextBlock
+                            FontSize="20"
+                            FontWeight="SemiBold"
+                            Foreground="#2C3E50"
+                            Text="{Binding CurrentPageTitle, FallbackValue='Tableau de bord'}" />
+                        <TextBlock
+                            FontSize="12"
+                            Foreground="#7F8C8D"
+                            Text="{Binding CurrentPageSubtitle, FallbackValue='Bienvenue dans le système de gestion'}" />
+                    </StackPanel>
+
+                    <!--  Window Controls  -->
+                    <StackPanel
+                        Grid.Column="1"
+                        Margin="0,0,15,0"
+                        VerticalAlignment="Center"
+                        Orientation="Horizontal">
+                        <Button
+                            Name="MinimizeButton"
+                            Click="MinimizeButton_Click"
+                            Content="−"
+                            Style="{StaticResource WindowControlButton}" />
+
+                        <Button
+                            Name="CloseButton"
+                            Margin="5,0,0,0"
+                            Click="CloseButton_Click"
+                            Content="×"
+                            Style="{StaticResource CloseButton}" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <!--  Content Area  -->
+            <Border
                 Grid.Row="1"
-                Margin="0,-15,0,0"
-                Columns="1"
-                Rows="4">
-                <local:LayoutPageButton
-                    Command="{Binding NavigateToFactureCommand}"
-                    Header="F.Normal"
-                    Image="pack://application:,,,/Images/facture.png" />
-                <local:LayoutPageButton
-                    Command="{Binding NavigateToFactureEmballageCommand}"
-                    Header="F.Emballage"
-                    Image="pack://application:,,,/Images/facture.png" />
-                <local:LayoutPageButton
-                    Command="{Binding NavigateToConsultationCommand}"
-                    Header="Consultation"
-                    Image="pack://application:,,,/Images/search.png" />
-            </UniformGrid>
+                Background="White"
+                CornerRadius="0,0,15,0">
+                <ContentPresenter Content="{Binding DataContext.Navigation.CurrentViewModel, ElementName=root}" />
+            </Border>
         </Grid>
-
-        <ContentPresenter Grid.Column="1" Content="{Binding DataContext.Navigation.CurrentViewModel, ElementName=root}" />
-        <StackPanel
-            Grid.Column="1"
-            Margin="0,5,5,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Top"
-            Panel.ZIndex="1"
-            Orientation="Horizontal">
-
-            <Button
-                Name="MinimizeButton"
-                Width="30"
-                Height="30"
-                Margin="0,0,2,0"
-                Background="Transparent"
-                BorderBrush="Gray"
-                Click="MinimizeButton_Click"
-                Content="−"
-                FontSize="16"
-                Foreground="Gray" />
-
-            <Button
-                Name="CloseButton"
-                Width="30"
-                Height="30"
-                Background="Transparent"
-                BorderBrush="Gray"
-                Click="CloseButton_Click"
-                Content="×"
-                FontSize="18"
-                Foreground="Gray" />
-        </StackPanel>
     </Grid>
-
 </UserControl>

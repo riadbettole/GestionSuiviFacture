@@ -10,9 +10,9 @@
     <UserControl.Resources>
         <Style x:Key="HeaderText" TargetType="TextBlock">
             <Setter Property="Foreground" Value="DarkBlue" />
-            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontSize" Value="18" />
             <Setter Property="Margin" Value="0,0,0,10" />
-            <Setter Property="FontWeight" Value="Bold" />
+
         </Style>
         <Style x:Key="SmallHeaderText" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#545454" />
@@ -27,14 +27,14 @@
             <Setter Property="FontWeight" Value="Light" />
             <Setter Property="Margin" Value="0,0,0,0" />
             <Setter Property="HorizontalAlignment" Value="Left" />
-            <Setter Property="BorderThickness" Value="0,0,0,2" />
+            <Setter Property="BorderThickness" Value="0,0,0,0.7" />
             <Setter Property="BorderBrush" Value="#353535" />
-            <Setter Property="Width" Value="167" />
+            <Setter Property="Width" Value="200" />
         </Style>
 
         <Style x:Key="CardTotal" TargetType="Border">
             <Setter Property="CornerRadius" Value="4" />
-            <Setter Property="MinWidth" Value="80" />
+            <Setter Property="MinWidth" Value="100" />
             <Setter Property="BorderBrush" Value="Black" />
             <Setter Property="BorderThickness" Value="1" />
 
@@ -57,9 +57,7 @@
     </UserControl.Resources>
     <Grid>
         <common:StatutDisplay
-            Grid.Row="2"
-            Grid.Column="1"
-            Margin="0,-8,22,0"
+            Margin="0,0,5,0"
             HorizontalAlignment="Right"
             VerticalAlignment="Top"
             DisplayFontSize="20"
@@ -68,7 +66,7 @@
             Status="{Binding Statut}" />
         <StackPanel Grid.Column="2">
             <TextBlock Style="{StaticResource HeaderText}" Text="Détails facture" />
-            <Grid Margin="0,10,0,0">
+            <Grid Margin="0,20,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="20" />
@@ -93,7 +91,6 @@
                 <TextBlock
                     Grid.Row="0"
                     Grid.Column="2"
-                    Height="12"
                     VerticalAlignment="Top"
                     Style="{StaticResource SmallHeaderText}"
                     Text="Montant TTC Facture" />
@@ -107,12 +104,10 @@
                     Text="{Binding SaisieFacture.MontantTTC}" />
             </Grid>
             <TextBlock
-                Margin="0,20,0,10"
-                FontSize="11"
-                FontWeight="SemiBold"
-                Foreground="#2653B4"
+                Margin="0,15,0,0"
+                Style="{StaticResource HeaderText}"
                 Text="Détails TVA" />
-            <Grid>
+            <Grid Margin="0,15,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="20" />
@@ -169,10 +164,10 @@
             <Border
                 Margin="0,20,0,0"
                 BorderBrush="Black"
-                BorderThickness="1"
+                BorderThickness="0.5"
                 CornerRadius="8">
                 <ListView
-                    Height="110"
+                    Height="125"
                     Background="Transparent"
                     BorderBrush="Transparent"
                     BorderThickness="0"
@@ -205,21 +200,30 @@
                             <GridViewColumn Width="125" Header="Taux (%)">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding TauxPercentage}" TextAlignment="Right" />
+                                        <TextBlock
+                                            FontSize="14"
+                                            Text="{Binding TauxPercentage}"
+                                            TextAlignment="Right" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="125" Header="Montant HT">
+                            <GridViewColumn Width="160" Header="Montant HT">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding MontantHT, StringFormat={}{0:N2} DH}" TextAlignment="Right" />
+                                        <TextBlock
+                                            FontSize="14"
+                                            Text="{Binding MontantHT, StringFormat={}{0:N2} DH}"
+                                            TextAlignment="Right" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn Width="125" Header="Montant TVA">
+                            <GridViewColumn Width="160" Header="Montant TVA">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <TextBlock Text="{Binding MontantTVA, StringFormat={}{0:N2} DH}" TextAlignment="Right" />
+                                        <TextBlock
+                                            FontSize="14"
+                                            Text="{Binding MontantTVA, StringFormat={}{0:N2} DH}"
+                                            TextAlignment="Right" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -227,12 +231,14 @@
                     </ListView.View>
                 </ListView>
             </Border>
-            <Grid Margin="0,10,0,0">
+            <Grid Margin="0,20,0,0">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="315" />
+                    <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="auto" />
                 </Grid.ColumnDefinitions>
+
                 <StackPanel Orientation="Horizontal">
+
                     <Border Grid.Column="0" Style="{StaticResource CardTotal}">
                         <StackPanel>
                             <TextBlock FontWeight="Bold" Text="Total TVA" />
@@ -242,6 +248,7 @@
                                 TextWrapping="NoWrap" />
                         </StackPanel>
                     </Border>
+
                     <Border Grid.Column="1" Style="{StaticResource CardTotal}">
                         <StackPanel>
                             <TextBlock FontWeight="Bold" Text="Total HT" />
@@ -261,17 +268,17 @@
                         </StackPanel>
                     </Border>
                 </StackPanel>
-                <Button
-                    x:Name="SubmitButton"
-                    Grid.Column="1"
-                    Width="80"
-                    Margin="-10,0,0,0"
-                    Padding="5,10,5,10"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    Command="{Binding SaveFactureCommand}"
-                    Content="Traiter"
-                    Style="{StaticResource ButtonSubmit}" />
+                <Grid Grid.Column="1" Width="105">
+                    <Button
+                        x:Name="SubmitButton"
+                        Width="80"
+                        Padding="5,10,5,10"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Command="{Binding SaveFactureCommand}"
+                        Content="Traiter"
+                        Style="{StaticResource ButtonSubmit}" />
+                </Grid>
             </Grid>
 
         </StackPanel>

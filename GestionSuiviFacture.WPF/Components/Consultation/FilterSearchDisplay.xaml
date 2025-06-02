@@ -11,7 +11,7 @@
             <Setter Property="Width" Value="auto" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Padding" Value="5,0,30,0" />
-            <Setter Property="Margin" Value="0,0,0,15" />
+            <Setter Property="Margin" Value="0,0,0,10" />
             <Setter Property="Height" Value="30" />
             <Setter Property="Width" Value="240" />
             <Setter Property="Template">
@@ -114,9 +114,16 @@
         </Style>
 
         <Style x:Key="LTextBlock" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="11" />
-            <Setter Property="FontWeight" Value="SemiBold" />
+
+
+            <Setter Property="Margin" Value="0,0,0,5" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
         </Style>
+
+
+
 
         <Style x:Key="SLTextBox" TargetType="{x:Type TextBox}">
             <Style.Resources>
@@ -224,7 +231,7 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Background" Value="#484CC5" />
+                                <Setter Property="Background" Value="#787CF5" />
                                 <Setter Property="Foreground" Value="White" />
                                 <Setter Property="BorderBrush" Value="Black" />
                                 <Setter Property="BorderThickness" Value="2" />
@@ -235,128 +242,145 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <StackPanel Margin="20,0,10,0">
-        <StackPanel Margin="0,0,0,30" Orientation="Horizontal">
+    <Border
+        Margin="20,0,10,0"
+        Padding="20"
+        VerticalAlignment="Center">
+        <StackPanel>
+            <Grid Margin="0,0,0,30">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="auto" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Margin="0,0,0,5"
+                    Style="{StaticResource LTextBlock}"
+                    Text="Date Début" />
+                <DatePicker
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    DisplayDateEnd="{Binding Filters.FinDateFilter, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedDate="{Binding Filters.DebutDateFilter, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource LDatePicker}" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Margin="40,0,0,5"
+                    Style="{StaticResource LTextBlock}"
+                    Text="Date Fin" />
+                <DatePicker
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="40,0,0,0"
+                    DisplayDateStart="{Binding Filters.DebutDateFilter, UpdateSourceTrigger=PropertyChanged}"
+                    SelectedDate="{Binding Filters.FinDateFilter, UpdateSourceTrigger=PropertyChanged}"
+                    Style="{StaticResource LDatePicker}" />
+            </Grid>
             <TextBlock
-                Width="180"
+                Margin="0,20,0,0"
+                Style="{StaticResource LTextBlock}"
+                Text="Numéro Séquence" />
+            <TextBox
+                IsEnabled="{Binding Filters.FieldStates.IsNumSequenceEnabled}"
+                Style="{StaticResource LTextBox}"
+                Text="{Binding Filters.NumSequenceFilter, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Margin="0"
+                Style="{StaticResource LTextBlock}"
+                Text="Numéro Commande" />
+            <TextBox
+                IsEnabled="{Binding Filters.FieldStates.IsNumCommandeEnabled}"
+                Style="{StaticResource LTextBox}"
+                Text="{Binding Filters.NumCommandeFilter, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Margin="0"
+                Style="{StaticResource LTextBlock}"
+                Text="CNUF" />
+            <TextBox
+                IsEnabled="{Binding Filters.FieldStates.IsCnufEnabled}"
+                Style="{StaticResource LTextBox}"
+                Text="{Binding Filters.CnufFilter, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBlock
+                Margin="0,20,0,0"
+                Style="{StaticResource LTextBlock}"
+                Text="Status" />
+            <ComboBox
+                Width="240"
                 Height="30"
-                FontSize="20"
-                FontWeight="SemiBold"
-                Text="Consultation" />
+                Margin="0,0,0,10"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                ItemsSource="{Binding Filters.StatusOptions}"
+                SelectedItem="{Binding Filters.StatusFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource RoundedComboBox}"
+                Text="TOUT" />
+            <TextBlock Style="{StaticResource LTextBlock}" Text="Type Facture" />
+            <StackPanel Margin="0" Orientation="Horizontal">
+                <ToggleButton
+                    Width="100"
+                    Height="30"
+                    Margin="0,0,40,0"
+                    Content="Normal"
+                    IsChecked="{Binding Filters.IsNormalFactureType, Mode=TwoWay}"
+                    Style="{StaticResource CustomToggleButton}" />
+                <ToggleButton
+                    Width="100"
+                    Height="30"
+                    Content="Emballage"
+                    IsChecked="{Binding Filters.IsEmballageFactureType, Mode=TwoWay}"
+                    Style="{StaticResource CustomToggleButton}" />
+            </StackPanel>
             <Button
-                Background="Transparent"
-                BorderBrush="Transparent"
-                Command="{Binding LoadEtiquettesFilterClickedCommand}"
-                IsDefault="True">
-                <Image Width="60" Source="/Images/SearchButton.png" />
-            </Button>
-        </StackPanel>
+                Height="45"
+                Margin="0,35,0,0"
+                Background="#353535"
+                BorderThickness="0"
+                Command="{Binding DisconnectCommand}"
+                Cursor="Hand">
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border
+                                        x:Name="border"
+                                        Background="{TemplateBinding Background}"
+                                        CornerRadius="8">
+                                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#A5A5A5" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#E5E5E5" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+                <StackPanel Orientation="Horizontal">
 
-        <Grid Margin="0,0,0,30">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="auto" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="auto" />
-                <RowDefinition Height="auto" />
-            </Grid.RowDefinitions>
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="0"
-                Margin="0,0,0,5"
-                Style="{StaticResource LTextBlock}"
-                Text="Date Début" />
-            <DatePicker
-                Grid.Row="1"
-                Grid.Column="0"
-                DisplayDateEnd="{Binding Filters.FinDateFilter, UpdateSourceTrigger=PropertyChanged}"
-                SelectedDate="{Binding Filters.DebutDateFilter, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource LDatePicker}" />
-            <TextBlock
-                Grid.Row="0"
-                Grid.Column="1"
-                Margin="40,0,0,5"
-                Style="{StaticResource LTextBlock}"
-                Text="Date Fin" />
-            <DatePicker
-                Grid.Row="1"
-                Grid.Column="1"
-                Margin="40,0,0,0"
-                DisplayDateStart="{Binding Filters.DebutDateFilter, UpdateSourceTrigger=PropertyChanged}"
-                SelectedDate="{Binding Filters.FinDateFilter, UpdateSourceTrigger=PropertyChanged}"
-                Style="{StaticResource LDatePicker}" />
-        </Grid>
-        <TextBlock
-            Margin="0,0,0,5"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Style="{StaticResource LTextBlock}"
-            Text="Numéro Séquence" />
-        <TextBox
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            IsEnabled="{Binding Filters.FieldStates.IsNumSequenceEnabled}"
-            Style="{StaticResource LTextBox}"
-            Text="{Binding Filters.NumSequenceFilter, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBlock
-            Margin="0,0,0,5"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Style="{StaticResource LTextBlock}"
-            Text="Numéro Commande" />
-        <TextBox
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            IsEnabled="{Binding Filters.FieldStates.IsNumCommandeEnabled}"
-            Style="{StaticResource LTextBox}"
-            Text="{Binding Filters.NumCommandeFilter, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBlock
-            Margin="0,0,0,5"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Style="{StaticResource LTextBlock}"
-            Text="CNUF" />
-        <TextBox
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            IsEnabled="{Binding Filters.FieldStates.IsCnufEnabled}"
-            Style="{StaticResource LTextBox}"
-            Text="{Binding Filters.CnufFilter, UpdateSourceTrigger=PropertyChanged}" />
-        <TextBlock
-            Margin="0,0,0,5"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Style="{StaticResource LTextBlock}"
-            Text="Status" />
-        <ComboBox
-            Width="240"
-            Height="30"
-            Margin="0,0,0,20"
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            ItemsSource="{Binding Filters.StatusOptions}"
-            SelectedItem="{Binding Filters.StatusFilter, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            Style="{StaticResource RoundedComboBox}"
-            Text="TOUT" />
-        <TextBlock
-            Margin="0,0,0,5"
-            Style="{StaticResource LTextBlock}"
-            Text="Type Facture" />
-        <StackPanel Orientation="Horizontal">
-            <ToggleButton
-                Width="100"
-                Height="30"
-                Margin="0,0,40,0"
-                Content="Normal"
-                IsChecked="{Binding Filters.IsNormalFactureType, Mode=TwoWay}"
-                Style="{StaticResource CustomToggleButton}" />
-            <ToggleButton
-                Width="100"
-                Height="30"
-                Content="Emballage"
-                IsChecked="{Binding Filters.IsEmballageFactureType, Mode=TwoWay}"
-                Style="{StaticResource CustomToggleButton}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        FontSize="16"
+                        FontWeight="Medium"
+                        Foreground="White"
+                        Text="Rechercher" />
+                </StackPanel>
+            </Button>
+
+
+
         </StackPanel>
-    </StackPanel>
+    </Border>
 </UserControl>
+

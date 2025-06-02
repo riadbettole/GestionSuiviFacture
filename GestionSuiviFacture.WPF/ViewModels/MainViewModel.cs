@@ -30,13 +30,29 @@ namespace GestionSuiviFacture.WPF.ViewModels
         }
 
         [RelayCommand]
-        public void NavigateToFacture() => Navigation.NavigateTo(new FactureViewModel());
+        public void NavigateToFacture() 
+        {
+            CurrentPageTitle = "Facture Normales";
+            CurrentPageSubtitle = "Gestion des factures standard";
+            Navigation.NavigateTo(new FactureViewModel());
+        }
 
         [RelayCommand]
-        public void NavigateToFactureEmballage() => Navigation.NavigateTo(new FactureEmballageViewModel());
+        public void NavigateToFactureEmballage() 
+        {
+            CurrentPageTitle = "Facture Emballage";
+            CurrentPageSubtitle = "Gestion des factures d'emballages";
+            Navigation.NavigateTo(new FactureEmballageViewModel());
+        } 
 
         [RelayCommand]
-        public void NavigateToConsultation() => Navigation.NavigateTo(new ConsultationViewModel());
+        public void NavigateToConsultation()
+        {
+            CurrentPageTitle = "Consultations";
+            CurrentPageSubtitle = "Recherche et consultation d'étiquettes";
+            Navigation.NavigateTo(new ConsultationViewModel());
+        }
+
 
         public void Dispose()
         {
