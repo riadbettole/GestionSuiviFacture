@@ -59,6 +59,10 @@ namespace GestionSuiviFacture.WPF.ViewModels
         [RelayCommand]
         private async Task FindCommande(String id)
         {
+            CleanUpCommande();
+            CleanUpSaisie();
+
+
             Commande commande = await _commandeService.GetCommandeByFilterAsync(SaisieFacture.NumSite, SaisieFacture.NumCommande);
 
             if (commande == null)
