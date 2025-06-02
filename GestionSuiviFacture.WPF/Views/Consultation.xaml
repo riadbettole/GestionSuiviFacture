@@ -14,14 +14,14 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
     </UserControl.Resources>
     <Grid>
-        <StackPanel
-            HorizontalAlignment="Left"
-            VerticalAlignment="Center"
-            Orientation="Horizontal">
+
+        <StackPanel Orientation="Horizontal">
+
             <components:FilterSearchDisplay />
+
             <Line
                 Canvas.Top="39"
-                Height="497"
+                Height="1200"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
                 SnapsToDevicePixels="True"
@@ -29,35 +29,30 @@
                 StrokeDashArray="8 8"
                 StrokeThickness="1"
                 Y1="-15"
-                Y2="592" />
-            <Grid Margin="20,15,10,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto" />
-                    <RowDefinition Height="auto" />
-                </Grid.RowDefinitions>
-                <TextBlock
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    FontSize="20"
-                    FontWeight="SemiBold"
-                    Text="Résultats" />
-                <components:EtiquettesResultDisplay Grid.Row="1" />
-            </Grid>
+                Y2="1200" />
+            <Border>
+                <Grid Margin="20,15,10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto" />
+                        <RowDefinition Height="auto" />
+                    </Grid.RowDefinitions>
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        FontSize="20"
+                        FontWeight="SemiBold"
+                        Text="Résultats" />
+                    <components:EtiquettesResultDisplay Grid.Row="1" />
+                </Grid>
+            </Border>
         </StackPanel>
-
         <Grid x:Name="PopupOverlay" Visibility="{Binding EtiquettePopup.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Rectangle
-                Height="560"
-                Fill="Black"
-                Opacity="0.5" />
+            <Rectangle Fill="Black" Opacity="0.5" />
             <components:DetailsFactureDisplay />
         </Grid>
         <Grid x:Name="NotFoundOverlay" Visibility="{Binding NotFoundPopup.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
             <!--<Grid x:Name="PopupOverlay" Visibility="Hidden">-->
-            <Rectangle
-                Height="560"
-                Fill="Black"
-                Opacity="0.5" />
+            <Rectangle Fill="Black" Opacity="0.5" />
             <common:NotFoundAlertDisplay x:Name="NotFoundOverlayControl" />
         </Grid>
     </Grid>

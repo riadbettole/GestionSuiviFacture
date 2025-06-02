@@ -6,13 +6,33 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="clr-namespace:GestionSuiviFacture.WPF.ViewModels"
-    Title="MainWindow"
-    Width="960"
-    Height="560"
+    Title="Gestion Suivi Facture"
+    Width="1200"
+    Height="700"
+    AllowsTransparency="True"
+    Background="Transparent"
     Icon="/Images/GroupMarjaneWhite.png"
-    ResizeMode="NoResize"
+    ResizeMode="CanResize"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
     mc:Ignorable="d">
-    <comp:PageLayout DataContext="{Binding}" />
+
+    <!--  Add drop shadow effect  -->
+    <Border Background="Transparent" CornerRadius="15">
+        <Border.Effect>
+            <DropShadowEffect
+                BlurRadius="25"
+                Opacity="0.6"
+                ShadowDepth="0"
+                Color="#20000000" />
+        </Border.Effect>
+
+        <Border
+            Background="White"
+            BorderBrush="#E0E0E0"
+            BorderThickness="1"
+            CornerRadius="15">
+            <comp:PageLayout DataContext="{Binding}" />
+        </Border>
+    </Border>
 </Window>

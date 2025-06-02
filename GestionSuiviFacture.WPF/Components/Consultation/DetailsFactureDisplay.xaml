@@ -7,540 +7,603 @@
     xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Components.Consultation"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="root"
+    TextOptions.TextFormattingMode="Display"
+    TextOptions.TextRenderingMode="ClearType"
+    UseLayoutRounding="True"
     mc:Ignorable="d">
+
     <UserControl.Resources>
+        <!--  Enhanced Styles with crisp text  -->
         <Style x:Key="Header" TargetType="TextBlock">
-            <Setter Property="Margin" Value="0,0,0,7" />
-            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+            <Setter Property="FontSize" Value="14" />
             <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#2C3E50" />
+            <Setter Property="UseLayoutRounding" Value="True" />
         </Style>
+
+        <Style x:Key="SectionCard" TargetType="Border">
+            <Setter Property="Background" Value="#FAFBFC" />
+            <Setter Property="BorderBrush" Value="#E1E5E9" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="CornerRadius" Value="6" />
+            <Setter Property="Padding" Value="16" />
+            <Setter Property="Margin" Value="0,0,0,12" />
+            <Setter Property="MinHeight" Value="140" />
+            <!--  Remove drop shadow for crisp text  -->
+        </Style>
+
         <Style x:Key="Title" TargetType="TextBlock">
             <Setter Property="FontSize" Value="11" />
-            <Setter Property="Margin" Value="0,0,0,25" />
-            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Margin" Value="0,0,0,6" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="Foreground" Value="#5F6368" />
+            <Setter Property="UseLayoutRounding" Value="True" />
         </Style>
+
         <Style x:Key="InfoValue" TargetType="TextBlock">
             <Setter Property="TextAlignment" Value="Right" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="#1A73E8" />
+            <Setter Property="UseLayoutRounding" Value="True" />
+        </Style>
 
+        <Style x:Key="IconButton" TargetType="Button">
+            <Setter Property="Width" Value="32" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Background" Value="#F8F9FA" />
+            <Setter Property="BorderBrush" Value="#DADCE0" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                            x:Name="border"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="16">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#E8F0FE" />
+                                <Setter TargetName="border" Property="BorderBrush" Value="#1A73E8" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </UserControl.Resources>
+
     <Border
         HorizontalAlignment="Center"
         VerticalAlignment="Center"
         Background="White"
-        CornerRadius="20">
-        <Grid Margin="40,0,40,10">
+        BorderBrush="#E1E5E9"
+        BorderThickness="1"
+        CornerRadius="8">
+
+        <Grid Margin="24,0,24,16">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Grid
-                Grid.Row="0"
-                Grid.Column="0"
-                Margin="0,10,0,20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="40" />
-                </Grid.ColumnDefinitions>
-                <TextBlock
-                    x:Name="PopupTitle"
-                    Grid.Row="0"
-                    FontSize="24"
-                    FontWeight="SemiBold"
-                    Foreground="#484CC5"
-                    Text="Détails de la facture" />
 
-                <Button
-                    Grid.Column="3"
-                    Height="30"
-                    Margin="10,7,10,7"
-                    Padding="5"
-                    Background="#FFAE19"
-                    BorderBrush="Transparent"
-                    Content="Imprimer"
-                    FontWeight="DemiBold"
-                    Foreground="White">
-                    <Button.Resources>
-                        <Style TargetType="Border">
-                            <Setter Property="CornerRadius" Value="3" />
-                        </Style>
-                    </Button.Resources>
-                </Button>
-                <Button
-                    Grid.Column="4"
-                    Background="Transparent"
-                    BorderBrush="Transparent"
-                    Command="{Binding ClosePopupCommand}"
-                    Content="X"
-                    FontSize="30"
-                    FontWeight="Bold"
-                    Foreground="#353535" />
-            </Grid>
+            <!--  Clean Header  -->
+            <Border
+                Grid.Row="0"
+                Margin="-24,0,-24,0"
+                Padding="24,16,24,16"
+                Background="#F8F9FA"
+                BorderBrush="#E1E5E9"
+                BorderThickness="0,0,0,1"
+                CornerRadius="8,8,0,0">
+
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                        <ColumnDefinition Width="auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+                        <!--  Simple Icon  -->
+                        <Border
+                            Width="36"
+                            Height="36"
+                            Margin="0,0,12,0"
+                            Background="#E8F0FE"
+                            BorderBrush="#1A73E8"
+                            BorderThickness="2"
+                            CornerRadius="6">
+                            <TextBlock
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                FontWeight="Bold"
+                                Foreground="#1A73E8"
+                                Text="F" />
+                        </Border>
+                        <StackPanel>
+                            <TextBlock
+                                x:Name="PopupTitle"
+                                FontSize="20"
+                                FontWeight="SemiBold"
+                                Foreground="#2C3E50"
+                                Text="Détails de la facture" />
+                            <TextBlock
+                                FontSize="12"
+                                Foreground="#5F6368"
+                                Text="{Binding EtiquettePopup.SelectedItem.NumFacture, StringFormat='Facture N° {0}'}" />
+                        </StackPanel>
+                    </StackPanel>
+
+                    <!--  Action Buttons  -->
+                    <Button
+                        Grid.Column="1"
+                        Margin="8,0"
+                        Style="{StaticResource IconButton}"
+                        ToolTip="Imprimer">
+                        <TextBlock
+                            FontSize="14"
+                            Foreground="#5F6368"
+                            Text="🖨" />
+                    </Button>
+
+
+                    <Button
+                        Grid.Column="3"
+                        Command="{Binding ClosePopupCommand}"
+                        Style="{StaticResource IconButton}"
+                        ToolTip="Fermer">
+                        <TextBlock
+                            FontSize="16"
+                            FontWeight="Bold"
+                            Foreground="#5F6368"
+                            Text="×" />
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!--  Organized Content Grid  -->
             <Grid
                 Grid.Row="1"
-                Grid.Column="0"
-                Margin="0,0,0,0"
+                Margin="0,20,0,0"
                 DataContext="{Binding EtiquettePopup.SelectedItem}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="12" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="40" />
+                    <ColumnDefinition Width="12" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Grid Grid.Column="0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+
+                <!--  Row 1  -->
+                <!--  General Information Card  -->
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Style="{StaticResource SectionCard}">
+                    <DockPanel>
                         <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Margin="0,0,0,20"
+                            DockPanel.Dock="Top"
                             Style="{StaticResource Header}"
-                            Text="Informations Générales" />
-
-
-                        <!--<TextBlock
-                            Grid.Row="2"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="N Reception" />
-                        <TextBlock
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Style="{StaticResource InfoValue}"
-                            Text="{Binding NumReception}" />-->
-
-                        <TextBlock
-                            Grid.Row="3"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="N Commande" />
-                        <TextBlock
-                            Grid.Row="3"
-                            Grid.Column="1"
-                            Style="{StaticResource InfoValue}"
-                            Text="{Binding NumCommande}" />
-
-                        <TextBlock
-                            Grid.Row="4"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="N Séquence" />
-                        <TextBlock
-                            Grid.Row="4"
-                            Grid.Column="1"
-                            Style="{StaticResource InfoValue}"
-                            Text="{Binding NumSequence}" />
-
-                        <TextBlock
-                            Grid.Row="5"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="N Facture" />
-                        <TextBlock
-                            Grid.Row="5"
-                            Grid.Column="1"
-                            Style="{StaticResource InfoValue}"
-                            Text="{Binding NumFacture}" />
-
-                        <TextBlock
-                            Grid.Row="6"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="CNUF" />
-                        <TextBlock
-                            Grid.Row="6"
-                            Grid.Column="1"
-                            Style="{StaticResource InfoValue}"
-                            Text="{Binding Cnuf}" />
-
-                    </Grid>
-                    <StackPanel Grid.Row="2">
-                        <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Margin="0,0,0,20"
-                            Style="{StaticResource Header}"
-                            Text="Informations Financières" />
+                            Text="📋 Informations Générales" />
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="N° Commande" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding NumCommande}" />
+
                             <TextBlock
                                 Grid.Row="1"
                                 Grid.Column="0"
                                 Style="{StaticResource Title}"
-                                Text="Montant BRV" />
+                                Text="N° Séquence" />
                             <TextBlock
                                 Grid.Row="1"
                                 Grid.Column="1"
-                                Width="144"
                                 Style="{StaticResource InfoValue}"
-                                Text="{Binding MontantBRV, StringFormat={}{0:N2} DH}" />
+                                Text="{Binding NumSequence}" />
 
                             <TextBlock
                                 Grid.Row="2"
                                 Grid.Column="0"
                                 Style="{StaticResource Title}"
-                                Text="Montant Facture" />
+                                Text="N° Facture" />
                             <TextBlock
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 Style="{StaticResource InfoValue}"
-                                Text="{Binding MontantFacture, StringFormat={}{0:N2} DH}" />
+                                Text="{Binding NumFacture}" />
 
+                            <TextBlock
+                                Grid.Row="3"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="CNUF" />
+                            <TextBlock
+                                Grid.Row="3"
+                                Grid.Column="1"
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding Cnuf}" />
                         </Grid>
-                    </StackPanel>
+                    </DockPanel>
+                </Border>
 
-                </Grid>
-                <Line
-                    Grid.Column="1"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    SnapsToDevicePixels="True"
-                    Stroke="Gray"
-                    StrokeDashArray="8 8"
-                    StrokeThickness="1"
-                    Y1="0"
-                    Y2="400" />
-                <Grid Grid.Column="2">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-                    <StackPanel>
+                <!--  Temporal Information Card  -->
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="2"
+                    Style="{StaticResource SectionCard}">
+                    <DockPanel>
                         <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Margin="0,0,0,20"
+                            DockPanel.Dock="Top"
                             Style="{StaticResource Header}"
-                            Text="Informations Temporelles" />
+                            Text="📅 Informations Temporelles" />
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="auto" />
-                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
-                                <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
+
                             <TextBlock
-                                Grid.Row="1"
+                                Grid.Row="0"
                                 Grid.Column="0"
                                 Style="{StaticResource Title}"
                                 Text="Date Facture" />
                             <TextBlock
-                                Grid.Row="1"
+                                Grid.Row="0"
                                 Grid.Column="1"
-                                Width="120"
-                                Text="{Binding DateFacture, StringFormat='{}{0:dd/MM/yyyy}'}"
-                                TextAlignment="Right" />
-
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding DateFacture, StringFormat='{}{0:dd/MM/yyyy}'}" />
 
                             <TextBlock
-                                Grid.Row="2"
+                                Grid.Row="1"
                                 Grid.Column="0"
                                 Style="{StaticResource Title}"
                                 Text="Date Commande" />
                             <TextBlock
-                                Grid.Row="2"
+                                Grid.Row="1"
                                 Grid.Column="1"
-                                Width="120"
-                                Text="{Binding DateCommande, StringFormat='{}{0:dd/MM/yyyy}'}"
-                                TextAlignment="Right" />
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding DateCommande, StringFormat='{}{0:dd/MM/yyyy}'}" />
 
                             <TextBlock
-                                Grid.Row="3"
+                                Grid.Row="2"
                                 Grid.Column="0"
                                 Style="{StaticResource Title}"
                                 Text="Date Traitement" />
                             <TextBlock
-                                Grid.Row="3"
+                                Grid.Row="2"
                                 Grid.Column="1"
-                                Width="120"
-                                Text="{Binding DateTraitement, StringFormat='{}{0:dd/MM/yyyy}'}"
-                                TextAlignment="Right" />
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding DateTraitement, StringFormat='{}{0:dd/MM/yyyy}'}" />
+                        </Grid>
+                    </DockPanel>
+                </Border>
 
+                <!--  Location Information Card  -->
+                <Border
+                    Grid.Row="0"
+                    Grid.Column="4"
+                    Style="{StaticResource SectionCard}">
+                    <DockPanel>
+                        <TextBlock
+                            DockPanel.Dock="Top"
+                            Style="{StaticResource Header}"
+                            Text="📍 Information Lieu" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
 
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Libellé Site" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding LibelleSite}" />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Groupe/Site" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding GroupeSite}" />
+                        </Grid>
+                    </DockPanel>
+                </Border>
+
+                <!--  Row 2  -->
+                <!--  Financial Information Card  -->
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Style="{StaticResource SectionCard}">
+                    <DockPanel>
+                        <TextBlock
+                            DockPanel.Dock="Top"
+                            Style="{StaticResource Header}"
+                            Text="💰 Informations Financières" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Montant BRV" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding MontantBRV, StringFormat={}{0:N2} DH}" />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Montant Facture" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                FontSize="14"
+                                FontWeight="Bold"
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding MontantFacture, StringFormat={}{0:N2} DH}" />
+                        </Grid>
+                    </DockPanel>
+                </Border>
+
+                <!--  User Information Card  -->
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="2"
+                    Style="{StaticResource SectionCard}">
+                    <DockPanel>
+                        <TextBlock
+                            DockPanel.Dock="Top"
+                            Style="{StaticResource Header}"
+                            Text="👤 Informations Utilisateur" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Utilisateur" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Style="{StaticResource InfoValue}"
+                                Text="ryad" />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Utilisateur Annulé" />
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding UtilisateurAnnule, TargetNullValue=-----}" />
+
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Motif Annulation" />
+                            <TextBlock
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding MotifAnnulation, TargetNullValue=-----}" />
+                        </Grid>
+                    </DockPanel>
+                </Border>
+
+                <!--  Invoice Type Card  -->
+                <Border
+                    Grid.Row="1"
+                    Grid.Column="4"
+                    Style="{StaticResource SectionCard}">
+                    <DockPanel>
+                        <TextBlock
+                            DockPanel.Dock="Top"
+                            Style="{StaticResource Header}"
+                            Text="📄 Type de Facture" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
+                            </Grid.RowDefinitions>
+
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Type" />
+                            <TextBlock
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                Style="{StaticResource InfoValue}"
+                                Text="NORMAL" />
+
+                            <TextBlock
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Style="{StaticResource Title}"
+                                Text="Statut" />
+
+                            <common:StatutDisplay
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                HorizontalAlignment="Right"
+                                DisplayFontSize="11"
+                                DisplayHeight="20"
+                                DisplayWidth="60"
+                                Status="{Binding Status}" />
 
                         </Grid>
+                    </DockPanel>
+                </Border>
 
-                    </StackPanel>
-
-                    <Grid Grid.Row="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
+                <!--  Row 3  -->
+                <!--  Description Card  -->
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Style="{StaticResource SectionCard}">
+                    <DockPanel>
                         <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="0"
+                            DockPanel.Dock="Top"
                             Style="{StaticResource Header}"
-                            Text="Informations Utilisateur" />
+                            Text="📝 Description" />
+                        <ScrollViewer MaxHeight="80" VerticalScrollBarVisibility="Auto">
+                            <TextBlock
+                                Style="{StaticResource InfoValue}"
+                                Text="{Binding Description, TargetNullValue='Aucune description disponible'}"
+                                TextAlignment="Left"
+                                TextWrapping="Wrap" />
+                        </ScrollViewer>
+                    </DockPanel>
+                </Border>
 
+                <!--  Invoice Lines Card (spans 2 columns)  -->
+                <Border
+                    Grid.Row="2"
+                    Grid.Column="2"
+                    Grid.ColumnSpan="3"
+                    Style="{StaticResource SectionCard}">
+                    <DockPanel>
                         <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="Utilisateur" />
-                        <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Style="{StaticResource InfoValue}"
-                            Text="ryad" />
-
-
-                        <TextBlock
-                            Grid.Row="2"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="Utilisateur Annulé" />
-                        <TextBlock
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Style="{StaticResource InfoValue}"
-                            Text="{Binding UtilisateurAnnule, TargetNullValue=-----}" />
-
-                        <TextBlock
-                            Grid.Row="3"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="Motif Annulation" />
-                        <TextBlock
-                            Grid.Row="3"
-                            Grid.Column="1"
-                            Style="{StaticResource InfoValue}"
-                            Text="{Binding MotifAnnulation, TargetNullValue=-----}" />
-
-                        <TextBlock
-                            Grid.Row="4"
-                            Grid.Column="0"
-                            Margin="0,0,0,10"
-                            Style="{StaticResource Title}"
-                            Text="Description" />
-                        <TextBlock
-                            Grid.Row="5"
-                            Grid.Column="0"
-                            Grid.ColumnSpan="2"
-                            Height="50"
-                            Style="{StaticResource InfoValue}"
-                            Text="{Binding Description, TargetNullValue=------------------------------}" />
-
-                    </Grid>
-                </Grid>
-                <Line
-                    Grid.Column="3"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    SnapsToDevicePixels="True"
-                    Stroke="Gray"
-                    StrokeDashArray="8 8"
-                    StrokeThickness="1"
-                    Y1="0"
-                    Y2="400" />
-                <Grid Grid.Column="4">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="0" />
-                        <RowDefinition Height="auto" />
-                        <RowDefinition Height="20" />
-                        <RowDefinition Height="auto" />
-                    </Grid.RowDefinitions>
-
-                    <StackPanel Grid.Row="2">
-                        <TextBlock Style="{StaticResource Header}" Text="Lignes de factures" />
+                            DockPanel.Dock="Top"
+                            Style="{StaticResource Header}"
+                            Text="📊 Lignes de factures" />
                         <ListView
-                            Margin="-10,0,0,0"
                             Background="Transparent"
-                            BorderBrush="Transparent"
                             BorderThickness="0"
-                            ItemsSource="{Binding LignesFacture}"
-                            ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-
+                            ItemsSource="{Binding LignesFacture}">
                             <ListView.ItemContainerStyle>
                                 <Style TargetType="{x:Type ListViewItem}">
                                     <Setter Property="HorizontalContentAlignment" Value="Right" />
                                     <Setter Property="BorderThickness" Value="0" />
-                                    <Setter Property="Height" Value="20" />
-                                    <Setter Property="FontSize" Value="10" />
-                                    <Setter Property="Foreground" Value="Black" />
+                                    <Setter Property="Height" Value="24" />
+                                    <Setter Property="FontSize" Value="11" />
+                                    <Setter Property="Foreground" Value="#2C3E50" />
+                                    <Setter Property="Background" Value="Transparent" />
                                 </Style>
                             </ListView.ItemContainerStyle>
+
                             <ListView.View>
                                 <GridView AllowsColumnReorder="False">
                                     <GridView.ColumnHeaderContainerStyle>
                                         <Style TargetType="{x:Type GridViewColumnHeader}">
-                                            <Setter Property="Foreground" Value="#1A237E" />
-                                            <Setter Property="Background" Value="Transparent" />
-                                            <Setter Property="BorderBrush" Value="Transparent" />
+                                            <Setter Property="Foreground" Value="#1A73E8" />
+                                            <Setter Property="Background" Value="#F8F9FA" />
+                                            <Setter Property="BorderBrush" Value="#E1E5E9" />
                                             <Setter Property="FontSize" Value="10" />
                                             <Setter Property="FontWeight" Value="Bold" />
                                             <Setter Property="HorizontalContentAlignment" Value="Right" />
-                                            <Setter Property="Width" Value="60" />
-                                            <Setter Property="ContentTemplate">
-                                                <Setter.Value>
-                                                    <DataTemplate>
-                                                        <TextBlock
-                                                            Text="{Binding}"
-                                                            TextAlignment="Right"
-                                                            TextWrapping="Wrap" />
-                                                    </DataTemplate>
-                                                </Setter.Value>
-                                            </Setter>
+                                            <Setter Property="Height" Value="28" />
                                         </Style>
                                     </GridView.ColumnHeaderContainerStyle>
-                                    <GridViewColumn Width="60" Header="Taux&#x0a;(%)">
+
+                                    <GridViewColumn Width="80" Header="Taux (%)">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding Taux}" TextAlignment="Right" />
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Montant HT">
+
+                                    <GridViewColumn Width="100" Header="Montant HT">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding MontantHT, StringFormat={}{0:N2} DH}" TextAlignment="Right" />
-
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Montant TVA">
+
+                                    <GridViewColumn Width="100" Header="Montant TVA">
                                         <GridViewColumn.CellTemplate>
                                             <DataTemplate>
                                                 <TextBlock Text="{Binding MontantTVA, StringFormat={}{0:N2} DH}" TextAlignment="Right" />
-
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
                                 </GridView>
                             </ListView.View>
                         </ListView>
-
-                    </StackPanel>
-
-
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Style="{StaticResource Header}"
-                            Text="Information Lieu" />
-
-                        <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="Libellé Site" />
-                        <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Text="{Binding LibelleSite}" />
-
-
-                        <TextBlock
-                            Grid.Row="2"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="Groupe/Site" />
-                        <TextBlock
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            Text="{Binding GroupeSite}" />
-
-                    </Grid>
-
-                    <Grid Grid.Row="4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="auto" />
-                            <ColumnDefinition Width="auto" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                            <RowDefinition Height="auto" />
-                        </Grid.RowDefinitions>
-                        <TextBlock
-                            Grid.Row="0"
-                            Grid.Column="0"
-                            Style="{StaticResource Header}"
-                            Text="Type de Facture" />
-
-                        <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="Type" />
-                        <TextBlock
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            Style="{StaticResource InfoValue}"
-                            Text="NORMAL" />
-
-                        <TextBlock
-                            Grid.Row="2"
-                            Grid.Column="0"
-                            Style="{StaticResource Title}"
-                            Text="Statut" />
-
-                        <common:StatutDisplay
-                            Grid.Row="2"
-                            Grid.Column="1"
-                            DisplayFontSize="12"
-                            DisplayHeight="20"
-                            DisplayWidth="50"
-                            Status="{Binding Status}" />
-                    </Grid>
-
-
-                </Grid>
+                    </DockPanel>
+                </Border>
             </Grid>
-
         </Grid>
     </Border>
 </UserControl>

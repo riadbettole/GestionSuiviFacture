@@ -7,6 +7,7 @@
     mc:Ignorable="d">
 
     <Border
+        Width="{Binding DisplayWidth, RelativeSource={RelativeSource AncestorType=UserControl}}"
         Height="{Binding DisplayHeight, RelativeSource={RelativeSource AncestorType=UserControl}}"
         Padding="4"
         VerticalAlignment="Center"
@@ -34,6 +35,7 @@
 
         <TextBlock
             Width="{Binding DisplayWidth, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            HorizontalAlignment="Center"
             VerticalAlignment="Center"
             FontSize="{Binding DisplayFontSize, RelativeSource={RelativeSource AncestorType=UserControl}}"
             FontWeight="SemiBold"

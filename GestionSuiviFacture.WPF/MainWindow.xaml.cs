@@ -14,6 +14,6 @@ public partial class MainWindow : Window
         var mainViewModel = new MainViewModel();
         DataContext = mainViewModel;
 
-        mainViewModel.NavigateToConsultation();
+        mainViewModel.NavigateToFacture();
     }
 }

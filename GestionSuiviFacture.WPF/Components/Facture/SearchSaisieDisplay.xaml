@@ -11,15 +11,16 @@
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
         <Style x:Key="ImportantInfo" TargetType="TextBlock">
+
             <Setter Property="Foreground" Value="#FF0000" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="18" />
+            <Setter Property="FontSize" Value="24" />
             <Setter Property="FontWeight" Value="Bold" />
+            <Setter Property="Margin" Value="0,0,0,0" />
             <Setter Property="TextWrapping" Value="Wrap" />
         </Style>
 
         <Style x:Key="LDatePicker" TargetType="DatePicker">
-            <Setter Property="Width" Value="100" />
+
             <Setter Property="Height" Value="30" />
             <Setter Property="VerticalAlignment" Value="Top" />
             <Setter Property="Template">
@@ -160,12 +161,13 @@
     </UserControl.Resources>
 
     <StackPanel>
-        <Grid Margin="10,30,30,10">
+        <Grid Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="0.3*" />
+                <ColumnDefinition Width="0.5*" />
+                <ColumnDefinition Width="0.5*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto" />
@@ -174,10 +176,8 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="0"
-                Margin="30,0,0,0"
+                Margin="20,0,0,0"
                 Text="Date Facture: " />
-
-
             <DatePicker
                 x:Name="DateTextBox"
                 Grid.Row="1"
@@ -191,7 +191,7 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="1"
-                Margin="30,0,0,0"
+                Margin="20,0,0,0"
                 Text="N° de site : " />
             <TextBox
                 x:Name="SiteTextBox"
@@ -203,7 +203,7 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="2"
-                Margin="30,0,0,0"
+                Margin="20,0,0,0"
                 Text="N° de commande : " />
             <TextBox
                 x:Name="CommandeTextBox"
@@ -212,10 +212,35 @@
                 KeyDown="NumCommandeInputBox_KeyDown"
                 Style="{StaticResource InputSearch}"
                 Text="{Binding SaisieFacture.NumCommande, UpdateSourceTrigger=PropertyChanged}" />
+
+            <TextBlock
+                Grid.Row="0"
+                Grid.Column="3"
+                Margin="0,0,0,10"
+                FontWeight="Bold"
+                Text="Type de facture :" />
+
+            <StackPanel
+                Grid.Row="1"
+                Grid.Column="3"
+                HorizontalAlignment="Center">
+                <RadioButton
+                    x:Name="RadioFactureNormale"
+                    Content="Facture normale"
+                    GroupName="FactureType"
+                    IsChecked="True" />
+
+                <RadioButton
+                    x:Name="RadioFactureEmballage"
+                    Content="Facture emballage"
+                    GroupName="FactureType" />
+            </StackPanel>
+
+
             <Button
                 x:Name="SearchButton"
                 Grid.Row="1"
-                Grid.Column="3"
+                Grid.Column="4"
                 Width="80"
                 Margin="-10,0,0,0"
                 Padding="5"
@@ -224,12 +249,30 @@
                 Style="{StaticResource ButtonSearch}" />
         </Grid>
 
-        <TextBlock
-            Margin="-20,0,0,20"
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Style="{StaticResource ImportantInfo}"
-            Text="{Binding Commande.Site}" />
+        <Grid Margin="25,10,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Grid.Column="0"
+                FontWeight="Black"
+                Text="Nom de Fournisseur :" />
+            <TextBlock
+                Grid.Column="1"
+                Style="{StaticResource ImportantInfo}"
+                Text="{Binding Commande.NomFournisseur}" />
+            <TextBlock
+                Grid.Column="2"
+                FontWeight="Black"
+                Text="Nom de Site :" />
+            <TextBlock
+                Grid.Column="3"
+                Style="{StaticResource ImportantInfo}"
+                Text="{Binding Commande.Site}" />
+        </Grid>
     </StackPanel>
 
 

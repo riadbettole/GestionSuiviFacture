@@ -30,7 +30,7 @@
             <Setter Property="BorderBrush" Value="Transparent" />
             <Setter Property="BorderBrush" Value="LightGray" />
             <Setter Property="BorderThickness" Value="0,0,0,1" />
-            <Setter Property="Height" Value="35" />
+            <Setter Property="Height" Value="45" />
             <Setter Property="FontSize" Value="16" />
             <Setter Property="Foreground" Value="Black" />
             <EventSetter Event="MouseDoubleClick" Handler="ListViewItem_MouseDoubleClick" />
@@ -47,13 +47,16 @@
             <Setter Property="HorizontalContentAlignment" Value="Left" />
         </Style>
     </UserControl.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="400" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="auto" />
         </Grid.RowDefinitions>
+
         <ListView
             Grid.Row="0"
+            Height="510"
             BorderBrush="#f0f0f0"
             BorderThickness="0,0,0,1"
             ItemsSource="{Binding Etiquettes}">
@@ -89,7 +92,7 @@
                                     Margin="25,0,0,0"
                                     DisplayFontSize="12"
                                     DisplayHeight="20"
-                                    DisplayWidth="50"
+                                    DisplayWidth="60"
                                     Status="{Binding Status}" />
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
@@ -157,4 +160,6 @@
             </StackPanel>
         </Grid>
     </Grid>
+
 </UserControl>
+

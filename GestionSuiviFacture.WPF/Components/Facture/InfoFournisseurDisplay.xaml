@@ -9,13 +9,15 @@
     <UserControl.Resources>
         <Style x:Key="HeaderText" TargetType="TextBlock">
             <Setter Property="Foreground" Value="DarkBlue" />
-            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontSize" Value="18" />
             <Setter Property="Margin" Value="0,0,0,10" />
-            <Setter Property="FontWeight" Value="Bold" />
+
         </Style>
         <Style x:Key="TitleInfo" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#272727" />
             <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+
             <Setter Property="Margin" Value="0,20,0,0" />
         </Style>
         <Style x:Key="ContentInfo" TargetType="TextBlock">
@@ -35,21 +37,20 @@
             <Setter Property="TextAlignment" Value="Center" />
         </Style>
     </UserControl.Resources>
-    <StackPanel>
+
+    <StackPanel Margin="0,0,25,0">
         <TextBlock Style="{StaticResource HeaderText}" Text="Informations du fournisseur : " />
-        <TextBlock
-            Margin="-60,10,0,0"
-            Style="{StaticResource ImportantInfo}"
-            Text="{Binding Commande.NomFournisseur}" />
+
 
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="100" />
-                <ColumnDefinition Width="140" />
-                <ColumnDefinition Width="140" />
+                <ColumnDefinition Width="0.9*" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
+                <RowDefinition Height="20" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
@@ -57,7 +58,7 @@
                 <TextBlock Style="{StaticResource TitleInfo}" Text="CNUF" />
                 <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.CNUF}" />
             </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="0">
+            <StackPanel Grid.Row="2" Grid.Column="0">
                 <TextBlock Style="{StaticResource TitleInfo}" Text="Rayon" />
                 <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.Rayon}" />
             </StackPanel>
@@ -65,7 +66,7 @@
                 <TextBlock Style="{StaticResource TitleInfo}" Text="Montant TTC BRV" />
                 <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.MontantTTC, StringFormat={}{0:N2} DH}" />
             </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="1">
+            <StackPanel Grid.Row="2" Grid.Column="1">
                 <TextBlock Style="{StaticResource TitleInfo}" Text="Groupe" />
                 <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.Groupe}" />
             </StackPanel>
@@ -73,7 +74,7 @@
                 <TextBlock Style="{StaticResource TitleInfo}" Text="Date de Commande" />
                 <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.DateCommande, StringFormat=dd/MM/yyyy, TargetNullValue=-----}" />
             </StackPanel>
-            <StackPanel Grid.Row="1" Grid.Column="2">
+            <StackPanel Grid.Row="2" Grid.Column="2">
                 <TextBlock Style="{StaticResource TitleInfo}" Text="Date d'échéance" />
                 <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.DateEcheance, StringFormat=dd/MM/yyyy, TargetNullValue=-----}" />
 

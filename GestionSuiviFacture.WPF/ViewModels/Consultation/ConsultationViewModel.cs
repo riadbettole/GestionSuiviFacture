@@ -39,8 +39,16 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         private async Task LoadEtiquettesFilterClicked()
         {
-            Pagination.CurrentPage = 1;
-            await LoadEtiquettesFilter();
+            Filters.SetSearchingState(true);
+            try
+            {
+                Pagination.CurrentPage = 1;
+                await LoadEtiquettesFilter();
+            }
+            finally
+            {
+                Filters.SetSearchingState(false);
+            }
         }
 
         [RelayCommand]

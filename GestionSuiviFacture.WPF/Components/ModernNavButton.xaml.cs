@@ -4,38 +4,47 @@ using System.Windows.Input;
 
 namespace GestionSuiviFacture.WPF.Components
 {
-    public partial class LayoutPageButton : UserControl
+    public partial class ModernNavButton : UserControl
     {
-        public string Header
-        {
-            get { return (string)GetValue(HeaderProperty); }
-            set { SetValue(HeaderProperty, value); }
-        }
+        public static readonly DependencyProperty CommandProperty =
+            DependencyProperty.Register("Command", typeof(ICommand), typeof(ModernNavButton));
 
         public static readonly DependencyProperty HeaderProperty =
-            DependencyProperty.Register("Header", typeof(string), typeof(LayoutPageButton), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register("Header", typeof(string), typeof(ModernNavButton));
 
-        public string Image
-        {
-            get { return (string)GetValue(ImageProperty); }
-            set { SetValue(ImageProperty, value); }
-        }
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register("Icon", typeof(string), typeof(ModernNavButton));
 
-        public static readonly DependencyProperty ImageProperty =
-            DependencyProperty.Register("Image", typeof(string), typeof(LayoutPageButton), new PropertyMetadata(string.Empty));
-
-        public LayoutPageButton()
-        {
-            InitializeComponent();
-        }
-
-        public static readonly DependencyProperty CommandProperty =
-    DependencyProperty.Register("Command", typeof(ICommand), typeof(LayoutPageButton));
+        public static readonly DependencyProperty DescriptionProperty =
+            DependencyProperty.Register("Description", typeof(string), typeof(ModernNavButton));
 
         public ICommand Command
         {
             get => (ICommand)GetValue(CommandProperty);
             set => SetValue(CommandProperty, value);
+        }
+
+        public string Header
+        {
+            get => (string)GetValue(HeaderProperty);
+            set => SetValue(HeaderProperty, value);
+        }
+
+        public string Icon
+        {
+            get => (string)GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
+        }
+
+        public string Description
+        {
+            get => (string)GetValue(DescriptionProperty);
+            set => SetValue(DescriptionProperty, value);
+        }
+
+        public ModernNavButton()
+        {
+            InitializeComponent();
         }
     }
 }
