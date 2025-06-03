@@ -11,7 +11,7 @@
     Height="700"
     AllowsTransparency="True"
     Background="Transparent"
-    Icon="/Images/GroupMarjaneWhite.png"
+    Icon="/Images/logoApp.png"
     ResizeMode="CanResize"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"

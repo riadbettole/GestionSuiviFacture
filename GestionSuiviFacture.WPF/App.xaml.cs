@@ -11,13 +11,11 @@ public partial class App : Application
 
         base.OnStartup(e);
 
-        LoginViewModel lvm = new LoginViewModel();
-        lvm.AssignAction(OnLoginSuccess);
+        var loginWindow = new Login();
+        var loginViewModel = new LoginViewModel();
 
-        var loginWindow = new Login
-        {
-            DataContext = lvm
-        };
+        loginViewModel.AssignAction(OnLoginSuccess);
+        loginWindow.DataContext = loginViewModel;
 
         loginWindow.Show();
     }
@@ -33,5 +31,24 @@ public partial class App : Application
             login.Close();
         }
     }
+
+    public void OnLogout()
+    {
+        // Show the login window again
+        var loginWindow = new Login();
+        var loginViewModel = new LoginViewModel();
+
+        loginViewModel.AssignAction(OnLoginSuccess);
+        loginWindow.DataContext = loginViewModel;
+
+        loginWindow.Show();
+
+        // Close the main window
+        if (Current.Windows.Count > 0 && Current.Windows[0] is MainWindow mainWindow)
+        {
+            mainWindow.Close();
+        }
+    }
+
 }
 

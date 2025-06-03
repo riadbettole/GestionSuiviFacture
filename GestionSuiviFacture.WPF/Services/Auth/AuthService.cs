@@ -1,4 +1,6 @@
-﻿using System.Net.Http;
+﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net.Http;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 
@@ -8,7 +10,13 @@ namespace GestionSuiviFacture.WPF.Services
     class AuthService
     {
         private static string _jwtToken = "";
+        private static string _userId = "";
+        private static string _username = "";
+        private static string _role = "";
         public static string JwtToken => _jwtToken;
+        public static string UserID => _userId;
+        public static string Username => _username;
+        public static string Role => _role;
 
         public async Task<bool> LoginAsync(string username, string password)
         {
@@ -35,6 +43,17 @@ namespace GestionSuiviFacture.WPF.Services
                         });
 
                         _jwtToken = tokenResponse?.Token;
+
+                        var handler = new JwtSecurityTokenHandler();
+                        var jwtToken = handler.ReadJwtToken(_jwtToken);
+
+                        // Extract claims
+                        var claims = jwtToken.Claims.ToList();
+
+                        _userId = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value; 
+                        _username = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value; 
+                        _role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value; 
+                        
 
                         return !string.IsNullOrEmpty(_jwtToken);
                     }

@@ -150,10 +150,16 @@
                 <!--  Navigation Buttons  -->
                 <StackPanel Grid.Row="1" Margin="15,0,15,0">
                     <local:ModernNavButton
-                        Command="{Binding NavigateToFactureCommand}"
-                        Description="Gestion des factures standards"
-                        Header="Factures Normales"
-                        Icon="📄" />
+    Command="{Binding NavigateToFactureCommand}"
+    Header="Factures Normales"
+    Icon="📄"
+    IsSelected="{Binding ActivePage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Facture}" />
+
+                    <local:ModernNavButton
+    Command="{Binding NavigateToConsultationCommand}"
+    Header="Consultation"
+    Icon="🔍"
+    IsSelected="{Binding ActivePage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Consultation}" />
 
                     <!--<local:ModernNavButton
                         Margin="0,8,0,0"
@@ -162,12 +168,7 @@
                         Header="Factures Emballage"
                         Icon="📦" />-->
 
-                    <local:ModernNavButton
-                        Margin="0,8,0,0"
-                        Command="{Binding NavigateToConsultationCommand}"
-                        Description="Recherche et consultation"
-                        Header="Consultation"
-                        Icon="🔍" />
+                  
 
                     <!--  Add more navigation items as needed  -->
                     <Separator Margin="0,20,0,15" Background="#34495E" />

@@ -27,6 +27,6 @@
         public IEnumerable<LigneFactureDTO>? LigneFactureDTOs { get; set; }
 
         // Utilisateur
-        public int? Utilisateur { get; set; }
+        public string? UtilisateurId { get; set; }
     }
 }

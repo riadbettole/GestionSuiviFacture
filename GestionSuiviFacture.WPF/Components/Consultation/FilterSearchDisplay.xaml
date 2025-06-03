@@ -341,7 +341,7 @@
                 Margin="0,35,0,0"
                 Background="#353535"
                 BorderThickness="0"
-                Command="{Binding LoadEtiquettesFilterClickedCommand}"
+                Command="{Binding DisconnectCommand}"
                 Cursor="Hand">
                 <Button.Style>
                     <Style TargetType="Button">

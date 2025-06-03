@@ -46,5 +46,14 @@ namespace GestionSuiviFacture.WPF.Components
         {
             InitializeComponent();
         }
+
+        public static readonly DependencyProperty IsSelectedProperty =
+    DependencyProperty.Register("IsSelected", typeof(bool), typeof(ModernNavButton), new PropertyMetadata(false));
+
+        public bool IsSelected
+        {
+            get => (bool)GetValue(IsSelectedProperty);
+            set => SetValue(IsSelectedProperty, value);
+        }
     }
 }

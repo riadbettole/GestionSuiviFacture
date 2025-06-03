@@ -133,13 +133,14 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 NumFacture = SaisieFacture.NumFacture,
                 MontantTTCFacture = SaisieFacture.MontantTTC,
 
+                UtilisateurId = AuthService.UserID,
+
                 LigneFactureDTOs = SaisieFacture.LigneFacture.Select(tax => new LigneFactureDTO
                 {
                     montant_HT = tax.MontantHT,
                     taux = tax.TauxPercentage
                 }),
 
-                Utilisateur = 1
             };
 
 

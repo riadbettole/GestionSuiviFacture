@@ -39,6 +39,7 @@
                                     x:Name="PART_TextBox"
                                     Grid.Column="0"
                                     Margin="5,0,0,0"
+                                    KeyDown="DateInputBox_PreviewKeyDown"
                                     VerticalContentAlignment="Center"
                                     BorderThickness="0"
                                     FontStyle="Italic"

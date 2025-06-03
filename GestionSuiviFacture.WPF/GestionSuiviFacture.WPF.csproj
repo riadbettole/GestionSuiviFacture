@@ -16,6 +16,7 @@
     <None Remove="Images\facture.png" />
     <None Remove="Images\factureEmba.png" />
     <None Remove="Images\GroupMarjaneWhite.png" />
+    <None Remove="Images\logoApp.png" />
     <None Remove="Images\MJlogo.png" />
     <None Remove="Images\search.png" />
     <None Remove="Images\SearchBlue.png" />
@@ -45,6 +46,7 @@
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.11.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -62,6 +64,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\GroupMarjaneWhite.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\logoApp.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\MJlogo.png">

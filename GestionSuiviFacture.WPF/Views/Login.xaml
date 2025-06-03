@@ -11,7 +11,7 @@
     AllowsTransparency="True"
     Background="Transparent"
     BorderBrush="Transparent"
-    Icon="/Images/GroupMarjaneWhite.png"
+    Icon="/Images/logoApp.png"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"
@@ -24,8 +24,8 @@
         <LinearGradientBrush x:Key="PrimaryGradient" StartPoint="0,0" EndPoint="1,1">
             <!--<GradientStop Offset="0" Color="#667eea" />
             <GradientStop Offset="1" Color="#764ba2" />-->
-            <GradientStop Offset="0" Color="#353535" />
-            <GradientStop Offset="1" Color="#667eea" />
+            <GradientStop Offset="0" Color="#667eea" />
+            <GradientStop Offset="1" Color="#353535" />
         </LinearGradientBrush>
 
         <LinearGradientBrush x:Key="ButtonGradient" StartPoint="0,0" EndPoint="1,1">
@@ -221,13 +221,7 @@
 
     <!--  Outer glow effect  -->
     <Border Background="Transparent" CornerRadius="35">
-        <Border.Effect>
-            <DropShadowEffect
-                BlurRadius="30"
-                Opacity="0.5"
-                ShadowDepth="0"
-                Color="#20000000" />
-        </Border.Effect>
+        
 
         <Border
             Background="White"
