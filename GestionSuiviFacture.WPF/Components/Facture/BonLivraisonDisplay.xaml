@@ -24,7 +24,7 @@
         </Style>
     </UserControl.Resources>
 
-    <StackPanel Margin="0,0,35,0">
+    <StackPanel Margin="0">
 
         <TextBlock Style="{StaticResource HeaderText}" Text="Bons de livraison" />
 
@@ -77,7 +77,7 @@
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
 
-                        <GridViewColumn Width="140" Header="N° Livraison">
+                        <GridViewColumn Width="135" Header="N° Livraison">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock
@@ -90,7 +90,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Width="140" Header="Montant TTC">
+                        <GridViewColumn Width="135" Header="Montant TTC">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock
@@ -102,7 +102,7 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Width="140" Header="Date Réception">
+                        <GridViewColumn Width="135" Header="Date Réception">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <TextBlock

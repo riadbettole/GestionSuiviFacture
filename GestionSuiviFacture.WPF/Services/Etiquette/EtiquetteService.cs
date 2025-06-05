@@ -137,27 +137,47 @@ public class EtiquetteService
         }).ToList() ?? new List<LigneFacture>();
 
         return new Etiquette(
-            Magasin: dto.site?.n_Site,
-            Cnuf: dto.fournisseur?.cnuf,
             NumSequence: dto.n_sequence,
-            NumFacture: dto.facture?.n_Facture,
-            NumCommande: dto.commande?.n_Commande,
-            DateTraitement: dto.date_Traitement,
-            DateCommande: dto.commande?.date_Commande ?? DateTime.MinValue,
-            DateFacture: dto.facture.date_Facture,
             Status: MapEnumStatus(dto.statut),
+            DateTraitement: dto.date_Traitement,
+
+            NumCommande: dto.commande?.n_Commande,
             Fournisseur: dto.fournisseur?.libelle_Fournisseur,
             MontantBRV: dto.commande.MontantBRV,
-            MontantFacture: (double)dto.facture?.montant_Facture,
-            Utilisateur: null,
-            UtilisateurAnnule: null,
-            MotifAnnulation: null,
-            Description: null,
+            Magasin: dto.site?.n_Site,
+            DateCommande: dto.commande?.date_Commande,
+            Cnuf: dto.fournisseur?.cnuf,
             LibelleSite: dto.site?.libelle_Site,
             GroupeSite: dto.commande?.groupe,
-            LignesFacture: lignesFacture
+
+            NumFacture: dto.facture?.n_Facture,
+            DateFacture: dto.facture?.date_Facture,
+            MontantFacture: (double)dto.facture?.montant_Facture,
+            LignesFacture: lignesFacture,
+
+            Utilisateur: dto.utilisateur?.username,
+
+            UtilisateurAnnule: dto.annulation?.utilisateur_annule?.username,
+            DateAnnulation: dto.annulation?.date_Annulation,
+            MotifAnnulation: MapIntMotif(dto.annulation?.motif ?? 8),
+            DescriptionAnnulation: dto.annulation?.description
         );
     }
+
+    private string MapIntMotif(int status) =>
+       status switch
+       {
+           0 => "Erreur de calcul",
+           1 => "Bon de Commande Erroné",
+           2 => "Relevé",
+           3 => "Manque complement",
+           4 => "Dossier non conforme",
+           5 => "Manque HT",
+           6 => "Erreur de prix",
+           7 => "Deja traité",
+           8 => "aucun",
+           _ => throw new ArgumentOutOfRangeException(nameof(status), "Unknown status value"),
+       };
 
     private StatusEtiquette MapEnumStatus(int status) =>
         status switch

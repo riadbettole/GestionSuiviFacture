@@ -19,8 +19,8 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         // Informations Temporels
         public DateTime DateTraitement => _etiquette.DateTraitement;
-        public DateTime DateCommande => _etiquette.DateCommande;
-        public DateTime DateFacture => _etiquette.DateFacture;
+        public DateTime? DateCommande => _etiquette.DateCommande;
+        public DateTime? DateFacture => _etiquette.DateFacture;
 
         // Informations Financieres
         public Double MontantBRV => _etiquette.MontantBRV;
@@ -28,9 +28,10 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         // Informations Utilisateur
         public string Utilisateur => _etiquette.Utilisateur;
-        public string UtilisateurAnnule => _etiquette.UtilisateurAnnule;
-        public string MotifAnnulation => _etiquette.MotifAnnulation;
-        public string Description => _etiquette.Description;
+        public string? UtilisateurAnnule => _etiquette.UtilisateurAnnule;
+        public string? MotifAnnulation => _etiquette.MotifAnnulation;
+        public string? Description => _etiquette.DescriptionAnnulation;
+        public DateTime? DateAnnulation => _etiquette.DateAnnulation;
 
         // Informations Lieu
         public string LibelleSite => _etiquette.LibelleSite;

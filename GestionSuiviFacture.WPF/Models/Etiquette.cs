@@ -1,25 +1,31 @@
 ﻿namespace GestionSuiviFacture.WPF.Models
 {
     public record Etiquette(
-    string? Magasin,
-    string? Cnuf,
-    string? NumSequence,
-    string? NumFacture,
-    string? NumCommande,
+
     DateTime DateTraitement,
-    DateTime DateCommande,
-    DateTime DateFacture,
+    string? NumSequence,
     StatusEtiquette Status,
-    string? Fournisseur,
+
+    DateTime? DateCommande,
     double MontantBRV,
-    double MontantFacture,
-    string? Utilisateur,
-    string? UtilisateurAnnule,
-    string? MotifAnnulation,
-    string? Description,
+    string? NumCommande,
+    string? Fournisseur,
     string? LibelleSite,
     string? GroupeSite,
-    List<LigneFacture> LignesFacture
+    string? Magasin,
+    string? Cnuf,
+
+    DateTime? DateFacture,
+    string? NumFacture,
+    double MontantFacture,
+    List<LigneFacture> LignesFacture,
+
+    DateTime? DateAnnulation,
+    string? UtilisateurAnnule,
+    string? MotifAnnulation,
+    string? DescriptionAnnulation,
+
+    string? Utilisateur
 );
     //public class Etiquette
     //{

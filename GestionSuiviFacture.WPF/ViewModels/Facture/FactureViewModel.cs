@@ -227,6 +227,11 @@ namespace GestionSuiviFacture.WPF.ViewModels
             SaisieFacture.TotalTVA = 0;
             SaisieFacture.TotalTTC = 0;
             Statut = "AUCUN";
+
+
+            SaisieFacture.NumSite = "";
+            SaisieFacture.NumCommande = "";
+            SaisieFacture.DateFacture = new DateTime();
         }
 
 

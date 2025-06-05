@@ -426,6 +426,7 @@
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
                                 <RowDefinition Height="auto" />
+                                <RowDefinition Height="auto" />
                             </Grid.RowDefinitions>
 
                             <TextBlock
@@ -437,7 +438,7 @@
                                 Grid.Row="0"
                                 Grid.Column="1"
                                 Style="{StaticResource InfoValue}"
-                                Text="ryad" />
+                                Text="{Binding Utilisateur}" />
 
                             <TextBlock
                                 Grid.Row="1"
@@ -460,6 +461,7 @@
                                 Grid.Column="1"
                                 Style="{StaticResource InfoValue}"
                                 Text="{Binding MotifAnnulation, TargetNullValue=-----}" />
+                            
                         </Grid>
                     </DockPanel>
                 </Border>

@@ -38,15 +38,17 @@
         </Style>
     </UserControl.Resources>
 
-    <StackPanel Margin="0,0,25,0">
+    <StackPanel Margin="0,0,0,0">
         <TextBlock Style="{StaticResource HeaderText}" Text="Informations du fournisseur : " />
 
 
-        <Grid>
+        <Grid HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="125" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="125" />
+                <ColumnDefinition Width="20" />
+                <ColumnDefinition Width="125" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -54,7 +56,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Grid.Column="0">
+            <StackPanel Grid.Row="0" Grid.Column="0" >
                 <TextBlock Style="{StaticResource TitleInfo}" Text="CNUF" />
                 <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.CNUF}" />
             </StackPanel>
@@ -62,19 +64,19 @@
                 <TextBlock Style="{StaticResource TitleInfo}" Text="Rayon" />
                 <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.Rayon}" />
             </StackPanel>
-            <StackPanel Grid.Row="0" Grid.Column="1">
+            <StackPanel Grid.Row="0" Grid.Column="2">
                 <TextBlock Style="{StaticResource TitleInfo}" Text="Montant TTC BRV" />
                 <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.MontantTTC, StringFormat={}{0:N2} DH}" />
             </StackPanel>
-            <StackPanel Grid.Row="2" Grid.Column="1">
+            <StackPanel Grid.Row="2" Grid.Column="2">
                 <TextBlock Style="{StaticResource TitleInfo}" Text="Groupe" />
                 <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.Groupe}" />
             </StackPanel>
-            <StackPanel Grid.Row="0" Grid.Column="2">
+            <StackPanel Grid.Row="0" Grid.Column="4">
                 <TextBlock Style="{StaticResource TitleInfo}" Text="Date de Commande" />
                 <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.DateCommande, StringFormat=dd/MM/yyyy, TargetNullValue=-----}" />
             </StackPanel>
-            <StackPanel Grid.Row="2" Grid.Column="2">
+            <StackPanel Grid.Row="2" Grid.Column="4">
                 <TextBlock Style="{StaticResource TitleInfo}" Text="Date d'échéance" />
                 <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.DateEcheance, StringFormat=dd/MM/yyyy, TargetNullValue=-----}" />
 

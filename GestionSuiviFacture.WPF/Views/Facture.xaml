@@ -52,41 +52,50 @@
                 <RowDefinition Height="auto" />
             </Grid.RowDefinitions>
             <Border
-                Margin="15,15,15,0"
+                Margin="0,0,0,0"
                 Padding="15"
-                Background="White"
-                BorderBrush="Black"
-                BorderThickness="0"
-                CornerRadius="8">
+                Background="#FFFFFF"
+                BorderBrush="Gray"
+                
+                BorderThickness="0 0.4 0 0.4"
+                CornerRadius="0">
                 <components:SearchSaisieDisplay x:Name="SearchDisplayControl" />
             </Border>
-            <Border
-                Grid.Row="2"
-                Margin="15"
-                Padding="15"
-                Background="White"
-                BorderBrush="Black"
-                BorderThickness="0"
-                CornerRadius="8">
-                <Grid>
+   
+                <Grid Grid.Row="2">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="0.97*" />
                     </Grid.ColumnDefinitions>
+                    <Border Grid.Row="2" Margin="15,15,15,0"
+                        Padding="15"
+                            
+                        Background="White"
+                        BorderBrush="Black"
+                        BorderThickness="0 0 0.1 0"
+                        CornerRadius="0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.8*" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
+                            
                         <components:InfoFournisseurDisplay Grid.Row="0" />
                         <components:BonLivraisonDisplay Grid.Row="1" />
                     </Grid>
+                        </Border>
+                    <Border Grid.Column="2" Margin="0,15,15,0"
+                        Padding="15"
+                            
+                        Background="White"
+                        BorderBrush="Black"
+                        BorderThickness="0"
+                        CornerRadius="8">
+                    <components:SaisisInfoFactureDisplay x:Name="SaisisInfoFactureDisplay"  />
+                </Border>
 
-                    <components:SaisisInfoFactureDisplay x:Name="SaisisInfoFactureDisplay" Grid.Column="2" />
-
-
-                </Grid>
-            </Border>
+            </Grid>
+         
         </Grid>
         <Grid x:Name="PopupOverlay" Visibility="{Binding AlertePopup.IsVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
             <!--<Grid x:Name="PopupOverlay" Visibility="Hidden">-->

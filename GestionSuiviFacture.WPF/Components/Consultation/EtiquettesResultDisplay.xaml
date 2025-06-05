@@ -100,8 +100,8 @@
                     <GridViewColumn Header="Utilisateur">
                         <GridViewColumn.CellTemplate>
                             <DataTemplate>
-                                <!--<TextBlock Text="{Binding Utilisateur}" />-->
-                                <TextBlock Text="ryad" />
+                                <TextBlock Text="{Binding Utilisateur, TargetNullValue=NoUser}" />
+                                <!--<TextBlock Text="ryad" />-->
                             </DataTemplate>
                         </GridViewColumn.CellTemplate>
                     </GridViewColumn>

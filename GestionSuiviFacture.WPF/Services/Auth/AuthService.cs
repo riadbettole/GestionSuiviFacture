@@ -10,11 +10,11 @@ namespace GestionSuiviFacture.WPF.Services
     class AuthService
     {
         private static string _jwtToken = "";
-        private static string _userId = "";
+        private static int _userId = 0;
         private static string _username = "";
         private static string _role = "";
         public static string JwtToken => _jwtToken;
-        public static string UserID => _userId;
+        public static int UserID => _userId;
         public static string Username => _username;
         public static string Role => _role;
 
@@ -50,10 +50,11 @@ namespace GestionSuiviFacture.WPF.Services
                         // Extract claims
                         var claims = jwtToken.Claims.ToList();
 
-                        _userId = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value; 
-                        _username = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value; 
-                        _role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value; 
-                        
+                        _userId = Convert.ToInt16(claims.FirstOrDefault(c => c.Type == "id")?.Value);
+                        _username = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+                        _role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+
+
 
                         return !string.IsNullOrEmpty(_jwtToken);
                     }
