@@ -149,6 +149,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
             CleanUpSaisie();
             CleanUpCommande();
+            CleanFilter();
         }
 
         private void CheckAlert()
@@ -221,19 +222,20 @@ namespace GestionSuiviFacture.WPF.ViewModels
         {
             SaisieFacture.NumFacture = "";
             SaisieFacture.MontantTTC = null;
-            
+
             SaisieFacture.LigneFacture.Clear();
             SaisieFacture.TotalHT = 0;
             SaisieFacture.TotalTVA = 0;
             SaisieFacture.TotalTTC = 0;
             Statut = "AUCUN";
+        }
 
-
+        private void CleanFilter()
+        {
             SaisieFacture.NumSite = "";
             SaisieFacture.NumCommande = "";
             SaisieFacture.DateFacture = new DateTime();
         }
-
 
         internal void UpdateStatus()
         {
