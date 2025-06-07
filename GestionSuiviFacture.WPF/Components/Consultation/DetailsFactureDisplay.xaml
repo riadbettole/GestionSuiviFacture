@@ -147,7 +147,9 @@
                         Grid.Column="1"
                         Margin="8,0"
                         Style="{StaticResource IconButton}"
-                        ToolTip="Imprimer">
+                        Command="{Binding PreviewEtiquetteCommand}"
+                        CommandParameter="{Binding}"
+                        ToolTip="Imprimer" Cursor="Hand">
                         <TextBlock
                             FontSize="14"
                             Foreground="#5F6368"

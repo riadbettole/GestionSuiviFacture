@@ -2,12 +2,14 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GestionSuiviFacture.WPF.Models;
+using GestionSuiviFacture.WPF.Services;
 using GestionSuiviFacture.WPF.ViewModels.Common;
 using GestionSuiviFacture.WPF.ViewModels.Filters;
 namespace GestionSuiviFacture.WPF.ViewModels
 {
     public partial class ConsultationViewModel : ObservableObject, IDisposable
     {
+        private readonly PrintService _printService;
         private readonly EtiquetteService _etiquetteService;
         private readonly ObservableCollection<EtiquetteViewModel> _etiquettes = new();
 
@@ -22,6 +24,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         public ConsultationViewModel()
         {
             _etiquetteService = new EtiquetteService();
+            _printService = new PrintService();
 
             // Initialize pagination and connect to page change event
             Pagination = new PaginationViewModel();
@@ -134,7 +137,16 @@ namespace GestionSuiviFacture.WPF.ViewModels
             if (_etiquetteService is IDisposable d) d.Dispose();
         }
 
-        [RelayCommand] private void ShowPopup(EtiquetteViewModel vm) => EtiquettePopup.Show(vm);
+
+
+        [ObservableProperty]
+        public EtiquetteViewModel selectedEtiquette;
+
+        [RelayCommand]
+        private void PreviewEtiquette(object parameter) => 
+               _printService.ShowPrintPreview(SelectedEtiquette._etiquette);
+
+        [RelayCommand] private void ShowPopup() => EtiquettePopup.Show(SelectedEtiquette);
         [RelayCommand] private void ClosePopup() => EtiquettePopup.Close();
 
         private void ShowAlert(string title, string message, string color)

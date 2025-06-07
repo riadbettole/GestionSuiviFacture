@@ -25,7 +25,8 @@ namespace GestionSuiviFacture.WPF.Components.Consultation
 
                 if (etiquette != null && DataContext is ConsultationViewModel viewModel)
                 {
-                    viewModel.ShowPopupCommand.Execute(etiquette);
+                    viewModel.SelectedEtiquette = etiquette;
+                    viewModel.ShowPopupCommand.Execute(null);
                 }
             }
         }

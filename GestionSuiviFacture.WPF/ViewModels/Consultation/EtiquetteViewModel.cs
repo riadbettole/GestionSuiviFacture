@@ -6,7 +6,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
 {
     public class EtiquetteViewModel : ObservableObject, IDisposable
     {
-        private readonly Etiquette _etiquette;
+        public readonly Etiquette _etiquette;
 
         // Fields from the Etiquette model
 
