@@ -49,7 +49,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
                     return;
                 }
 
-                if (string.IsNullOrWhiteSpace(Password))
+                if (string.IsNullOrEmpty(Password))
                 {
                     ShowError("Le mot de passe est requis");
                     return;
@@ -110,7 +110,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         private bool CanLogin() => !IsLogging &&
                                   !string.IsNullOrWhiteSpace(Username) &&
-                                  !string.IsNullOrWhiteSpace(Password);
+                                  !string.IsNullOrEmpty(Password);
 
         // Method to clear errors when user starts typing
         partial void OnUsernameChanged(string value)
@@ -126,7 +126,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         partial void OnPasswordChanged(string value)
         {
-            if (HasError && !string.IsNullOrWhiteSpace(value))
+            if (HasError && !string.IsNullOrEmpty(value))
             {
                 HasError = false;
                 ErrorMessage = string.Empty;

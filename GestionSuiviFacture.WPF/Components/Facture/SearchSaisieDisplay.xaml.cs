@@ -43,6 +43,7 @@ namespace GestionSuiviFacture.WPF.Components.Facture
             if (e.Key == Key.Enter)
             {
                 SiteTextBox.Focus();
+                e.Handled = true;
             }
         }
 

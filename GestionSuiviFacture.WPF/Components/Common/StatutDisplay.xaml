@@ -17,7 +17,7 @@
                 <Setter Property="Background" Value="Transparent" />
                 <Style.Triggers>
                     <DataTrigger Binding="{Binding Status, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="OK">
-                        <Setter Property="Background" Value="#7DFFE1" />
+                        <Setter Property="Background" Value="LimeGreen" />
                     </DataTrigger>
                     <DataTrigger Binding="{Binding Status, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="NOK">
                         <Setter Property="Background" Value="#FF7D7D" />

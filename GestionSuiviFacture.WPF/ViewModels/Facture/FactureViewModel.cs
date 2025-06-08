@@ -33,7 +33,11 @@ namespace GestionSuiviFacture.WPF.ViewModels
         [ObservableProperty] private double _montantTotal = 0;
         [ObservableProperty] private string _statut = "AUCUN";
 
+        [ObservableProperty]
+        private bool _isLoading = false;
 
+        [ObservableProperty]
+        private bool _isSearching = false;
         public FactureViewModel()
         {
             _commandeService = new CommandeService();
@@ -61,20 +65,27 @@ namespace GestionSuiviFacture.WPF.ViewModels
         {
             CleanUpCommande();
             CleanUpSaisie();
-
-
-            Commande commande = await _commandeService.GetCommandeByFilterAsync(SaisieFacture.NumSite, SaisieFacture.NumCommande);
-
-            if (commande == null)
+            IsSearching = true;
+            try
             {
-                NoCommandFound();
-                return;
+                Commande commande = await _commandeService.GetCommandeByFilterAsync(SaisieFacture.NumSite, SaisieFacture.NumCommande);
+                if (commande == null)
+                {
+                    NoCommandFound();
+                    return;
+                }
+                IEnumerable<BonDeLivraison> bonDeLivraison = commande.BonDeLivraison;
+                UpdateCommande(commande);
+                UpdateBonDeLivraison(bonDeLivraison);
+                UpdateMontantTotal();
+                CheckAlert();
             }
-            IEnumerable<BonDeLivraison> bonDeLivraison = commande.BonDeLivraison;
-            UpdateCommande(commande);
-            UpdateBonDeLivraison(bonDeLivraison);
-            UpdateMontantTotal();
-            CheckAlert();
+            finally
+            {
+                IsSearching = false;
+            }
+
+           
         }
 
         private void NoCommandFound()
@@ -108,10 +119,30 @@ namespace GestionSuiviFacture.WPF.ViewModels
         }
 
 
-        [RelayCommand]
+        [RelayCommand(CanExecute = nameof(CanTraiter))]
         private async void SaveFacture()
         {
-            var etiquetteDto = new EtiquetteFrontendDTO
+            IsLoading = true;
+
+            try
+            {
+                EtiquetteFrontendDTO etiquetteDto = MakeEtiquetteDTO();
+
+                await _factureService.PostEtiquetteAsync(etiquetteDto);
+
+                CleanUpSaisie();
+                CleanUpCommande();
+                CleanFilter();
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        private EtiquetteFrontendDTO MakeEtiquetteDTO()
+        {
+            return new EtiquetteFrontendDTO
             {
                 NumCommande = SaisieFacture.NumCommande,
 
@@ -142,15 +173,9 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 }),
 
             };
-
-
-            //bool success = await etiquetteService.PostEtiquetteAsync(etiquetteDto);
-            await _factureService.PostEtiquetteAsync(etiquetteDto);
-
-            CleanUpSaisie();
-            CleanUpCommande();
-            CleanFilter();
         }
+
+        private bool CanTraiter() => !SaisieFacture.LigneFacture.Any();
 
         private void CheckAlert()
         {
@@ -180,12 +205,6 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
             if (alertShouldPop) ShowPopup(title, message, color, dates);
         }
-
-        public void Dispose()
-        {
-        }
-
-
 
         private void ShowPopup(string title, string message, string color, string dates)
         {
@@ -234,33 +253,30 @@ namespace GestionSuiviFacture.WPF.ViewModels
         {
             SaisieFacture.NumSite = "";
             SaisieFacture.NumCommande = "";
-            SaisieFacture.DateFacture = new DateTime();
+            SaisieFacture.DateFacture = DateTime.Now;
         }
 
         internal void UpdateStatus()
         {
-            int difference = 20;
-            //string statut = "";
-            if (SaisieFacture.MontantTTC > Commande.MontantTTC + difference)
-            {
-                Statut = "NOK";
-                return;
-            }
+            Statut = IsItWorking() ? "OK" : "NOK";
+        }
 
-            if (SaisieFacture.TotalTTC > Commande.MontantTTC + difference)
-            {
-                Statut = "NOK";
-            }
-            else
-            {
-                Statut = "OK";
-            }
+        private bool IsItWorking()
+        {
+            bool isCommandeValid = Math.Abs(MontantTotal - (Double)Commande.MontantTTC) <= 20;
+            bool isSaisie1Valid = Math.Abs(MontantTotal - (Double)SaisieFacture.MontantTTC) <= 20;
+            bool isSaisie2Valid = Math.Abs(MontantTotal - SaisieFacture.TotalTTC) <= 20;
 
-
-            //Statut = statut;
+            return isCommandeValid && isSaisie1Valid && isSaisie2Valid;
         }
 
         [RelayCommand]
         public void CloseNotFound() => NotFoundPopup.Close();
+
+
+        public void Dispose()
+        {
+        }
+
     }
 }

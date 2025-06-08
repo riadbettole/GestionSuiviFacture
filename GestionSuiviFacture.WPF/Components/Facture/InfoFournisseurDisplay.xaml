@@ -7,17 +7,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Key="HeaderText" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="DarkBlue" />
-            <Setter Property="FontSize" Value="18" />
-            <Setter Property="Margin" Value="0,0,0,10" />
 
-        </Style>
         <Style x:Key="TitleInfo" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#272727" />
             <Setter Property="FontSize" Value="14" />
             <Setter Property="FontWeight" Value="SemiBold" />
-
             <Setter Property="Margin" Value="0,20,0,0" />
         </Style>
         <Style x:Key="ContentInfo" TargetType="TextBlock">
@@ -39,7 +33,7 @@
     </UserControl.Resources>
 
     <StackPanel Margin="0,0,0,0">
-        <TextBlock Style="{StaticResource HeaderText}" Text="Informations du fournisseur : " />
+        <TextBlock Style="{StaticResource HeaderText}" Text="Informations du fournisseur" />
 
 
         <Grid HorizontalAlignment="Center">
@@ -56,7 +50,7 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
 
-            <StackPanel Grid.Row="0" Grid.Column="0" >
+            <StackPanel Grid.Row="0" Grid.Column="0">
                 <TextBlock Style="{StaticResource TitleInfo}" Text="CNUF" />
                 <TextBlock Style="{StaticResource ContentInfo}" Text="{Binding Commande.CNUF}" />
             </StackPanel>

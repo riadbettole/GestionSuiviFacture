@@ -12,12 +12,17 @@
             <Setter Property="FontFamily" Value="{StaticResource AppFontFamily}" />
         </Style>
 
+        <Style x:Key="HeaderText" TargetType="TextBlock">
+
+            <!--<Setter Property="Foreground" Value="#374151" />-->
+            <Setter Property="Foreground" Value="DarkBlue" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Margin" Value="0,0,0,10" />
+
+        </Style>
 
         <DataTemplate DataType="{x:Type vm:FactureViewModel}">
             <views:Facture />
-        </DataTemplate>
-        <DataTemplate DataType="{x:Type vm:FactureEmballageViewModel}">
-            <views:FactureEmballage />
         </DataTemplate>
         <DataTemplate DataType="{x:Type vm:ConsultationViewModel}">
             <views:Consultation />

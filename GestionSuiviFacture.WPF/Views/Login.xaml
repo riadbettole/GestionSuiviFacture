@@ -221,7 +221,7 @@
 
     <!--  Outer glow effect  -->
     <Border Background="Transparent" CornerRadius="35">
-        
+
 
         <Border
             Background="White"

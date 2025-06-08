@@ -28,6 +28,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         // Informations Utilisateur
         public string Utilisateur => _etiquette.Utilisateur;
+        public string UtilisateurLetter => _etiquette.Utilisateur.Substring(0, 1).ToUpper();
         public string? UtilisateurAnnule => _etiquette.UtilisateurAnnule;
         public string? MotifAnnulation => _etiquette.MotifAnnulation;
         public string? Description => _etiquette.DescriptionAnnulation;

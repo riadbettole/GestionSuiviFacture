@@ -18,6 +18,9 @@ namespace GestionSuiviFacture.WPF.ViewModels
         [ObservableProperty] private PopupManager<EtiquetteViewModel> etiquettePopup = new();
         [ObservableProperty] private PopupManager<EtiquetteViewModel> notFoundPopup = new();
 
+        [ObservableProperty]
+        private bool _isSearching = false;
+
         public IEnumerable<EtiquetteViewModel> Etiquettes => _etiquettes;
 
 
@@ -42,7 +45,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         private async Task LoadEtiquettesFilterClicked()
         {
-            Filters.SetSearchingState(true);
+            IsSearching = true;
             try
             {
                 Pagination.CurrentPage = 1;
@@ -50,7 +53,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
             }
             finally
             {
-                Filters.SetSearchingState(false);
+                IsSearching = false;
             }
         }
 
@@ -59,12 +62,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         {
             try
             {
-                //string factureType = Filters.SelectedFactureType switch
-                //{
-                //    FactureType.Normal => "Normal",
-                //    FactureType.Emballage => "Emballage",
-                //    _ => null
-                //};
+                
                 PaginatedResult<Etiquette> result = new();
            
                 result = await _etiquetteService.GetEtiquettesByFilterAsync(
@@ -85,7 +83,8 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
                 if (result.Items.Count() == 1 && Pagination.TotalCount == 1)
                 {
-                    ShowPopupCommand.Execute(new EtiquetteViewModel(result.Items.First()));
+                    SelectedEtiquette = new EtiquetteViewModel(result.Items.First());
+                    ShowPopupCommand.Execute(null);
                 }
                 else if(result.Items.Count() == 0)
                 {

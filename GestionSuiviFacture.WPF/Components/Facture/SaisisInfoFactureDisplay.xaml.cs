@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using GestionSuiviFacture.WPF.ViewModels;
@@ -40,34 +41,44 @@ namespace GestionSuiviFacture.WPF.Components.Facture
                 MntHTTextBox.Focus();
             }
         }
-
+        private void AddFactureButton_LeftClick(object sender, RoutedEventArgs e)
+        {
+                AddLigneFacture();
+        }
         private void MntHTInputBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
             {
-                int tauxPercentage = 
-                    string.IsNullOrEmpty(TauxTextBox.Text) 
-                    ? 20 : Convert.ToInt16(TauxTextBox.Text);
-
-                double montantHT = string.IsNullOrEmpty(MntHTTextBox.Text) 
-                    ? 0 : Convert.ToDouble(MntHTTextBox.Text);
-
-                var detail = new TaxDetail(
-                    tauxPercentage,
-                    montantHT
-                );
-
-                if (DataContext is FactureViewModel vm && vm.AddTaxDetailCommand.CanExecute(null))
-                {
-                    vm.AddTaxDetailCommand.Execute(detail);
-                    vm.UpdateStatus();
-
-                    TauxTextBox.Text = "";
-                    MntHTTextBox.Text = "";
-                }
-                TauxTextBox.Focus();
+                AddLigneFacture();
             }
         }
+
+        private void AddLigneFacture()
+        {
+            int tauxPercentage =
+                                string.IsNullOrEmpty(TauxTextBox.Text)
+                                ? 20 : Convert.ToInt16(TauxTextBox.Text);
+
+            double montantHT = string.IsNullOrEmpty(MntHTTextBox.Text)
+                ? 0 : Convert.ToDouble(MntHTTextBox.Text);
+
+            var detail = new TaxDetail(
+                tauxPercentage,
+                montantHT
+            );
+
+            if (DataContext is FactureViewModel vm && vm.AddTaxDetailCommand.CanExecute(null))
+            {
+                vm.AddTaxDetailCommand.Execute(detail);
+                vm.UpdateStatus();
+
+                TauxTextBox.Text = "";
+                MntHTTextBox.Text = "";
+            }
+            TauxTextBox.Focus();
+        }
+
+        
 
         public void FocusNumFactureTextBox()
         {

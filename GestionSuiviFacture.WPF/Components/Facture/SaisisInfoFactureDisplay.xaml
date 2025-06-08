@@ -8,12 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Key="HeaderText" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="DarkBlue" />
-            <Setter Property="FontSize" Value="18" />
-            <Setter Property="Margin" Value="0,0,0,10" />
 
-        </Style>
         <Style x:Key="SmallHeaderText" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#545454" />
             <Setter Property="FontSize" Value="11" />
@@ -41,19 +36,14 @@
             <Setter Property="Padding" Value="10" />
             <Setter Property="Margin" Value="0,0,10,0" />
         </Style>
-        <Style x:Key="ButtonSubmit" TargetType="Button">
-            <Setter Property="Background" Value="#353535" />
-            <Setter Property="Foreground" Value="White" />
-            <Setter Property="BorderBrush" Value="Transparent" />
 
-            <Style.Resources>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="CornerRadius" Value="3" />
-                </Style>
-            </Style.Resources>
-
-
-        </Style>
+        <Storyboard x:Key="LoadingAnimation" RepeatBehavior="Forever">
+            <DoubleAnimation
+                Storyboard.TargetProperty="RenderTransform.Angle"
+                From="0"
+                To="360"
+                Duration="0:0:1" />
+        </Storyboard>
     </UserControl.Resources>
     <Grid>
         <common:StatutDisplay
@@ -148,9 +138,11 @@
                     Grid.Column="3"
                     Width="25"
                     Height="24"
-                    Margin="0,0,-17,0"
+                    Margin="0,0,0,0"
+                    HorizontalAlignment="Right"
                     VerticalAlignment="Top"
                     Background="#484CC5"
+                    Click="AddFactureButton_LeftClick"
                     Content="+"
                     FontWeight="Bold"
                     Foreground="White">
@@ -269,15 +261,12 @@
                     </Border>
                 </StackPanel>
                 <Grid Grid.Column="1" Width="105">
-                    <Button
-                        x:Name="SubmitButton"
-                        Width="80"
-                        Padding="5,10,5,10"
-                        HorizontalAlignment="Center"
-                        VerticalAlignment="Center"
+                    <common:LoadingButton
+                        ButtonHeight="40"
+                        ButtonText="Traiter"
+                        ButtonWidth="80"
                         Command="{Binding SaveFactureCommand}"
-                        Content="Traiter"
-                        Style="{StaticResource ButtonSubmit}" />
+                        IsLoading="{Binding IsLoading}" />
                 </Grid>
             </Grid>
 

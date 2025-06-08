@@ -63,17 +63,10 @@ namespace GestionSuiviFacture.WPF.ViewModels.Filters
                 IsNormalFactureType = false;
         }
 
-        [ObservableProperty]
-        private bool _isSearching = false;
 
         [ObservableProperty]
         private string _searchButtonText = "Rechercher";
 
-        // Add method to handle search state
-        public void SetSearchingState(bool isSearching)
-        {
-            IsSearching = isSearching;
-            SearchButtonText = isSearching ? "Recherche..." : "Rechercher";
-        }
+      
     }
 }

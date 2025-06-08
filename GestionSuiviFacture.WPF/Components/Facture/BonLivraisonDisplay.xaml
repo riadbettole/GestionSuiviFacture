@@ -7,12 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <Style x:Key="HeaderText" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="DarkBlue" />
-            <Setter Property="FontSize" Value="18" />
-            <Setter Property="Margin" Value="0,0,0,10" />
 
-        </Style>
         <Style x:Key="TitleInfo" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#272727" />
             <Setter Property="FontSize" Value="14" />
@@ -34,7 +29,7 @@
             HorizontalAlignment="Left"
             BorderBrush="Black"
             BorderThickness="0.5"
-            CornerRadius="4">
+            CornerRadius="8">
             <ListView
                 Height="150"
                 Background="Transparent"

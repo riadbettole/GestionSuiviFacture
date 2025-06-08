@@ -130,7 +130,7 @@
                                     FontSize="16"
                                     FontWeight="Bold"
                                     Foreground="White"
-                                    Text="U" />
+                                    Text="{Binding FirstLetterNameUser, FallbackValue='U'}" />
                             </Border>
                             <StackPanel VerticalAlignment="Center">
                                 <TextBlock
@@ -140,8 +140,8 @@
                                     Text="{Binding CurrentUser, FallbackValue='Utilisateur'}" />
                                 <TextBlock
                                     FontSize="11"
-                                    Foreground="#95A5A6"
-                                    Text="Connecté" />
+                                    Foreground="{Binding ConnexionStatusColor, FallbackValue='#95A5A6'}"
+                                    Text="{Binding ConnexionStatus, FallbackValue='Deconnecté'}" />
                             </StackPanel>
                         </StackPanel>
                     </Border>
@@ -150,16 +150,16 @@
                 <!--  Navigation Buttons  -->
                 <StackPanel Grid.Row="1" Margin="15,0,15,0">
                     <local:ModernNavButton
-    Command="{Binding NavigateToFactureCommand}"
-    Header="Factures Normales"
-    Icon="📄"
-    IsSelected="{Binding ActivePage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Facture}" />
+                        Command="{Binding NavigateToFactureCommand}"
+                        Header="Factures Normales"
+                        Icon="📄"
+                        IsSelected="{Binding ActivePage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Facture}" />
 
                     <local:ModernNavButton
-    Command="{Binding NavigateToConsultationCommand}"
-    Header="Consultation"
-    Icon="🔍"
-    IsSelected="{Binding ActivePage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Consultation}" />
+                        Command="{Binding NavigateToConsultationCommand}"
+                        Header="Consultation"
+                        Icon="🔍"
+                        IsSelected="{Binding ActivePage, Converter={StaticResource StringEqualsConverter}, ConverterParameter=Consultation}" />
 
                     <!--<local:ModernNavButton
                         Margin="0,8,0,0"
@@ -168,7 +168,7 @@
                         Header="Factures Emballage"
                         Icon="📦" />-->
 
-                  
+
 
                     <!--  Add more navigation items as needed  -->
                     <Separator Margin="0,20,0,15" Background="#34495E" />
