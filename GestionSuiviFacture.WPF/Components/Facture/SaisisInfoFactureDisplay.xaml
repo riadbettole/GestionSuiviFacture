@@ -30,7 +30,9 @@
         <Style x:Key="CardTotal" TargetType="Border">
             <Setter Property="CornerRadius" Value="4" />
             <Setter Property="MinWidth" Value="98" />
-            <Setter Property="BorderBrush" Value="Black" />
+            <Setter Property="BorderBrush" Value="#E0E0E0" />
+            <Setter Property="Background" Value="#F6F6F6" />
+
             <Setter Property="BorderThickness" Value="1" />
 
             <Setter Property="Padding" Value="10" />
