@@ -1,7 +1,12 @@
-﻿using System.Windows;
+﻿
+
+using System.IO;
+using System.Windows;
 using GestionSuiviFacture.WPF.ViewModels;
 using GestionSuiviFacture.WPF.Views;
+using Serilog;
 using Velopack;
+using Velopack.Exceptions;
 
 namespace GestionSuiviFacture.WPF;
 
@@ -9,11 +14,22 @@ public partial class App : Application
 {
     protected override async void OnStartup(StartupEventArgs e)
     {
-        base.OnStartup(e);
+        SetupLogging();
+        Log.Information("Application starting...");
+
+        AppDomain.CurrentDomain.UnhandledException += (s, ex) =>
+        Log.Fatal(ex.ExceptionObject as Exception, "Unhandled exception occurred");
+
+        DispatcherUnhandledException += (s, ex) =>
+        {
+            Log.Error(ex.Exception, "Unhandled UI exception occurred");
+            ex.Handled = true; // Prevent crash
+        };
 
         VelopackApp.Build().Run();
-
         await UpdateMyApp();
+
+        base.OnStartup(e);
 
         var loginWindow = new Login();
         var loginViewModel = new LoginViewModel();
@@ -22,6 +38,57 @@ public partial class App : Application
         loginWindow.DataContext = loginViewModel;
 
         loginWindow.Show();
+    }
+
+    private void SetupLogging()
+    {
+        // Create logs folder in app data
+        var logPath = Path.Combine(
+            Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            "GestionSuiviFacture",
+            "logs",
+            "app-.txt"
+        );
+
+        Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Debug()
+            .WriteTo.File(logPath, rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+    }
+
+    private static async Task UpdateMyApp()
+    {
+        try
+        {
+            Log.Information("Starting update check...");
+
+            var mgr = new UpdateManager("https://github.com/riadbettole/GestionSuiviFacture/releases");
+
+            Log.Information("Checking for updates...");
+            var newVersion = await mgr.CheckForUpdatesAsync();
+
+            if (newVersion == null)
+            {
+                Log.Information("No updates available");
+                return;
+            }
+
+            Log.Information($"Update found: {newVersion.TargetFullRelease.Version}");
+
+            Log.Information("Downloading updates...");
+            await mgr.DownloadUpdatesAsync(newVersion);
+
+            Log.Information("Applying updates and restarting...");
+            mgr.ApplyUpdatesAndRestart(newVersion);
+        }
+        catch (NotInstalledException ex)
+        {
+            Log.Information("App not installed via Velopack (probably debug mode)");
+        }
+        catch (Exception ex)
+        {
+            Log.Error(ex, "Update check failed");
+        }
     }
 
     private void OnLoginSuccess()
@@ -34,22 +101,6 @@ public partial class App : Application
         {
             login.Close();
         }
-    }
-
-    private static async Task UpdateMyApp()
-    {
-        var mgr = new UpdateManager("https://github.com/riadbettole/GestionSuiviFacture/releases");
-
-        // check for new version
-        var newVersion = await mgr.CheckForUpdatesAsync();
-        if (newVersion == null)
-            return; // no update available
-
-        // download new version
-        await mgr.DownloadUpdatesAsync(newVersion);
-
-        // install new version and restart app
-        mgr.ApplyUpdatesAndRestart(newVersion);
     }
 
     public void OnLogout()
