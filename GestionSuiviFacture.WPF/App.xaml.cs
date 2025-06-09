@@ -74,6 +74,15 @@ public partial class App : Application
             }
 
             Log.Information($"Update found: {newVersion.TargetFullRelease.Version}");
+            Log.Information($"Current version: {newVersion.BaseRelease?.Version}");
+
+            // For testing, just log what would happen instead of actually updating
+#if DEBUG
+            Log.Information("DEBUG MODE: Would download and install update, but skipping for testing");
+            return;
+#endif
+
+            Log.Information($"Update found: {newVersion.TargetFullRelease.Version}");
 
             Log.Information("Downloading updates...");
             await mgr.DownloadUpdatesAsync(newVersion);
