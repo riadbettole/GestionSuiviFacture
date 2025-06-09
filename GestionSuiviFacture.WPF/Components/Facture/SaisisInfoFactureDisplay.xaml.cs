@@ -87,7 +87,8 @@ namespace GestionSuiviFacture.WPF.Components.Facture
 
         private void TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            TextBox? textBox = sender as TextBox;
+
+            TextBox textBox = (TextBox)sender;
 
             string fullText = textBox.Text.Insert(textBox.SelectionStart, e.Text);
 
@@ -99,7 +100,7 @@ namespace GestionSuiviFacture.WPF.Components.Facture
 
         private void Taux_TextBox_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            TextBox? textBox = sender as TextBox;
+            TextBox textBox = (TextBox)sender;
 
             string fullText = textBox.Text.Insert(textBox.SelectionStart, e.Text);
 

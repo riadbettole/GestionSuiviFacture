@@ -26,7 +26,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         private ObservableCollection<BonDeLivraisonViewModel> bonDeLivraisons;
 
         [ObservableProperty]
-        private CommandeViewModel _commande;
+        private CommandeViewModel? _commande ;
         private readonly CommandeService _commandeService;
         private readonly FactureService _factureService;
 
@@ -68,7 +68,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
             IsSearching = true;
             try
             {
-                Commande commande = await _commandeService.GetCommandeByFilterAsync(SaisieFacture.NumSite, SaisieFacture.NumCommande);
+                Commande? commande = await _commandeService.GetCommandeByFilterAsync(SaisieFacture.NumSite, SaisieFacture.NumCommande);
                 if (commande == null)
                 {
                     NoCommandFound();
@@ -118,15 +118,32 @@ namespace GestionSuiviFacture.WPF.ViewModels
             SaisieFacture.AddTax(taxDetail);
         }
 
+        private bool CanTraiter()
+        {
+            bool hasItems = SaisieFacture.LigneFacture.Any();
+            bool notLoading = !IsLoading;
+            bool result = hasItems && notLoading;
 
-        [RelayCommand(CanExecute = nameof(CanTraiter))]
-        private async void SaveFacture()
+            System.Diagnostics.Debug.WriteLine($"CanTraiter - HasItems: {hasItems}, NotLoading: {notLoading}, Result: {result}");
+            return result;
+        }
+
+        //(CanExecute = nameof(CanTraiter))
+        [RelayCommand]
+        private async Task SaveFacture()
         {
             IsLoading = true;
+            //SaveFactureCommand.NotifyCanExecuteChanged();
 
             try
             {
+                if(!SaisieFacture.LigneFacture.Any())
+                {
+                    IsLoading = false;
+                    return;
+                }
                 EtiquetteFrontendDTO etiquetteDto = MakeEtiquetteDTO();
+
 
                 await _factureService.PostEtiquetteAsync(etiquetteDto);
 
@@ -137,6 +154,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
             finally
             {
                 IsLoading = false;
+                //SaveFactureCommand.NotifyCanExecuteChanged();
             }
         }
 
@@ -147,17 +165,17 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 NumCommande = SaisieFacture.NumCommande,
 
                 NSite = SaisieFacture.NumSite,
-                Site = Commande.Site,
-                LibelleFournisseur = Commande.NomFournisseur,
-                Cnuf = Commande.CNUF,
+                Site = Commande?.Site,
+                LibelleFournisseur = Commande?.NomFournisseur,
+                Cnuf = Commande?.CNUF,
 
-                DateCommande = Commande.DateCommande,
-                DateEcheance = Commande.DateEcheance,
+                DateCommande = Commande?.DateCommande,
+                DateEcheance = Commande?.DateEcheance,
                 DateFacture = SaisieFacture.DateFacture,
 
-                Rayon = Commande.Rayon,
-                MontantBRV = Commande.MontantTTC,
-                Groupe = Commande.Groupe,
+                Rayon = Commande?.Rayon, 
+                MontantBRV = Commande?.MontantTTC,
+                Groupe = Commande?.Groupe,
 
                 Statut = Statut,
 
@@ -175,7 +193,6 @@ namespace GestionSuiviFacture.WPF.ViewModels
             };
         }
 
-        private bool CanTraiter() => !SaisieFacture.LigneFacture.Any();
 
         private void CheckAlert()
         {
@@ -193,13 +210,13 @@ namespace GestionSuiviFacture.WPF.ViewModels
             }
             dates = dates.TrimEnd(',', ' ');
 
-            if (SaisieFacture.DateFacture > Commande.DateEcheance)
+            if (SaisieFacture.DateFacture > Commande?.DateEcheance)
             {
                 alertShouldPop = true;
                 title = "FACTURE ECHUE";
                 message = "La facture a passé la date d'échéance. Vérifiez avant de continuer.";
                 color = "#FF5C5C";
-                dates = Commande.DateEcheance.ToString();
+                dates = Commande.DateEcheance.ToString() ?? "N/A";
             }
             dates += ".";
 
@@ -263,9 +280,9 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         private bool IsItWorking()
         {
-            bool isCommandeValid = Math.Abs(MontantTotal - (Double)Commande.MontantTTC) <= 20;
-            bool isSaisie1Valid = Math.Abs(MontantTotal - (Double)SaisieFacture.MontantTTC) <= 20;
-            bool isSaisie2Valid = Math.Abs(MontantTotal - SaisieFacture.TotalTTC) <= 20;
+            bool isCommandeValid = Math.Abs(MontantTotal - (Double)(Commande?.MontantTTC  ?? 0.0) ) <= 20;
+            bool isSaisie1Valid = Math.Abs(MontantTotal - (Double)(SaisieFacture?.MontantTTC??0.0)) <= 20;
+            bool isSaisie2Valid = Math.Abs(MontantTotal - (SaisieFacture?.TotalTTC ?? 0.0)) <= 20;
 
             return isCommandeValid && isSaisie1Valid && isSaisie2Valid;
         }

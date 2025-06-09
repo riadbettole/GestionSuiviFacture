@@ -12,7 +12,7 @@ namespace GestionSuiviFacture.WPF.ViewModels.Facture
             _bonDeLivraison =  bonDeLivraison;
         }
 
-        public string numDeLivraison => _bonDeLivraison.NumeroLivraison;
+        public string? numDeLivraison => _bonDeLivraison.NumeroLivraison;
         public double montantTTC => _bonDeLivraison.MontantTTC;
         public DateTime dateReception => _bonDeLivraison.DateReception;
     }

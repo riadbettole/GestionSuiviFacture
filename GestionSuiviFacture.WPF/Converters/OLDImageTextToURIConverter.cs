@@ -8,8 +8,18 @@ namespace GestionSuiviFacture.WPF.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string imagePath = value.ToString();
-            Uri imageUri = new Uri(imagePath, UriKind.RelativeOrAbsolute);
+            if (value is not string imagePath || string.IsNullOrWhiteSpace(imagePath))
+                return Binding.DoNothing;
+
+            Uri imageUri;
+            try
+            {
+                imageUri = new Uri(imagePath, UriKind.RelativeOrAbsolute);
+            }
+            catch (UriFormatException)
+            {
+                return Binding.DoNothing; // Or handle invalid URI cases
+            }
 
             BitmapImage bitmapImage = new BitmapImage();
             bitmapImage.BeginInit();

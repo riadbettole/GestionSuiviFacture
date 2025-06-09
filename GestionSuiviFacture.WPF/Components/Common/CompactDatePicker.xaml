@@ -5,75 +5,72 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:GestionSuiviFacture.WPF.Components.Common"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="root"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-    </UserControl.Resources>
-    <Border
-        x:Name="border"
+    <DatePicker
+        x:Name="PART_DatePicker"
         Height="36"
         Background="White"
         BorderBrush="#D1D5DB"
         BorderThickness="1"
-        CornerRadius="6">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <DatePickerTextBox
-                x:Name="datePickerTextBox"
-                Grid.Column="0"
-                Padding="12,0"
-                VerticalContentAlignment="Center"
-                Background="Transparent"
-                BorderThickness="0"
-                FontSize="13"
-                GotFocus="DatePickerTextBox_GotFocus"
-                KeyDown="DatePickerTextBox_KeyDown" />
-
-
-            <TextBlock
-                x:Name="placeholder"
-                Grid.Column="0"
-                Margin="12,0,0,0"
-                VerticalAlignment="Center"
-                FontStyle="Italic"
-                Foreground="Gray"
-                IsHitTestVisible="False"
-                Text="{Binding PlaceholderText, ElementName=root}"
-                Visibility="{Binding IsPlaceholderVisible, ElementName=root, Converter={StaticResource BooleanToVisibilityConverter}}" />
-            <Button
-                x:Name="calendarButton"
-                Grid.Column="1"
-                Width="36"
-                Background="Transparent"
-                BorderThickness="0"
-                Click="CalendarButton_Click"
-                Focusable="False">
-                <Path
-                    Width="14"
-                    Height="14"
-                    Data="M19,3H18V1H16V3H8V1H6V3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V8H19V19Z"
-                    Fill="#6B7280"
-                    Stretch="Uniform" />
-            </Button>
-            <Popup
-                x:Name="calendarPopup"
-                AllowsTransparency="True"
-                Placement="Bottom"
-                StaysOpen="False">
-                <Border
-                    Background="White"
-                    BorderBrush="#E5E7EB"
-                    BorderThickness="1"
-                    CornerRadius="8">
-                    <Calendar
-                        x:Name="calendar"
-                        BorderThickness="0"
-                        SelectedDatesChanged="Calendar_SelectedDatesChanged" />
-                </Border>
-            </Popup>
-        </Grid>
-    </Border>
+        FontSize="13">
+        <DatePicker.Resources>
+            <Style TargetType="DatePicker">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="DatePicker">
+                            <Border
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*" />
+                                        <ColumnDefinition Width="Auto" />
+                                    </Grid.ColumnDefinitions>
+                                    <DatePickerTextBox
+                                        x:Name="PART_TextBox"
+                                        Grid.Column="0"
+                                        Padding="12,0"
+                                        VerticalContentAlignment="Center"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        FontSize="{TemplateBinding FontSize}" />
+                                    <Button
+                                        x:Name="PART_Button"
+                                        Grid.Column="1"
+                                        Width="36"
+                                        Background="Transparent"
+                                        BorderThickness="0"
+                                        Focusable="False">
+                                        <Path
+                                            Width="14"
+                                            Height="14"
+                                            Data="M19,3H18V1H16V3H8V1H6V3H5A2,2 0 0,0 3,5V19A2,2 0 0,0 5,21H19A2,2 0 0,0 21,19V5A2,2 0 0,0 19,3M19,19H5V8H19V19Z"
+                                            Fill="#6B7280"
+                                            Stretch="Uniform" />
+                                    </Button>
+                                    <Popup
+                                        x:Name="PART_Popup"
+                                        AllowsTransparency="True"
+                                        Focusable="False"
+                                        Placement="Bottom"
+                                        StaysOpen="False">
+                                        <Border
+                                            Background="White"
+                                            BorderBrush="#E5E7EB"
+                                            BorderThickness="1"
+                                            CornerRadius="8">
+                                            <Calendar x:Name="PART_Calendar" BorderThickness="0" />
+                                        </Border>
+                                    </Popup>
+                                </Grid>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+        </DatePicker.Resources>
+    </DatePicker>
 </UserControl>

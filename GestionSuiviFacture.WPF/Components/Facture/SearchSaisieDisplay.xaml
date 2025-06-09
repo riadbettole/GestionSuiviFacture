@@ -11,142 +11,29 @@
 
         <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-        <Style x:Key="ImportantInfo" TargetType="TextBlock">
+        <!--  Important Info Card Style  -->
+        <Style x:Key="ImportantInfoCard" TargetType="Border">
+            <Setter Property="Background" Value="White" />
+            <Setter Property="CornerRadius" Value="8" />
 
-            <Setter Property="Foreground" Value="#FF0000" />
-            <Setter Property="FontSize" Value="24" />
+            <Setter Property="Padding" Value="0,0,10,0" />
+            <Setter Property="Margin" Value="20,0,0,0" />
+        </Style>
+
+        <!--  Important Info Label Style  -->
+        <Style x:Key="ImportantInfoLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#6B7280" />
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontWeight" Value="Medium" />
+            <Setter Property="Margin" Value="0,0,120,4" />
+        </Style>
+
+        <!--  Important Info Value Style  -->
+        <Style x:Key="ImportantInfoValue" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#DC2626" />
+            <Setter Property="FontSize" Value="18" />
             <Setter Property="FontWeight" Value="Bold" />
-            <Setter Property="Margin" Value="0,0,0,0" />
             <Setter Property="TextWrapping" Value="Wrap" />
-        </Style>
-
-        <Style x:Key="LDatePicker" TargetType="DatePicker">
-
-            <Setter Property="Height" Value="30" />
-            <Setter Property="VerticalAlignment" Value="Top" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="DatePicker">
-                        <Border
-                            BorderBrush="#ABADB3"
-                            BorderThickness="1"
-                            CornerRadius="3">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <DatePickerTextBox
-                                    x:Name="PART_TextBox"
-                                    Grid.Column="0"
-                                    Margin="5,0,0,0"
-                                    VerticalContentAlignment="Center"
-                                    BorderThickness="0"
-                                    FontStyle="Italic"
-                                    Foreground="Gray"
-                                    Text="Choisir une date..." />
-                                <TextBlock
-                                    Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    FontStyle="Italic"
-                                    Foreground="Gray"
-                                    Visibility="{Binding ElementName=PART_TextBox, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                <Button
-                                    x:Name="PART_Button"
-                                    Grid.Column="1"
-                                    Width="25"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Focusable="False">
-                                    <Image
-                                        Width="16"
-                                        Height="16"
-                                        Source="/Images/Calendar.png" />
-                                </Button>
-                                <Popup
-                                    x:Name="PART_Popup"
-                                    AllowsTransparency="True"
-                                    Focusable="False"
-                                    Placement="Bottom"
-                                    StaysOpen="False">
-                                    <Border
-                                        Background="White"
-                                        BorderBrush="#ABADB3"
-                                        BorderThickness="1"
-                                        CornerRadius="0 0 3 3">
-                                        <Calendar x:Name="PART_Calendar" BorderThickness="0" />
-                                    </Border>
-                                </Popup>
-                            </Grid>
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="InputSearch" TargetType="TextBox">
-            <Setter Property="Width" Value="200" />
-            <Setter Property="Height" Value="30" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border
-                            x:Name="border"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="#ABADB3"
-                            BorderThickness="1"
-                            CornerRadius="3">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*" />
-                                    <ColumnDefinition Width="Auto" />
-                                </Grid.ColumnDefinitions>
-                                <Grid Grid.Column="0">
-                                    <ScrollViewer
-                                        x:Name="PART_ContentHost"
-                                        Margin="5,0,0,0"
-                                        Padding="0"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        Background="Transparent"
-                                        BorderThickness="0"
-                                        IsTabStop="False" />
-                                    <TextBlock
-                                        x:Name="placeholder"
-                                        Margin="5,0,0,0"
-                                        VerticalAlignment="Center"
-                                        FontStyle="Italic"
-                                        Foreground="Gray"
-                                        IsHitTestVisible="False"
-                                        Text="Search..."
-                                        Visibility="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Text.IsEmpty, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                                </Grid>
-                                <Button
-                                    Grid.Column="1"
-                                    Width="25"
-                                    Background="Transparent"
-                                    BorderThickness="0"
-                                    Focusable="False">
-                                    <Image
-                                        Width="16"
-                                        Height="16"
-                                        Source="/Images/Search.png" />
-                                </Button>
-                            </Grid>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#7EB4EA" />
-                            </Trigger>
-                            <Trigger Property="IsFocused" Value="True">
-                                <Setter TargetName="border" Property="BorderBrush" Value="#569DE5" />
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
         </Style>
 
         <Style x:Key="ButtonSearch" TargetType="Button">
@@ -177,24 +64,23 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="0"
-                Margin="20,0,0,0"
+                Margin="15,0,0,0"
                 Text="Date Facture: " />
 
-
+            <!--  DatePickerKeyDown="DateInputBox_PreviewKeyDown"  -->
             <common:CompactDatePicker
                 x:Name="DateTextBox"
                 Grid.Row="1"
                 Grid.Column="0"
                 Width="200"
-                DatePickerKeyDown="DateInputBox_PreviewKeyDown"
-                Loaded="DateTextBox_Loaded"
-                PlaceholderText="Select start date..."
+                DatePickerLoaded="DateTextBox_Loaded"
+                PreviewKeyDown="DateInputBox_PreviewKeyDown"
                 SelectedDate="{Binding SaisieFacture.DateFacture, UpdateSourceTrigger=PropertyChanged}" />
 
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="1"
-                Margin="20,0,0,0"
+                Margin="15,0,0,0"
                 Text="N° de site : " />
             <common:CompactTextBox
                 x:Name="SiteTextBox"
@@ -207,7 +93,7 @@
             <TextBlock
                 Grid.Row="0"
                 Grid.Column="2"
-                Margin="20,0,0,0"
+                Margin="15,0,0,0"
                 Text="N° de commande : " />
 
             <common:CompactTextBox
@@ -232,12 +118,14 @@
                 <RadioButton
                     x:Name="RadioFactureNormale"
                     Content="Facture normale"
+                    FontWeight="Thin"
                     GroupName="FactureType"
                     IsChecked="True" />
 
                 <RadioButton
                     x:Name="RadioFactureEmballage"
                     Content="Facture emballage"
+                    FontWeight="Thin"
                     GroupName="FactureType" />
             </StackPanel>
 
@@ -256,31 +144,24 @@
 
         </Grid>
 
-        <Grid Margin="25,10,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <TextBlock
-                Grid.Column="0"
-                FontWeight="Black"
-                Text="Nom de Fournisseur :" />
-            <TextBlock
-                Grid.Column="1"
-                Style="{StaticResource ImportantInfo}"
-                Text="{Binding Commande.NomFournisseur}" />
-            <TextBlock
-                Grid.Column="2"
-                FontWeight="Black"
-                Text="Nom de Site :" />
-            <TextBlock
-                Grid.Column="3"
-                Style="{StaticResource ImportantInfo}"
-                Text="{Binding Commande.Site}" />
-        </Grid>
+        <Border Style="{StaticResource ImportantInfoCard}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="20" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource ImportantInfoLabel}" Text="Nom de Fournisseur" />
+                    <TextBlock Style="{StaticResource ImportantInfoValue}" Text="{Binding Commande.NomFournisseur}" />
+                </StackPanel>
+
+                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                    <TextBlock Style="{StaticResource ImportantInfoLabel}" Text="Nom de Site" />
+                    <TextBlock Style="{StaticResource ImportantInfoValue}" Text="{Binding Commande.Site}" />
+                </StackPanel>
+            </Grid>
+        </Border>
     </StackPanel>
-
-
 </UserControl>

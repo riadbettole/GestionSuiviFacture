@@ -4,7 +4,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
 {
     public partial class PopupManager<T> : ObservableObject
     {
-        [ObservableProperty] public T selectedItem;
+        [ObservableProperty] public T? selectedItem;
         [ObservableProperty] public bool isVisible = false;
 
         [ObservableProperty] public string title = "ALERTE EXEMPLE";
@@ -12,7 +12,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         [ObservableProperty] public string color = "#FFCF00";
         [ObservableProperty] public string dates = "00/00/0001, 01/00/0001, 02/00/0001";
 
-        public void Show(T item, string title = "", string message = "", string color = "", string dates = "")
+        public void Show(T? item, string title = "", string message = "", string color = "", string dates = "")
         {
             SelectedItem = item;
 

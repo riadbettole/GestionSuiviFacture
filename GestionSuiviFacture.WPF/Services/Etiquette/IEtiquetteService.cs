@@ -8,9 +8,9 @@ namespace GestionSuiviFacture.WPF.Services
             DateTime? dateDebut = null,
             DateTime? dateFin = null,
             StatusEtiquette? statut = null,
-            string n_Sequence = null,
-            string n_Commande = null,
-            string cnuf = null
+            string? n_Sequence = null,
+            string? n_Commande = null,
+            string? cnuf = null
         );
     }
 }

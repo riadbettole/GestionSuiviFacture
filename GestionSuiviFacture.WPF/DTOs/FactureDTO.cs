@@ -6,7 +6,7 @@ namespace GestionSuiviFacture.WPF.DTOs
     {
         public int id_Facture { get; set; }
         [JsonPropertyName("n_Facture")]
-        public string n_Facture { get; set; }
+        public string? n_Facture { get; set; }
         [JsonPropertyName("date_Facture")]
         public DateTime date_Facture { get; set; }
         [JsonPropertyName("montant_Facture")]
@@ -19,7 +19,7 @@ namespace GestionSuiviFacture.WPF.DTOs
         public int statut { get; set; }
 
         [JsonPropertyName("lignes")]
-        public List<LigneFactureDTO> lignesFactures { get; set; }
+        public List<LigneFactureDTO>? lignesFactures { get; set; }
     }
 
 }

@@ -69,6 +69,7 @@
                     </Border.RenderTransform>
                     <Border.Style>
                         <Style TargetType="Border">
+
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsLoading, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
                                     <DataTrigger.EnterActions>

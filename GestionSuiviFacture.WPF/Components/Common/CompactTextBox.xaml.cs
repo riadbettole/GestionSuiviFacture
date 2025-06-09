@@ -56,8 +56,8 @@ namespace GestionSuiviFacture.WPF.Components.Common
 
         #region Events
 
-        public event RoutedEventHandler ButtonClick;
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event RoutedEventHandler? ButtonClick;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         #endregion
 
@@ -125,7 +125,7 @@ namespace GestionSuiviFacture.WPF.Components.Common
             Text = string.Empty;
             textBox.Clear();
         }
-        public void Focus()
+        public new void Focus()
         {
             textBox.Focus();
         }

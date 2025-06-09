@@ -35,7 +35,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
         }
 
-        private void OnPageChanged(object sender, int page)
+        private void OnPageChanged(object? sender, int page)
         {
             // When page changes, reload data with the new page
             LoadEtiquettesFilterCommand.Execute(null);
@@ -139,13 +139,23 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
 
         [ObservableProperty]
-        public EtiquetteViewModel selectedEtiquette;
+        public EtiquetteViewModel? selectedEtiquette;
 
         [RelayCommand]
-        private void PreviewEtiquette(object parameter) => 
-               _printService.ShowPrintPreview(SelectedEtiquette._etiquette);
+        private void PreviewEtiquette(object parameter)
+        {
+            if (SelectedEtiquette != null)
+                _printService.ShowPrintPreview(SelectedEtiquette._etiquette);
+        }
 
-        [RelayCommand] private void ShowPopup() => EtiquettePopup.Show(SelectedEtiquette);
+
+        [RelayCommand]
+        private void ShowPopup()
+        {
+            if (SelectedEtiquette != null)
+                EtiquettePopup.Show(SelectedEtiquette);
+        }
+
         [RelayCommand] private void ClosePopup() => EtiquettePopup.Close();
 
         private void ShowAlert(string title, string message, string color)

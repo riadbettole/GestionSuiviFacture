@@ -5,10 +5,10 @@ namespace GestionSuiviFacture.WPF.ViewModels.Filters
 {
     public partial class SearchFilters : ObservableObject
     {
-        [ObservableProperty] private string numSequenceFilter;
-        [ObservableProperty] private string numCommandeFilter;
-        [ObservableProperty] private string cnufFilter;
-        [ObservableProperty] private string fournisseurFilter;
+        [ObservableProperty] private string? numSequenceFilter;
+        [ObservableProperty] private string? numCommandeFilter;
+        [ObservableProperty] private string? cnufFilter;
+        [ObservableProperty] private string? fournisseurFilter;
         [ObservableProperty] private DateTime debutDateFilter = DateTime.Now;
         [ObservableProperty] private DateTime finDateFilter = DateTime.Now;
         [ObservableProperty] private string statusFilter = "TOUT";
@@ -32,9 +32,9 @@ namespace GestionSuiviFacture.WPF.ViewModels.Filters
 
         public FilterFieldStateManager FieldStates { get; } = new();
 
-        partial void OnNumSequenceFilterChanged(string value) => UpdateTextBoxStates();
-        partial void OnNumCommandeFilterChanged(string value) => UpdateTextBoxStates();
-        partial void OnCnufFilterChanged(string value) => UpdateTextBoxStates();
+        partial void OnNumSequenceFilterChanged(string? value) => UpdateTextBoxStates();
+        partial void OnNumCommandeFilterChanged(string? value) => UpdateTextBoxStates();
+        partial void OnCnufFilterChanged(string? value) => UpdateTextBoxStates();
 
         partial void OnDebutDateFilterChanged(DateTime value)
         {
@@ -48,7 +48,7 @@ namespace GestionSuiviFacture.WPF.ViewModels.Filters
 
         private void UpdateTextBoxStates()
         {
-            FieldStates.UpdateStates(NumSequenceFilter, NumCommandeFilter, CnufFilter);
+            FieldStates.UpdateStates(NumSequenceFilter ?? "", NumCommandeFilter ?? "", CnufFilter ?? "");
         }
 
         partial void OnIsNormalFactureTypeChanged(bool value)

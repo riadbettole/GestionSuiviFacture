@@ -10,7 +10,7 @@ namespace GestionSuiviFacture.WPF.Components.Common
     /// </summary>
     public partial class AlerteDisplay : UserControl
     {
-        public event EventHandler ButtonPressed;
+        public event EventHandler? ButtonPressed;
         public AlerteDisplay()
         {
             InitializeComponent();

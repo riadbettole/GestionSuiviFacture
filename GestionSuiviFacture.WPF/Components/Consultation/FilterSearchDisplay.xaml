@@ -213,7 +213,7 @@
                     FontSize="12"
                     Text="Début" />
 
-                <common:CompactDatePicker PlaceholderText="Select start date..." SelectedDate="{Binding Filters.DebutDateFilter, UpdateSourceTrigger=PropertyChanged}" />
+                <common:CompactDatePicker SelectedDate="{Binding Filters.DebutDateFilter, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
             <!--  Row 1, Col 0 - Période (End Date)  -->
@@ -226,7 +226,7 @@
                     Foreground="#374151"
                     Text="Fin" />
 
-                <common:CompactDatePicker PlaceholderText="Select end date..." SelectedDate="{Binding Filters.FinDateFilter, UpdateSourceTrigger=PropertyChanged}" />
+                <common:CompactDatePicker SelectedDate="{Binding Filters.FinDateFilter, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
             <!--  Row 0, Col 1 - N° Séquence  -->

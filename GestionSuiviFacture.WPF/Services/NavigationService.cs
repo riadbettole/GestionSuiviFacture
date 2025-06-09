@@ -4,8 +4,8 @@ namespace GestionSuiviFacture.WPF.Services
 {
     public class NavigationService : ObservableObject
     {
-        private ObservableObject _currentViewModel;
-        public ObservableObject CurrentViewModel
+        private ObservableObject? _currentViewModel;
+        public ObservableObject? CurrentViewModel
         {
             get => _currentViewModel;
             set

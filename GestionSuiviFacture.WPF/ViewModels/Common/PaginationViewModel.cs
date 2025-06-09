@@ -30,7 +30,7 @@ public partial class PaginationViewModel : ObservableObject
     // Calculate the ending position for the current page
     public int EndPosition => Math.Min(CurrentPage * PageSize, TotalCount);
 
-    public event EventHandler<int> PageChanged;
+    public event EventHandler<int>? PageChanged;
 
     [RelayCommand]
     private void GoToFirstPage()

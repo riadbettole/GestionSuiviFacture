@@ -82,7 +82,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         }
 
         [ObservableProperty]
-        private string activePage;
+        private string? activePage;
 
         public void SetActivePage(string page)
         {

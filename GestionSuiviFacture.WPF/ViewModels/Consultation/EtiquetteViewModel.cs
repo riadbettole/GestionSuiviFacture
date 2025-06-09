@@ -11,11 +11,11 @@ namespace GestionSuiviFacture.WPF.ViewModels
         // Fields from the Etiquette model
 
         // Informations Generales
-        public string Magasin => _etiquette.Magasin;
-        public string NumCommande => _etiquette.NumCommande;
-        public string NumSequence => _etiquette.NumSequence;
-        public string NumFacture => _etiquette.NumFacture;
-        public string Cnuf => _etiquette.Cnuf;
+        public string? Magasin => _etiquette.Magasin;
+        public string? NumCommande => _etiquette.NumCommande;
+        public string? NumSequence => _etiquette.NumSequence;
+        public string? NumFacture => _etiquette.NumFacture;
+        public string? Cnuf => _etiquette.Cnuf;
 
         // Informations Temporels
         public DateTime DateTraitement => _etiquette.DateTraitement;
@@ -27,21 +27,21 @@ namespace GestionSuiviFacture.WPF.ViewModels
         public Double MontantFacture => _etiquette.MontantFacture; 
 
         // Informations Utilisateur
-        public string Utilisateur => _etiquette.Utilisateur;
-        public string UtilisateurLetter => _etiquette.Utilisateur.Substring(0, 1).ToUpper();
+        public string? Utilisateur => _etiquette.Utilisateur;
+        public string? UtilisateurLetter => _etiquette.Utilisateur?.Substring(0, 1).ToUpper();
         public string? UtilisateurAnnule => _etiquette.UtilisateurAnnule;
         public string? MotifAnnulation => _etiquette.MotifAnnulation;
         public string? Description => _etiquette.DescriptionAnnulation;
         public DateTime? DateAnnulation => _etiquette.DateAnnulation;
 
         // Informations Lieu
-        public string LibelleSite => _etiquette.LibelleSite;
-        public string GroupeSite => _etiquette.GroupeSite;
+        public string? LibelleSite => _etiquette.LibelleSite;
+        public string? GroupeSite => _etiquette.GroupeSite;
 
         // Enum for Status
         public string Status => EnumToString(_etiquette.Status);
 
-        public string Fournisseur => _etiquette.Fournisseur;
+        public string? Fournisseur => _etiquette.Fournisseur;
 
         public ObservableCollection<LigneFactureViewModel> LignesFacture { get; }
 

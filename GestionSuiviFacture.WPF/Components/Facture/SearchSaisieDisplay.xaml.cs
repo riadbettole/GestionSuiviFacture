@@ -12,7 +12,7 @@ namespace GestionSuiviFacture.WPF.Components.Facture
     public partial class SearchSaisieDisplay : UserControl
     {
 
-        public event EventHandler EnterPressed;
+        public event EventHandler? EnterPressed;
 
 
         public SearchSaisieDisplay()

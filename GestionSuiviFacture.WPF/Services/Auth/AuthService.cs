@@ -30,38 +30,36 @@ namespace GestionSuiviFacture.WPF.Services
 
                 string json = JsonSerializer.Serialize(payload);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                try
-                {
+                
                     HttpResponseMessage response = await client.PostAsync("https://localhost:7167/api/auth/login", content);
 
-                    if (response.IsSuccessStatusCode)
-                    {
-                        var result = await response.Content.ReadAsStringAsync();
-                        var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(result, new JsonSerializerOptions
-                        {
-                            PropertyNameCaseInsensitive = true
-                        });
-
-                        _jwtToken = tokenResponse?.Token;
-
-                        var handler = new JwtSecurityTokenHandler();
-                        var jwtToken = handler.ReadJwtToken(_jwtToken);
-
-                        // Extract claims
-                        var claims = jwtToken.Claims.ToList();
-
-                        _userId = Convert.ToInt16(claims.FirstOrDefault(c => c.Type == "id")?.Value);
-                        _username = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-                        _role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-
-
-
-                        return !string.IsNullOrEmpty(_jwtToken);
-                    }
-                }
-                catch (Exception)
+                if (response.IsSuccessStatusCode)
                 {
-                    return false;
+                    var result = await response.Content.ReadAsStringAsync();
+                    var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(result, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+
+                    _jwtToken = tokenResponse?.Token ?? string.Empty;
+
+                    var handler = new JwtSecurityTokenHandler();
+                    var jwtToken = handler.ReadJwtToken(_jwtToken);
+
+                    // Extract claims
+                    var claims = jwtToken.Claims.ToList();
+
+                    _userId = Convert.ToInt16(claims.FirstOrDefault(c => c.Type == "id")?.Value);
+
+                    var nameClaim = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+                    _username = nameClaim ?? string.Empty;
+
+                    var roleClaim = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
+                    _role = roleClaim ?? string.Empty;
+
+
+
+                    return !string.IsNullOrEmpty(_jwtToken);
                 }
 
                 return false; //to be removed ease of acceas without db
@@ -70,7 +68,7 @@ namespace GestionSuiviFacture.WPF.Services
 
         private class TokenResponse
         {
-            public string Token { get; set; }
+            public string? Token { get; set; }
         }
     }
 }

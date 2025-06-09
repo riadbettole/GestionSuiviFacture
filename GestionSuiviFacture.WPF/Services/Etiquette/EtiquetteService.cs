@@ -143,7 +143,7 @@ public class EtiquetteService
 
             NumCommande: dto.commande?.n_Commande,
             Fournisseur: dto.fournisseur?.libelle_Fournisseur,
-            MontantBRV: dto.commande.MontantBRV,
+            MontantBRV: dto.commande?.MontantBRV ?? 0.0,
             Magasin: dto.site?.n_Site,
             DateCommande: dto.commande?.date_Commande,
             Cnuf: dto.fournisseur?.cnuf,
@@ -152,7 +152,7 @@ public class EtiquetteService
 
             NumFacture: dto.facture?.n_Facture,
             DateFacture: dto.facture?.date_Facture,
-            MontantFacture: (double)dto.facture?.montant_Facture,
+            MontantFacture: (double)(dto.facture?.montant_Facture ?? 0m),
             LignesFacture: lignesFacture,
 
             Utilisateur: dto.utilisateur?.username,

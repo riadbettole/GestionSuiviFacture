@@ -20,7 +20,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         [ObservableProperty] private bool _hasError;
         [ObservableProperty] private string _loginButtonText = "Se connecter";
 
-        public event Action LoginSucceeded;
+        public event Action? LoginSucceeded;
 
         public void AssignAction(Action action)
         {
@@ -56,7 +56,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 }
 
                 // Simulate network delay
-                await Task.Delay(1000);
+                //await Task.Delay(1000);
 
                 bool isAuthenticated = await _authService.LoginAsync(Username, Password);
 

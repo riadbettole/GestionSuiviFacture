@@ -21,14 +21,19 @@
 
     <StackPanel Margin="0">
 
-        <TextBlock Style="{StaticResource HeaderText}" Text="Bons de livraison" />
 
-
+        <TextBlock
+            Margin="0,0,0,-10"
+            FontSize="12"
+            FontWeight="Thin"
+            Foreground="Black"
+            Text="Bon de livraisons" />
         <Border
             Margin="0,15,0,0"
             HorizontalAlignment="Left"
-            BorderBrush="Black"
-            BorderThickness="0.5"
+            Background="White"
+            BorderBrush="#E5E7EB"
+            BorderThickness="1"
             CornerRadius="8">
             <ListView
                 Height="150"
@@ -42,18 +47,37 @@
                 <ListView.ItemContainerStyle>
                     <Style TargetType="{x:Type ListViewItem}">
                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                        <Setter Property="BorderThickness" Value="0,0,0,0.5" />
-                        <Setter Property="BorderBrush" Value="#E8E8E8" />
-                        <Setter Property="Height" Value="24" />
+                        <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Height" Value="32" />
+                        <Setter Property="Padding" Value="12,6" />
+                        <Setter Property="Margin" Value="0,0,0,1" />
                         <Setter Property="Background" Value="Transparent" />
-                        <Setter Property="FontSize" Value="9" />
-                        <Setter Property="Foreground" Value="#333" />
-                        <Setter Property="Padding" Value="4,2" />
-                        <Style.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#F0F0F0" />
-                            </Trigger>
-                        </Style.Triggers>
+                        <Setter Property="FontSize" Value="12" />
+                        <Setter Property="Foreground" Value="#1F2937" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="ListViewItem">
+                                    <Border
+                                        x:Name="border"
+                                        Padding="{TemplateBinding Padding}"
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="#F3F4F6"
+                                        BorderThickness="0,0,0,1">
+                                        <GridViewRowPresenter Columns="{TemplateBinding GridView.ColumnCollection}" Content="{TemplateBinding Content}" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#F8FAFC" />
+                                        </Trigger>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter TargetName="border" Property="Background" Value="#EEF2FF" />
+                                            <Setter TargetName="border" Property="BorderBrush" Value="#C7D2FE" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
                     </Style>
                 </ListView.ItemContainerStyle>
 
@@ -61,14 +85,27 @@
                     <GridView AllowsColumnReorder="False">
                         <GridView.ColumnHeaderContainerStyle>
                             <Style TargetType="{x:Type GridViewColumnHeader}">
-                                <Setter Property="Foreground" Value="#1A237E" />
-                                <Setter Property="Background" Value="Transparent" />
-                                <Setter Property="Margin" Value="0,5,0,5" />
-                                <Setter Property="BorderBrush" Value="Transparent" />
-                                <Setter Property="FontSize" Value="14" />
-                                <Setter Property="FontWeight" Value="DemiBold" />
+                                <Setter Property="Background" Value="#F8FAFC" />
+                                <Setter Property="Foreground" Value="#374151" />
+                                <Setter Property="FontWeight" Value="SemiBold" />
+                                <Setter Property="FontSize" Value="12" />
+                                <Setter Property="Padding" Value="12,10" />
+                                <Setter Property="BorderBrush" Value="#E5E7EB" />
+                                <Setter Property="BorderThickness" Value="0,0,0,1" />
                                 <Setter Property="HorizontalContentAlignment" Value="Center" />
-                                <Setter Property="Padding" Value="2" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="GridViewColumnHeader">
+                                            <Border
+                                                Padding="{TemplateBinding Padding}"
+                                                Background="{TemplateBinding Background}"
+                                                BorderBrush="{TemplateBinding BorderBrush}"
+                                                BorderThickness="{TemplateBinding BorderThickness}">
+                                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
 
@@ -77,8 +114,9 @@
                                 <DataTemplate>
                                     <TextBlock
                                         VerticalAlignment="Center"
-                                        FontSize="14"
-                                        Foreground="#484CC5"
+                                        FontSize="12"
+                                        FontWeight="SemiBold"
+                                        Foreground="#3B82F6"
                                         Text="{Binding numDeLivraison}"
                                         TextAlignment="Center" />
                                 </DataTemplate>
@@ -90,7 +128,8 @@
                                 <DataTemplate>
                                     <TextBlock
                                         VerticalAlignment="Center"
-                                        FontSize="14"
+                                        FontSize="12"
+                                        Foreground="#1F2937"
                                         Text="{Binding montantTTC, StringFormat={}{0:N0} DH}"
                                         TextAlignment="Center" />
                                 </DataTemplate>
@@ -102,7 +141,8 @@
                                 <DataTemplate>
                                     <TextBlock
                                         VerticalAlignment="Center"
-                                        FontSize="14"
+                                        FontSize="12"
+                                        Foreground="#6B7280"
                                         Text="{Binding dateReception, StringFormat=dd/MM/yyyy}"
                                         TextAlignment="Center" />
                                 </DataTemplate>
@@ -113,21 +153,32 @@
             </ListView>
         </Border>
 
-        <Grid Margin="0,10,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-
-            <TextBlock Style="{StaticResource ContentInfo}" Text="Montant Total : " />
-
-            <TextBlock
-                Grid.Column="1"
-                FontWeight="SemiBold"
-                Style="{StaticResource ContentInfo}"
-                Text="{Binding MontantTotal, StringFormat={}{0:N2} DH}"
-                TextAlignment="Right" />
-
-        </Grid>
+        <!--  Updated totals section with modern card styling  -->
+        <Border
+            Margin="0,15,0,0"
+            Padding="16"
+            VerticalAlignment="Bottom"
+            Background="White"
+            BorderBrush="#E5E7EB"
+            BorderThickness="1"
+            CornerRadius="8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    FontSize="13"
+                    Foreground="#374151"
+                    Text="Montant Total : " />
+                <TextBlock
+                    Grid.Column="1"
+                    FontSize="13"
+                    FontWeight="SemiBold"
+                    Foreground="#1F2937"
+                    Text="{Binding MontantTotal, StringFormat={}{0:N2} DH}"
+                    TextAlignment="Right" />
+            </Grid>
+        </Border>
     </StackPanel>
 </UserControl>

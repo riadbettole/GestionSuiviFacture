@@ -9,9 +9,9 @@ namespace GestionSuiviFacture.WPF.ViewModels.Facture
         [ObservableProperty]
         public ObservableCollection<TaxDetail> ligneFacture;
 
-        [ObservableProperty] private string numCommande;
-        [ObservableProperty] private string numSite;
-        [ObservableProperty] private string numFacture;
+        [ObservableProperty] private string? numCommande;
+        [ObservableProperty] private string? numSite;
+        [ObservableProperty] private string? numFacture;
 
         [ObservableProperty] private double? montantTTC;
 

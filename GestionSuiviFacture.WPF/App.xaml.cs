@@ -7,6 +7,7 @@ using GestionSuiviFacture.WPF.Views;
 using Serilog;
 using Velopack;
 using Velopack.Exceptions;
+using Velopack.Sources;
 
 namespace GestionSuiviFacture.WPF;
 
@@ -62,7 +63,13 @@ public partial class App : Application
         {
             Log.Information("Starting update check...");
 
-            var mgr = new UpdateManager("https://github.com/riadbettole/GestionSuiviFacture/releases");
+            var github = new GithubSource(
+                repoUrl: "https://github.com/riadbettole/GestionSuiviFacture",
+                accessToken: null,
+                prerelease: false
+            );
+
+            var mgr = new UpdateManager(github);
 
             Log.Information("Checking for updates...");
             var newVersion = await mgr.CheckForUpdatesAsync();
@@ -77,10 +84,6 @@ public partial class App : Application
             Log.Information($"Current version: {newVersion.BaseRelease?.Version}");
 
             // For testing, just log what would happen instead of actually updating
-#if DEBUG
-            Log.Information("DEBUG MODE: Would download and install update, but skipping for testing");
-            return;
-#endif
 
             Log.Information($"Update found: {newVersion.TargetFullRelease.Version}");
 
@@ -92,7 +95,7 @@ public partial class App : Application
         }
         catch (NotInstalledException ex)
         {
-            Log.Information("App not installed via Velopack (probably debug mode)");
+            Log.Information(ex, "App not installed via Velopack (probably debug mode)");
         }
         catch (Exception ex)
         {
