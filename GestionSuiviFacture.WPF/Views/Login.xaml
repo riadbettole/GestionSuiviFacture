@@ -11,7 +11,6 @@
     AllowsTransparency="True"
     Background="Transparent"
     BorderBrush="Transparent"
-    Icon="/Images/logoApp.png"
     ResizeMode="NoResize"
     WindowStartupLocation="CenterScreen"
     WindowStyle="None"

@@ -7,6 +7,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
 	 <Version>0.1.3</Version>
+	 <ApplicationIcon>logoApp.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -22,6 +23,10 @@
     <None Remove="Images\search.png" />
     <None Remove="Images\SearchBlue.png" />
     <None Remove="Images\SearchButton.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="logoApp.ico" />
   </ItemGroup>
 
 	
