@@ -189,7 +189,7 @@ namespace GestionSuiviFacture.WPF.Services
             return border;
         }
 
-        //private Brush GetStatusBrush(StatusEtiquette status)
+        ///private Brush GetStatusBrush(StatusEtiquette status)
         //{
         //    return status switch
         //    {
