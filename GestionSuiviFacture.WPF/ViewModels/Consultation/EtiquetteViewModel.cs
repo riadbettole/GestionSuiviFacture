@@ -50,8 +50,9 @@ namespace GestionSuiviFacture.WPF.ViewModels
             _etiquette = etiquette;
 
             LignesFacture = new ObservableCollection<LigneFactureViewModel>(
-        etiquette.LignesFacture.Select(lf => new LigneFactureViewModel(lf))
-    );
+                (etiquette.LignesFacture ?? Enumerable.Empty<LigneFacture>())
+                    .Select(lf => new LigneFactureViewModel(lf))
+);
         }
 
         // Convert enum to string

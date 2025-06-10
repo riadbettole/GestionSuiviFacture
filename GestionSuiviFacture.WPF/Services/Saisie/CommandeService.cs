@@ -100,7 +100,7 @@ namespace GestionSuiviFacture.WPF.Services
                 Rayon: dto.Rayon,
                 Groupe: dto.groupe,
                 MontantTTC: dto.MontantBRV,
-                DateCommande: dto.date_Commande,
+                DateCommande: dto.DateCommande,
                 DateEcheance: dto.DateEcheance,
                 BonDeLivraison: MapToModelBL(dto.BonsLivraison?.Values ?? Enumerable.Empty<BonDeLivraisonDTO>())
             );

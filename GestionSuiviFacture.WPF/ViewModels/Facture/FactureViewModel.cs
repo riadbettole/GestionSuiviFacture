@@ -186,8 +186,8 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
                 LigneFactureDTOs = SaisieFacture.LigneFacture.Select(tax => new LigneFactureDTO
                 {
-                    montant_HT = tax.MontantHT,
-                    taux = tax.TauxPercentage
+                    MontantHT = tax.MontantHT,
+                    Taux = tax.TauxPercentage
                 }),
 
             };

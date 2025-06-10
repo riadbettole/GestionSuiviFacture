@@ -131,9 +131,9 @@ public class EtiquetteService
     {
         var lignesFacture = dto.LigneFactureDTOs?.Select(lf => new LigneFacture
         {
-            Id = lf.id_LigneFacture,
-            Taux = lf.taux,
-            MontantHT = lf.montant_HT,
+            Id = 0,  // fix that tmrw urgent
+            Taux = lf.Taux,
+            MontantHT = lf.MontantHT,
         }).ToList() ?? new List<LigneFacture>();
 
         return new Etiquette(
