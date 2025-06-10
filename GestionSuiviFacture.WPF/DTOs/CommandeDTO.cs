@@ -7,7 +7,7 @@ public class CommandeDTO
     public string? LibelleFournisseur { get; set; }
     public string? LibelleSite { get; set; }
     public string? Cnuf { get; set; }
-    public string? groupe { get; set; }
+    public string? Groupe { get; set; }
     public string? Rayon { get; set; }
     public string? NCommande { get; set; }
 

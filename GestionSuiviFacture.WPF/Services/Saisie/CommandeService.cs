@@ -98,7 +98,7 @@ namespace GestionSuiviFacture.WPF.Services
                 CNUF: dto.Cnuf,
                 Site: dto.LibelleSite,
                 Rayon: dto.Rayon,
-                Groupe: dto.groupe,
+                Groupe: dto.Groupe,
                 MontantTTC: dto.MontantBRV,
                 DateCommande: dto.DateCommande,
                 DateEcheance: dto.DateEcheance,
