@@ -6,9 +6,16 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-	 <Version>0.1.4</Version>
+	 <Version>0.1.5</Version>
 	 <ApplicationIcon>logoApp.ico</ApplicationIcon>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Resources\**" />
+    <EmbeddedResource Remove="Resources\**" />
+    <None Remove="Resources\**" />
+    <Page Remove="Resources\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <None Remove="Images\alert.png" />
@@ -60,10 +67,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="DTOs\ToBackend\" />
     <Folder Include="HostBuilders\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Resources\" />
   </ItemGroup>
 
   <ItemGroup>

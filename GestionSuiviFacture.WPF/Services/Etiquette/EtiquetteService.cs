@@ -16,7 +16,7 @@ public class PaginatedResult<T>
 public class EtiquetteService
 {
     private readonly HttpClient _httpClient;
-    private const string BaseUrl = "https://localhost:7167/api/etiquette";
+    private const string BaseUrl = "https://localhost:7167/api/v1/etiquette";
 
     public EtiquetteService()
     {
@@ -27,7 +27,7 @@ public class EtiquetteService
     public async Task<PaginatedResult<Etiquette>> GetEtiquettesByFilterAsync(
         DateTime? dateDebut = null,
         DateTime? dateFin = null,
-        StatusEtiquette? statut = null,
+        int? statut = null,
         string? n_Sequence = null,
         string? n_Commande = null,
         string? cnuf = null,
@@ -58,7 +58,7 @@ public class EtiquetteService
     private string BuildFilterQueryString(
         DateTime? dateDebut,
         DateTime? dateFin,
-        StatusEtiquette? statut,
+        int? statut,
         string? n_Sequence,
         string? n_Commande,
         string? cnuf,
@@ -74,7 +74,7 @@ public class EtiquetteService
             parameters["dateFin"] = dateFin.Value.ToString("yyyy-MM-dd");
 
         if (statut.HasValue)
-            parameters["statut"] = ReverseMapEnumStatus(statut.Value);
+            parameters["statut"] = Convert.ToString(statut);
 
         if (!string.IsNullOrEmpty(n_Sequence))
             parameters["n_Sequence"] = n_Sequence;
@@ -129,43 +129,43 @@ public class EtiquetteService
 
     private Etiquette MapToModel(EtiquetteDTO dto)
     {
-        var lignesFacture = dto.facture?.lignesFactures?.Select(lf => new LigneFacture
+        var lignesFacture = dto.LigneFactureDTOs?.Select(lf => new LigneFacture
         {
             Id = lf.id_LigneFacture,
             Taux = lf.taux,
-            MontantHT = lf.mnHT,
+            MontantHT = lf.montant_HT,
         }).ToList() ?? new List<LigneFacture>();
 
         return new Etiquette(
-            NumSequence: dto.n_sequence,
-            Status: MapEnumStatus(dto.statut),
-            DateTraitement: dto.date_Traitement,
+            NumSequence: dto.NSequence,
+            Status: dto.Statut,
+            DateTraitement: dto.DateTraitement,
 
-            NumCommande: dto.commande?.n_Commande,
-            Fournisseur: dto.fournisseur?.libelle_Fournisseur,
-            MontantBRV: dto.commande?.MontantBRV ?? 0.0,
-            Magasin: dto.site?.n_Site,
-            DateCommande: dto.commande?.date_Commande,
-            Cnuf: dto.fournisseur?.cnuf,
-            LibelleSite: dto.site?.libelle_Site,
-            GroupeSite: dto.commande?.groupe,
+            NumCommande: dto.NumCommande,
+            Fournisseur: dto.LibelleFournisseur,
+            MontantBRV: dto.MontantBRV ?? 0.0,
+            Magasin: dto.NSite,
+            DateCommande: dto.DateCommande,
+            Cnuf: dto.Cnuf,
+            LibelleSite: dto.Site,
+            GroupeSite: dto.Groupe,
 
-            NumFacture: dto.facture?.n_Facture,
-            DateFacture: dto.facture?.date_Facture,
-            MontantFacture: (double)(dto.facture?.montant_Facture ?? 0m),
+            NumFacture: dto.NumFacture,
+            DateFacture: dto.DateFacture,
+            MontantFacture: dto.MontantTTCFacture ?? 0.0,
             LignesFacture: lignesFacture,
 
-            Utilisateur: dto.utilisateur?.username,
+            Utilisateur: dto.UtilisateurNom,
 
-            UtilisateurAnnule: dto.annulation?.utilisateur_annule?.username,
-            DateAnnulation: dto.annulation?.date_Annulation,
-            MotifAnnulation: MapIntMotif(dto.annulation?.motif ?? 8),
-            DescriptionAnnulation: dto.annulation?.description
+            UtilisateurAnnule: dto.UtilisateurNomAnnulation,
+            DateAnnulation: dto.DateAnnulation,
+            MotifAnnulation: MapIntMotif(dto.MotifAnnulation ?? 8),
+            DescriptionAnnulation: dto.DescriptionAnnulation
         );
     }
 
-    private string MapIntMotif(int status) =>
-       status switch
+    private string MapIntMotif(int motif) =>
+       motif switch
        {
            0 => "Erreur de calcul",
            1 => "Bon de Commande Erroné",
@@ -176,24 +176,6 @@ public class EtiquetteService
            6 => "Erreur de prix",
            7 => "Deja traité",
            8 => "aucun",
-           _ => throw new ArgumentOutOfRangeException(nameof(status), "Unknown status value"),
+           _ => throw new ArgumentOutOfRangeException(nameof(motif), "Unknown status value"),
        };
-
-    private StatusEtiquette MapEnumStatus(int status) =>
-        status switch
-        {
-            0 => StatusEtiquette.OK,
-            1 => StatusEtiquette.NOK,
-            2 => StatusEtiquette.ANNULE,
-            _ => throw new ArgumentOutOfRangeException(nameof(status), "Unknown status value"),
-        };
-
-    private string ReverseMapEnumStatus(StatusEtiquette status) =>
-        status switch
-        {
-            StatusEtiquette.OK => "OK",
-            StatusEtiquette.NOK => "NOK",
-            StatusEtiquette.ANNULE => "Annulee",
-            _ => throw new ArgumentOutOfRangeException(nameof(status), "Unknown status value"),
-        };
 }

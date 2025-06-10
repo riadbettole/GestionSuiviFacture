@@ -12,7 +12,7 @@ namespace GestionSuiviFacture.WPF.Services
         private readonly HttpClient _httpClient;
         public Commande? _commande;
         public IEnumerable<BonDeLivraisonDTO>? _bonDeLivraison;
-        private const string BaseUrl = "https://localhost:7167/api";
+        private const string BaseUrl = "https://localhost:7167/api/v1";
 
         public CommandeService()
         {
@@ -34,7 +34,7 @@ namespace GestionSuiviFacture.WPF.Services
             var queryString = BuildFilterQueryString(numSite, numCommande);
             RefreshAuthorizationHeader();
 
-            var commandeDto = await FetchCommandDTOs($"{BaseUrl}/BonLivraison/commande{queryString}");
+            var commandeDto = await FetchCommandDTOs($"{BaseUrl}/Commande{queryString}");
 
             if (commandeDto != null)
             {

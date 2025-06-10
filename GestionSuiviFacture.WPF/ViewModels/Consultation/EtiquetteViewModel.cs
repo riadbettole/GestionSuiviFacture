@@ -18,13 +18,13 @@ namespace GestionSuiviFacture.WPF.ViewModels
         public string? Cnuf => _etiquette.Cnuf;
 
         // Informations Temporels
-        public DateTime DateTraitement => _etiquette.DateTraitement;
+        public DateTime? DateTraitement => _etiquette.DateTraitement;
         public DateTime? DateCommande => _etiquette.DateCommande;
         public DateTime? DateFacture => _etiquette.DateFacture;
 
         // Informations Financieres
-        public Double MontantBRV => _etiquette.MontantBRV;
-        public Double MontantFacture => _etiquette.MontantFacture; 
+        public Double? MontantBRV => _etiquette.MontantBRV;
+        public Double? MontantFacture => _etiquette.MontantFacture; 
 
         // Informations Utilisateur
         public string? Utilisateur => _etiquette.Utilisateur;
@@ -39,7 +39,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
         public string? GroupeSite => _etiquette.GroupeSite;
 
         // Enum for Status
-        public string Status => EnumToString(_etiquette.Status);
+        public string? Status => EnumToString(_etiquette.Status);
 
         public string? Fournisseur => _etiquette.Fournisseur;
 
@@ -55,15 +55,15 @@ namespace GestionSuiviFacture.WPF.ViewModels
         }
 
         // Convert enum to string
-        public string EnumToString(StatusEtiquette status)
+        public string EnumToString(int? status)
         {
             switch (status)
             {
-                case StatusEtiquette.OK:
+                case 0:
                     return "OK";
-                case StatusEtiquette.NOK:
+                case 1:
                     return "NOK";
-                case StatusEtiquette.ANNULE:
+                case 2:
                     return "ANNULE";
                 default:
                     return "AUCUN";
@@ -80,9 +80,9 @@ namespace GestionSuiviFacture.WPF.ViewModels
     {
         LigneFacture _ligneFacture;
 
-        public decimal Taux => _ligneFacture.Taux;
-        public decimal MontantHT => _ligneFacture.MontantHT;
-        public decimal MontantTVA => _ligneFacture.MontantHT + _ligneFacture.MontantHT * _ligneFacture.Taux / 100;
+        public double Taux => _ligneFacture.Taux;
+        public double MontantHT => _ligneFacture.MontantHT;
+        public double MontantTVA => _ligneFacture.MontantHT + _ligneFacture.MontantHT * _ligneFacture.Taux / 100;
         public LigneFactureViewModel(LigneFacture ligneFacture)
         {
             _ligneFacture = ligneFacture;

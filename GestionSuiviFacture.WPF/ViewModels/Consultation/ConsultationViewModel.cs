@@ -119,11 +119,11 @@ namespace GestionSuiviFacture.WPF.ViewModels
             return new(newDate.Year, newDate.Month, newDate.Day, 00, 00, 01);
         }
 
-        private StatusEtiquette? ConvertStatusToEnum(string status) => status switch
+        private int? ConvertStatusToEnum(string status) => status switch
         {
-            "STATUS OK" => StatusEtiquette.OK,
-            "STATUS NOK" => StatusEtiquette.NOK,
-            "STATUS ANNULE" => StatusEtiquette.ANNULE,
+            "STATUS OK" => 0,
+            "STATUS NOK" => 1,
+            "STATUS ANNULE" => 2,
             _ => null
         };
 

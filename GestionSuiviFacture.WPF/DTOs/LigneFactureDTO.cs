@@ -1,14 +1,8 @@
-﻿using System.Text.Json.Serialization;
-
-namespace GestionSuiviFacture.WPF.DTOs
+﻿namespace GestionSuiviFacture.WPF.DTOs
 {
     public class LigneFactureDTO
     {
-        public int id_LigneFacture { get; set; }
-        [JsonPropertyName("mnHT")]
-        public double montant_HT { get; set; }
-
-        [JsonPropertyName("taux")]
-        public int taux { get; set; }
+        public double MontantHT { get; set; }
+        public int Taux { get; set; }
     }
 }

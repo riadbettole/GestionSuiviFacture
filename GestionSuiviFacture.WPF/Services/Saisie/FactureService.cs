@@ -10,7 +10,7 @@ namespace GestionSuiviFacture.WPF.Services.Saisie
     class FactureService
     {
         private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://localhost:7167/api";
+        private const string BaseUrl = "https://localhost:7167/api/v1";
 
         public FactureService()
         {
@@ -18,7 +18,7 @@ namespace GestionSuiviFacture.WPF.Services.Saisie
             RefreshAuthorizationHeader();
         }
 
-        public async Task<bool> PostEtiquetteAsync(EtiquetteFrontendDTO etiquetteDto)
+        public async Task<bool> PostEtiquetteAsync(EtiquetteDTO etiquetteDto)
         {
             try
             {

@@ -31,7 +31,7 @@ namespace GestionSuiviFacture.WPF.Services
                 string json = JsonSerializer.Serialize(payload);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
                 
-                    HttpResponseMessage response = await client.PostAsync("https://localhost:7167/api/auth/login", content);
+                    HttpResponseMessage response = await client.PostAsync("https://localhost:7167/api/v1/auth/login", content);
 
                 if (response.IsSuccessStatusCode)
                 {

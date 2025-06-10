@@ -7,7 +7,7 @@ namespace GestionSuiviFacture.WPF.Services
         Task<IEnumerable<Etiquette>> GetEtiquettesByFilterAsync(
             DateTime? dateDebut = null,
             DateTime? dateFin = null,
-            StatusEtiquette? statut = null,
+            int? statut = null,
             string? n_Sequence = null,
             string? n_Commande = null,
             string? cnuf = null

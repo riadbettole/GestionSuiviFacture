@@ -3,7 +3,7 @@
     public class LigneFacture
     {
         public int Id { get; set; }
-        public decimal Taux { get; set; }
-        public decimal MontantHT { get; set; }
+        public double Taux { get; set; }
+        public double MontantHT { get; set; }
     }
 }

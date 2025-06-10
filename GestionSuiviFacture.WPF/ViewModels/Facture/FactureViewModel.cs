@@ -142,7 +142,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
                     IsLoading = false;
                     return;
                 }
-                EtiquetteFrontendDTO etiquetteDto = MakeEtiquetteDTO();
+                EtiquetteDTO etiquetteDto = MakeEtiquetteDTO();
 
 
                 await _factureService.PostEtiquetteAsync(etiquetteDto);
@@ -158,9 +158,9 @@ namespace GestionSuiviFacture.WPF.ViewModels
             }
         }
 
-        private EtiquetteFrontendDTO MakeEtiquetteDTO()
+        private EtiquetteDTO MakeEtiquetteDTO()
         {
-            return new EtiquetteFrontendDTO
+            return new EtiquetteDTO
             {
                 NumCommande = SaisieFacture.NumCommande,
 
@@ -177,12 +177,12 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 MontantBRV = Commande?.MontantTTC,
                 Groupe = Commande?.Groupe,
 
-                Statut = Statut,
+                Statut = MapStringIntStatus(Statut),
 
                 NumFacture = SaisieFacture.NumFacture,
                 MontantTTCFacture = SaisieFacture.MontantTTC,
 
-                UtilisateurId = AuthService.UserID,
+                UtilisateurId = AuthService.UserID, 
 
                 LigneFactureDTOs = SaisieFacture.LigneFacture.Select(tax => new LigneFactureDTO
                 {
@@ -192,6 +192,15 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
             };
         }
+
+        private int MapStringIntStatus(string status) =>
+       status switch
+       {
+           "OK" => 0,
+           "NOK" => 1,
+           "ANNULE" => 2,
+           _ => throw new ArgumentOutOfRangeException(nameof(status), "Unknown status value"),
+       };
 
 
         private void CheckAlert()
