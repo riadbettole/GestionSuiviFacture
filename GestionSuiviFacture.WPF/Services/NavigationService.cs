@@ -10,7 +10,7 @@ namespace GestionSuiviFacture.WPF.Services
             get => _currentViewModel;
             set
             {
-                // Simple cleanup for the old ViewModel before replacing it
+                ///Simple cleanup for the old ViewModel before replacing it
                 if (_currentViewModel is IDisposable disposable)
                 {
                     disposable.Dispose();
