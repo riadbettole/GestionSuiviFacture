@@ -86,7 +86,7 @@ namespace GestionSuiviFacture.WPF.Services
             if (!string.IsNullOrEmpty(numSite))
                 parameters["n_site"] = numSite;
             if (!string.IsNullOrEmpty(numCommande))
-                parameters["n_commande"] = numCommande;
+                parameters["n_commande"] = numCommande; 
 
             return parameters.Count > 0 ? "?" + parameters.ToString() : "";
         }
