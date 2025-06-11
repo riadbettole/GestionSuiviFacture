@@ -50,6 +50,8 @@ public partial class App : Application
             loginWindow.DataContext = loginViewModel;
             loginWindow.Show();
 
+            app.ShutdownMode = ShutdownMode.OnLastWindowClose;
+
             app.Run();
         }
         catch (Exception ex)
