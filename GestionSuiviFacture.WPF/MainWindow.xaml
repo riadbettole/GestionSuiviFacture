@@ -18,13 +18,7 @@
 
     <!--  Add drop shadow effect  -->
     <Border Background="Transparent" CornerRadius="15">
-        <Border.Effect>
-            <DropShadowEffect
-                BlurRadius="25"
-                Opacity="0.6"
-                ShadowDepth="0"
-                Color="#20000000" />
-        </Border.Effect>
+
 
         <Border
             Background="White"

@@ -1,4 +1,5 @@
 ﻿using GestionSuiviFacture.WPF;
+using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Timers;
 
@@ -48,9 +49,27 @@ namespace GestionSuiviFacture.WPF.Services.Utilities
             }
         }
 
+        private async Task<bool> IsLocalServerAvailable()
+        {
+            try
+            {
+                using var client = new HttpClient();
+                client.Timeout = TimeSpan.FromSeconds(3);
+
+                var response = await client.GetAsync("https://localhost:7167");
+
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         private async void CheckNetworkStatus(object? sender, ElapsedEventArgs e)
         {
-            bool isConnected = await IsInternetAvailable();
+            bool isConnected = await IsLocalServerAvailable();
+            //bool isConnected = await IsInternetAvailable();
 
             App.Current?.Dispatcher.Invoke(() =>
             {

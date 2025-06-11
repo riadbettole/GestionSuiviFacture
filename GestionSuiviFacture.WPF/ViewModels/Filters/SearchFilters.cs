@@ -12,13 +12,10 @@ namespace GestionSuiviFacture.WPF.ViewModels.Filters
         [ObservableProperty] private DateTime debutDateFilter = DateTime.Now;
         [ObservableProperty] private DateTime finDateFilter = DateTime.Now;
         [ObservableProperty] private string statusFilter = "TOUT";
-
         [ObservableProperty]
         private bool _isNormalFactureType = true;
-
         [ObservableProperty]
         private bool _isEmballageFactureType;
-
         [ObservableProperty]
         private IEnumerable<String> statusOptions =
         [
@@ -30,11 +27,42 @@ namespace GestionSuiviFacture.WPF.ViewModels.Filters
         [ObservableProperty]
         private FactureType selectedFactureType = FactureType.None;
 
+        // Properties to control enabled/disabled state of text boxes
+        [ObservableProperty] private bool isNumSequenceEnabled = true;
+        [ObservableProperty] private bool isNumCommandeEnabled = true;
+        [ObservableProperty] private bool isCnufEnabled = true;
+
         public FilterFieldStateManager FieldStates { get; } = new();
 
-        partial void OnNumSequenceFilterChanged(string? value) => UpdateTextBoxStates();
-        partial void OnNumCommandeFilterChanged(string? value) => UpdateTextBoxStates();
-        partial void OnCnufFilterChanged(string? value) => UpdateTextBoxStates();
+        partial void OnNumSequenceFilterChanged(string? value)
+        {
+            UpdateEnabledStates();
+            UpdateTextBoxStates();
+        }
+
+        partial void OnNumCommandeFilterChanged(string? value)
+        {
+            UpdateEnabledStates();
+            UpdateTextBoxStates();
+        }
+
+        partial void OnCnufFilterChanged(string? value)
+        {
+            UpdateEnabledStates();
+            UpdateTextBoxStates();
+        }
+
+        private void UpdateEnabledStates()
+        {
+            bool hasNumSequence = !string.IsNullOrWhiteSpace(NumSequenceFilter);
+            bool hasNumCommande = !string.IsNullOrWhiteSpace(NumCommandeFilter);
+            bool hasCnuf = !string.IsNullOrWhiteSpace(CnufFilter);
+
+            // Enable/disable based on which fields have content
+            IsNumSequenceEnabled = !hasNumCommande && !hasCnuf;
+            IsNumCommandeEnabled = !hasNumSequence && !hasCnuf;
+            IsCnufEnabled = !hasNumSequence && !hasNumCommande;
+        }
 
         partial void OnDebutDateFilterChanged(DateTime value)
         {
@@ -63,10 +91,7 @@ namespace GestionSuiviFacture.WPF.ViewModels.Filters
                 IsNormalFactureType = false;
         }
 
-
         [ObservableProperty]
         private string _searchButtonText = "Rechercher";
-
-      
     }
 }

@@ -6,9 +6,14 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-	 <Version>0.1.9</Version>
+	 <Version>0.1.10</Version>
 	 <ApplicationIcon>logoApp.ico</ApplicationIcon>
   </PropertyGroup>
+
+	<PropertyGroup>
+		<StartupObject>GestionSuiviFacture.WPF.App</StartupObject>
+		<EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
+	</PropertyGroup>
 
   <ItemGroup>
     <Compile Remove="Resources\**" />

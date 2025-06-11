@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Net.Http;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GestionSuiviFacture.WPF.Models;
@@ -96,7 +97,17 @@ namespace GestionSuiviFacture.WPF.ViewModels
 
                 
             }
-            catch (Exception) 
+            catch(HttpRequestException exception)
+            {
+                if ((int)exception.StatusCode == 404)
+                {
+                    ShowAlert(
+                     "ERREUR RESSAYER",
+                     "ERREUR RESSAYER",
+                     "#FF5C5C");
+                }
+            }
+            catch (Exception)
             {
                 ShowAlert(
                       "PAS DE CONNEXION",

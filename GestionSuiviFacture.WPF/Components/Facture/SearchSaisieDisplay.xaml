@@ -88,7 +88,7 @@
                 Grid.Column="1"
                 Width="200"
                 KeyDown="SiteInputBox_KeyDown"
-                PlaceholderText="Search..."
+                PlaceholderText="Rechercher..."
                 Text="{Binding SaisieFacture.NumSite, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Grid.Row="0"
@@ -102,7 +102,7 @@
                 Grid.Column="2"
                 Width="200"
                 KeyDown="NumCommandeInputBox_KeyDown"
-                PlaceholderText="Search..."
+                PlaceholderText="Rechercher..."
                 Text="{Binding SaisieFacture.NumCommande, UpdateSourceTrigger=PropertyChanged}" />
             <TextBlock
                 Grid.Row="0"

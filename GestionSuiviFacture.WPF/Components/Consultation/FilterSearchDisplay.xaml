@@ -235,7 +235,10 @@
                 Grid.Column="1"
                 Margin="8,0,8,0">
                 <TextBlock Margin="0,0,0,6" Text="N° Séquence" />
-                <common:CompactTextBox PlaceholderText="Search items..." Text="{Binding Filters.NumSequenceFilter, UpdateSourceTrigger=PropertyChanged}" />
+                <common:CompactTextBox
+                    IsEnabled="{Binding Filters.IsNumSequenceEnabled}"
+                    PlaceholderText="Rechercher..."
+                    Text="{Binding Filters.NumSequenceFilter, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
             <!--  Row 1, Col 1 - N° Commande  -->
@@ -245,7 +248,10 @@
                 Margin="8,0,8,0">
                 <TextBlock Margin="0,0,0,6" Text="N° Commande" />
 
-                <common:CompactTextBox PlaceholderText="Search items..." Text="{Binding Filters.NumCommandeFilter, UpdateSourceTrigger=PropertyChanged}" />
+                <common:CompactTextBox
+                    IsEnabled="{Binding Filters.IsNumCommandeEnabled}"
+                    PlaceholderText="Rechercher..."
+                    Text="{Binding Filters.NumCommandeFilter, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
             <!--  Row 0, Col 2 - CNUF  -->
@@ -254,7 +260,10 @@
                 Grid.Column="2"
                 Margin="8,0,8,0">
                 <TextBlock Margin="0,0,0,6" Text="CNUF" />
-                <common:CompactTextBox PlaceholderText="Search items..." Text="{Binding Filters.CnufFilter, UpdateSourceTrigger=PropertyChanged}" />
+                <common:CompactTextBox
+                    IsEnabled="{Binding Filters.IsCnufEnabled}"
+                    PlaceholderText="Rechercher..."
+                    Text="{Binding Filters.CnufFilter, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
 
             <!--  Row 1, Col 2 - Statut  -->

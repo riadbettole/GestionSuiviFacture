@@ -1,6 +1,4 @@
-﻿
-
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using GestionSuiviFacture.WPF.ViewModels;
 using GestionSuiviFacture.WPF.Views;
@@ -13,35 +11,55 @@ namespace GestionSuiviFacture.WPF;
 
 public partial class App : Application
 {
-    protected override async void OnStartup(StartupEventArgs e)
+    [STAThread]
+    private static void Main(string[] args) 
     {
         SetupLogging();
-        Log.Information("Application starting...");
-
-        AppDomain.CurrentDomain.UnhandledException += (s, ex) =>
-        Log.Fatal(ex.ExceptionObject as Exception, "Unhandled exception occurred");
-
-        DispatcherUnhandledException += (s, ex) =>
+        Log.Information("App starting (Main)...");
+        try
         {
-            Log.Error(ex.Exception, "Unhandled UI exception occurred");
-            ex.Handled = true; // Prevent crash
-        };
+            VelopackApp.Build().Run();
 
-        VelopackApp.Build().Run();
-        await UpdateMyApp();
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    await UpdateMyApp();
+                }
+                catch (Exception ex)
+                {
+                    Log.Error(ex, "Update failed");
+                }
+            });
 
-        base.OnStartup(e);
+            var app = new App();
+            app.ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            app.InitializeComponent();
 
-        var loginWindow = new Login();
-        var loginViewModel = new LoginViewModel();
+            AppDomain.CurrentDomain.UnhandledException += (s, ex) =>
+                Log.Fatal(ex.ExceptionObject as Exception, "Unhandled domain exception");
+            app.DispatcherUnhandledException += (s, ex) =>
+            {
+                Log.Error(ex.Exception, "Unhandled UI exception");
+                ex.Handled = true;
+            };
 
-        loginViewModel.AssignAction(OnLoginSuccess);
-        loginWindow.DataContext = loginViewModel;
+            var loginWindow = new Login();
+            var loginViewModel = new LoginViewModel();
+            loginViewModel.AssignAction(OnLoginSuccess);
+            loginWindow.DataContext = loginViewModel;
+            loginWindow.Show();
 
-        loginWindow.Show();
+            app.Run();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show("Fatal error: " + ex.ToString());
+            Log.Fatal(ex, "Fatal error in Main()");
+        }
     }
 
-    private void SetupLogging()
+    private static void SetupLogging()
     {
         // Create logs folder in app data
         var logPath = Path.Combine(
@@ -103,7 +121,7 @@ public partial class App : Application
         }
     }
 
-    private void OnLoginSuccess()
+    private static void OnLoginSuccess()
     {
         var mainWindow = new MainWindow();
         Application.Current.MainWindow = mainWindow;

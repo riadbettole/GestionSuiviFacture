@@ -1,11 +1,9 @@
-﻿using System.Diagnostics;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Web;
-using GestionSuiviFacture.WPF.DTOs;
+﻿using GestionSuiviFacture.WPF.DTOs;
 using GestionSuiviFacture.WPF.Models;
 using GestionSuiviFacture.WPF.Services;
 using Newtonsoft.Json.Linq;
+using System.Diagnostics;
+using System.Web;
 
 public class PaginatedResult<T>
 {
@@ -86,7 +84,7 @@ public class EtiquetteService
     {
         try
         {
-            var response = await AuthenticatedHttpClient.GetAsync("filter"+queryString);
+            var response = await AuthenticatedHttpClient.GetAsync("Etiquette/filter" + queryString);
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
