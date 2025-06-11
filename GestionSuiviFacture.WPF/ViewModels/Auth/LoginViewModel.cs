@@ -9,9 +9,6 @@ namespace GestionSuiviFacture.WPF.ViewModels
 {
     public partial class LoginViewModel : ObservableObject
     {
-        //private readonly IAuthService _authService;
-        private readonly AuthService _authService;
-
         [ObservableProperty] private string _username = string.Empty;
         [ObservableProperty] private string _password = string.Empty;
         [ObservableProperty] private string _errorMessage = string.Empty;
@@ -25,11 +22,6 @@ namespace GestionSuiviFacture.WPF.ViewModels
         public void AssignAction(Action action)
         {
             LoginSucceeded += action;
-        }
-
-        public LoginViewModel()
-        {
-            _authService = new AuthService();
         }
 
         [RelayCommand(CanExecute = nameof(CanLogin))]
@@ -58,7 +50,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 // Simulate network delay
                 //await Task.Delay(1000);
 
-                bool isAuthenticated = await _authService.LoginAsync(Username, Password);
+                bool isAuthenticated = await AuthService.LoginAsync(Username, Password);
 
                 if (isAuthenticated)
                 {

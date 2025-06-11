@@ -1,6 +1,6 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace GestionSuiviFacture.WPF.Services
+namespace GestionSuiviFacture.WPF.Services.Utilities
 {
     public class NavigationService : ObservableObject
     {

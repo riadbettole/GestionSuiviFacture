@@ -9,17 +9,10 @@ namespace GestionSuiviFacture.WPF.Services
 {
     class CommandeService
     {
-        private readonly HttpClient _httpClient;
         public Commande? _commande;
         public IEnumerable<BonDeLivraisonDTO>? _bonDeLivraison;
-        private const string BaseUrl = "https://localhost:7167/api/v1";
 
-        public CommandeService()
-        {
-            _httpClient = new HttpClient();
-            RefreshAuthorizationHeader();
-        }
-
+    
         public Task<Commande?> GetCommande()
         {
             return Task.FromResult(_commande);
@@ -32,9 +25,8 @@ namespace GestionSuiviFacture.WPF.Services
             string? numCommande = null)
         {
             var queryString = BuildFilterQueryString(numSite, numCommande);
-            RefreshAuthorizationHeader();
 
-            var commandeDto = await FetchCommandDTOs($"{BaseUrl}/Commande{queryString}");
+            var commandeDto = await FetchCommandDTOs(queryString);
 
             if (commandeDto != null)
             {
@@ -49,11 +41,11 @@ namespace GestionSuiviFacture.WPF.Services
             return _commande;
         }
 
-        private async Task<CommandeDTO?> FetchCommandDTOs(string url)
+        private async Task<CommandeDTO?> FetchCommandDTOs(string queryString)
         {
             try
             {
-                var response = await _httpClient.GetAsync(url);
+                var response = await AuthenticatedHttpClient.GetAsync("Commande"+queryString);
                 response.EnsureSuccessStatusCode();
 
                 var jsonString = await response.Content.ReadAsStringAsync();
@@ -133,14 +125,6 @@ namespace GestionSuiviFacture.WPF.Services
                 DateReception = blDto.DateReception,
                 MontantTTC = blDto.MontantTTC
             }).ToList();
-        }
-
-        private void RefreshAuthorizationHeader()
-        {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-                "Bearer",
-                AuthService.JwtToken
-            );
         }
     }
 }

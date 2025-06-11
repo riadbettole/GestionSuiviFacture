@@ -9,21 +9,10 @@ namespace GestionSuiviFacture.WPF.Services.Saisie
 {
     class FactureService
     {
-        private readonly HttpClient _httpClient;
-        private const string BaseUrl = "https://localhost:7167/api/v1";
-
-        public FactureService()
-        {
-            _httpClient = new HttpClient();
-            RefreshAuthorizationHeader();
-        }
-
         public async Task<bool> PostEtiquetteAsync(EtiquetteDTO etiquetteDto)
         {
             try
             {
-                RefreshAuthorizationHeader();
-
                 var jsonContent = JsonSerializer.Serialize(etiquetteDto, new JsonSerializerOptions
                 {
                     PropertyNamingPolicy = JsonNamingPolicy.CamelCase
@@ -31,7 +20,7 @@ namespace GestionSuiviFacture.WPF.Services.Saisie
 
                 var httpContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                var response = await _httpClient.PostAsync($"{BaseUrl}/Etiquette", httpContent);
+                var response = await AuthenticatedHttpClient.PostAsync("Etiquette", httpContent);
                 response.EnsureSuccessStatusCode();
 
                 Debug.WriteLine("Etiquette created successfully");
@@ -42,14 +31,6 @@ namespace GestionSuiviFacture.WPF.Services.Saisie
                 Debug.WriteLine($"Error posting etiquette: {ex.Message}");
                 return false;
             }
-        }
-
-        private void RefreshAuthorizationHeader()
-        {
-            _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-                "Bearer",
-                AuthService.JwtToken
-            );
         }
     }
 }

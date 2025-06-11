@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GestionSuiviFacture.WPF.Services;
+using GestionSuiviFacture.WPF.Services.Utilities;
 
 namespace GestionSuiviFacture.WPF.ViewModels
 {

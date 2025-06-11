@@ -1,26 +1,49 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿
+
+      
+
+using System.IdentityModel.Tokens.Jwt;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 
-
 namespace GestionSuiviFacture.WPF.Services
 {
-    class AuthService
+    public class AuthService
     {
-        private static string _jwtToken = "";
+        // Keep these static for easy access everywhere
+        private static string _accessToken = "";
+        private static string _refreshToken = "";
+        private static DateTime _tokenExpiry = DateTime.MinValue;
         private static int _userId = 0;
         private static string _username = "";
         private static string _role = "";
-        public static string JwtToken => _jwtToken;
+
+        private static readonly HttpClient _httpClient = new HttpClient();
+        private const string API_BASE_URL = "https://localhost:7167/api/v1";
+
+        // Keep your existing static properties
+        public static string JwtToken => _accessToken;
         public static int UserID => _userId;
         public static string Username => _username;
         public static string Role => _role;
+        public static bool IsAuthenticated => !string.IsNullOrEmpty(_accessToken) && DateTime.UtcNow < _tokenExpiry;
 
-        public async Task<bool> LoginAsync(string username, string password)
+        public static async Task<string?> GetValidTokenAsync()
         {
-            using (HttpClient client = new HttpClient())
+            // If token is about to expire (within 5 minutes), refresh it
+            if (DateTime.UtcNow.AddMinutes(5) >= _tokenExpiry && !string.IsNullOrEmpty(_refreshToken))
+            {
+                await RefreshTokenAsync();
+            }
+
+            return IsAuthenticated ? _accessToken : null;
+        }
+
+        public static async Task<bool> LoginAsync(string username, string password)
+        {
+            try
             {
                 var payload = new
                 {
@@ -30,8 +53,8 @@ namespace GestionSuiviFacture.WPF.Services
 
                 string json = JsonSerializer.Serialize(payload);
                 var content = new StringContent(json, Encoding.UTF8, "application/json");
-                
-                    HttpResponseMessage response = await client.PostAsync("https://localhost:7167/api/v1/auth/login", content);
+
+                HttpResponseMessage response = await _httpClient.PostAsync($"{API_BASE_URL}/auth/login", content);
 
                 if (response.IsSuccessStatusCode)
                 {
@@ -41,34 +64,99 @@ namespace GestionSuiviFacture.WPF.Services
                         PropertyNameCaseInsensitive = true
                     });
 
-                    _jwtToken = tokenResponse?.Token ?? string.Empty;
+                    if (tokenResponse != null)
+                    {
+                        SetTokens(tokenResponse.AccessToken, tokenResponse.RefreshToken);
+                        ExtractUserInfo();
+                        return true;
+                    }
+                }
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Login error: {ex.Message}");
+                return false;
+            }
+        }
 
-                    var handler = new JwtSecurityTokenHandler();
-                    var jwtToken = handler.ReadJwtToken(_jwtToken);
+        private static async Task<bool> RefreshTokenAsync()
+        {
+            try
+            {
+                var payload = new { RefreshToken = _refreshToken };
+                string json = JsonSerializer.Serialize(payload);
+                var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-                    // Extract claims
-                    var claims = jwtToken.Claims.ToList();
+                HttpResponseMessage response = await _httpClient.PostAsync($"{API_BASE_URL}/auth/refresh", content);
 
-                    _userId = Convert.ToInt16(claims.FirstOrDefault(c => c.Type == "id")?.Value);
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(result, new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
 
-                    var nameClaim = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
-                    _username = nameClaim ?? string.Empty;
-
-                    var roleClaim = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value;
-                    _role = roleClaim ?? string.Empty;
-
-
-
-                    return !string.IsNullOrEmpty(_jwtToken);
+                    if (tokenResponse != null)
+                    {
+                        SetTokens(tokenResponse.AccessToken, tokenResponse.RefreshToken);
+                        return true;
+                    }
                 }
 
-                return false; //to be removed ease of acceas without db
+                // If refresh fails, clear all tokens SHOULD REALLY LOGOUT 
+                Logout();
+                return false;
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Token refresh error: {ex.Message}");
+                Logout();
+                return false;
+            }
+        }
+
+        
+        public static void Logout()
+        {
+            _accessToken = "";
+            _refreshToken = "";
+            _tokenExpiry = DateTime.MinValue;
+            _userId = 0;
+            _username = "";
+            _role = "";
+        }
+
+
+        private static void SetTokens(string? accessToken, string? refreshToken)
+        {
+            _accessToken = accessToken ?? "";
+            _refreshToken = refreshToken ?? "";
+
+            // Parse token to get expiry
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(_accessToken);
+            _tokenExpiry = jwtToken.ValidTo;
+        }
+
+        private static void ExtractUserInfo()
+        {
+            var handler = new JwtSecurityTokenHandler();
+            var jwtToken = handler.ReadJwtToken(_accessToken);
+            var claims = jwtToken.Claims.ToList();
+
+            _userId = Convert.ToInt32(claims.FirstOrDefault(c => c.Type == "id")?.Value ?? "0");
+            _username = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? string.Empty;
+            _role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? string.Empty;
         }
 
         private class TokenResponse
         {
-            public string? Token { get; set; }
+            public string? AccessToken { get; set; }
+            public string? RefreshToken { get; set; }
+            public int ExpiresIn { get; set; }
+            public string? TokenType { get; set; }
         }
     }
 }

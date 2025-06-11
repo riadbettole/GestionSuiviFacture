@@ -2,7 +2,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GestionSuiviFacture.WPF.Models;
-using GestionSuiviFacture.WPF.Services;
+using GestionSuiviFacture.WPF.Services.Utilities;
 using GestionSuiviFacture.WPF.ViewModels.Common;
 using GestionSuiviFacture.WPF.ViewModels.Filters;
 namespace GestionSuiviFacture.WPF.ViewModels

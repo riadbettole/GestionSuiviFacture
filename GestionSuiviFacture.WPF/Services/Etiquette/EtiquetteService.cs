@@ -15,15 +15,6 @@ public class PaginatedResult<T>
 
 public class EtiquetteService
 {
-    private readonly HttpClient _httpClient;
-    private const string BaseUrl = "https://localhost:7167/api/v1/etiquette";
-
-    public EtiquetteService()
-    {
-        _httpClient = new HttpClient();
-        RefreshAuthorizationHeader();
-    }
-
     public async Task<PaginatedResult<Etiquette>> GetEtiquettesByFilterAsync(
         DateTime? dateDebut = null,
         DateTime? dateFin = null,
@@ -44,9 +35,8 @@ public class EtiquetteService
             pageNumber,
             pageSize);
 
-        RefreshAuthorizationHeader();
 
-        var response = await FetchPaginatedEtiquetteDTOs($"{BaseUrl}/filter{queryString}");
+        var response = await FetchPaginatedEtiquetteDTOs(queryString);
 
         return new PaginatedResult<Etiquette>
         {
@@ -91,19 +81,12 @@ public class EtiquetteService
         return "?" + parameters.ToString();
     }
 
-    private void RefreshAuthorizationHeader()
-    {
-        _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue(
-            "Bearer",
-            AuthService.JwtToken
-        );
-    }
 
-    private async Task<PaginatedResult<EtiquetteDTO>> FetchPaginatedEtiquetteDTOs(string url)
+    private async Task<PaginatedResult<EtiquetteDTO>> FetchPaginatedEtiquetteDTOs(string queryString)
     {
         try
         {
-            var response = await _httpClient.GetAsync(url);
+            var response = await AuthenticatedHttpClient.GetAsync("filter"+queryString);
             response.EnsureSuccessStatusCode();
 
             var json = await response.Content.ReadAsStringAsync();
