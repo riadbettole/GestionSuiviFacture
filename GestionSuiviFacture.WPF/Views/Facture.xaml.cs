@@ -1,31 +1,23 @@
 ﻿using System.Windows.Controls;
 
-namespace GestionSuiviFacture.WPF.Views
+namespace GestionSuiviFacture.WPF.Views;
+
+public partial class Facture : UserControl
 {
-    /// <summary>
-    /// Interaction logic for Page1.xaml
-    /// </summary>
-    public partial class Facture : UserControl
+    public Facture()
     {
-        public Facture()
-        {
-            InitializeComponent();
-            SearchDisplayControl.EnterPressed += SearchDisplayControl_EnterPressed;
-            AlertDisplayControl.ButtonPressed += SearchDisplayControl_ButtonPressed;
-        }
+        InitializeComponent();
+        SearchDisplayControl.EnterPressed += SearchDisplayControl_EnterPressed;
+        AlertDisplayControl.ButtonPressed += SearchDisplayControl_ButtonPressed;
+    }
 
+    private void SearchDisplayControl_EnterPressed(object? sender, EventArgs e)
+    {
+        SaisisInfoFactureDisplay.FocusNumFactureTextBox();
+    }
 
-        private void SearchDisplayControl_EnterPressed(object? sender, EventArgs e)
-        {
-            SaisisInfoFactureDisplay.FocusNumFactureTextBox();
-        }
-
-
-        private void SearchDisplayControl_ButtonPressed(object? sender, EventArgs e)
-        {
-            SearchDisplayControl.CleanAll();
-        }
-
-
+    private void SearchDisplayControl_ButtonPressed(object? sender, EventArgs e)
+    {
+        SearchDisplayControl.CleanAll();
     }
 }

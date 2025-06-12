@@ -1,19 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using GestionSuiviFacture.WPF.Models;
 
-namespace GestionSuiviFacture.WPF.ViewModels.Facture
+namespace GestionSuiviFacture.WPF.ViewModels.Helpers;
+
+public partial class BonDeLivraisonViewModel : ObservableObject
 {
-    public partial class BonDeLivraisonViewModel : ObservableObject
+    private readonly BonDeLivraison _bonDeLivraison;
+
+    public BonDeLivraisonViewModel(BonDeLivraison bonDeLivraison)
     {
-        private readonly BonDeLivraison _bonDeLivraison;
-
-        public BonDeLivraisonViewModel(BonDeLivraison   bonDeLivraison)
-        {
-            _bonDeLivraison =  bonDeLivraison;
-        }
-
-        public string? numDeLivraison => _bonDeLivraison.NumeroLivraison;
-        public double montantTTC => _bonDeLivraison.MontantTTC;
-        public DateTime dateReception => _bonDeLivraison.DateReception;
+        _bonDeLivraison = bonDeLivraison;
     }
+
+    public string? numDeLivraison => _bonDeLivraison.NumeroLivraison;
+    public double montantTTC => _bonDeLivraison.MontantTTC;
+    public DateTime dateReception => _bonDeLivraison.DateReception;
 }

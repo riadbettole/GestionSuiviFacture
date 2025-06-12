@@ -30,13 +30,9 @@ public partial class App : Application
 
         VelopackApp.Build().Run();
 
-        // Start progress window immediately
         StartProgressBar();
 
-        // Then start the update check process
         await StartUpdateProcess();
-
-        //StartLoginWindow();
 
         base.OnStartup(e);
     }
@@ -51,16 +47,13 @@ public partial class App : Application
 
         _updateProgressWindow.Show();
 
-        // Set initial status
         _updateViewModel.UpdateStatus("Initialisation...");
     }
 
     private async Task StartUpdateProcess()
     {
-        // Add a small delay to ensure the window is visible
         await Task.Delay(500);
 
-        // Check and handle updates - this will trigger the event when done
         await CheckAndHandleUpdates();
     }
 
@@ -68,7 +61,6 @@ public partial class App : Application
     {
         try
         {
-            Log.Information("Starting update check...");
             _updateViewModel?.UpdateStatus("Vérification des mises à jour...");
 
             var github = new GithubSource(
@@ -90,19 +82,17 @@ public partial class App : Application
                 return false;
             }
 
-            Log.Information($"Update found: {newVersion.TargetFullRelease.Version}");
-            _updateViewModel?.UpdateStatus($"Mise à jour trouvée: {newVersion.TargetFullRelease.Version}");
+            Log.Information("Update found: {Version}", newVersion.TargetFullRelease.Version);
+            _updateViewModel?.UpdateStatus(
+                $"Mise à jour trouvée: {newVersion.TargetFullRelease.Version}"
+            );
 
-            // Download with progress using Action<int>
-            Log.Information("Downloading updates...");
             _updateViewModel?.UpdateStatus("Téléchargement des mises à jour...");
             _updateViewModel?.SetProgress(0, false, "Préparation du téléchargement...");
 
-            // Create progress callback as Action<int>
             Action<int> progressCallback = percentage =>
             {
-                // Use Dispatcher to update UI from background thread
-                Application.Current.Dispatcher.Invoke(() =>
+                App.Current.Dispatcher.Invoke(() =>
                 {
                     _updateViewModel?.SetProgress(percentage, false, $"{percentage}% terminé");
                 });
@@ -110,13 +100,11 @@ public partial class App : Application
 
             await mgr.DownloadUpdatesAsync(newVersion, progressCallback);
 
-            Log.Information("Preparing installation...");
             _updateViewModel?.UpdateStatus("Préparation de l'installation...");
             _updateViewModel?.SetProgress(100, false, "Téléchargement terminé");
             await Task.Delay(500);
 
             CloseProgressWindow();
-            Log.Information("Starting installation - Velopack will take over...");
             mgr.ApplyUpdatesAndRestart(newVersion);
 
             return false;
@@ -151,7 +139,7 @@ public partial class App : Application
         }
     }
 
-    private void StartLoginWindow()
+    private static void StartLoginWindow()
     {
         var loginWindow = new Login();
         var loginViewModel = new LoginViewModel();
@@ -168,7 +156,7 @@ public partial class App : Application
         CloseProgressWindow();
     }
 
-    private void OnLoginSuccess()
+    private static void OnLoginSuccess()
     {
         var mainWindow = new MainWindow();
         Application.Current.MainWindow = mainWindow;
@@ -180,7 +168,7 @@ public partial class App : Application
         }
     }
 
-    public void OnLogout()
+    public static void OnLogout()
     {
         var loginWindow = new Login();
         var loginViewModel = new LoginViewModel();
@@ -196,7 +184,7 @@ public partial class App : Application
         }
     }
 
-    private void SetupLogging()
+    private static void SetupLogging()
     {
         var logPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),

@@ -1,88 +1,94 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
-namespace GestionSuiviFacture.WPF.Components.Common
+namespace GestionSuiviFacture.WPF.Components.Common;
+
+public partial class CompactDatePicker : UserControl
 {
-    public partial class CompactDatePicker : UserControl
+    public static readonly DependencyProperty SelectedDateProperty = DependencyProperty.Register(
+        nameof(SelectedDate),
+        typeof(DateTime?),
+        typeof(CompactDatePicker),
+        new FrameworkPropertyMetadata(
+            null,
+            FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
+            OnSelectedDateChanged
+        )
+    );
+
+    public static readonly RoutedEvent DatePickerLoadedEvent = EventManager.RegisterRoutedEvent(
+        nameof(DatePickerLoaded),
+        RoutingStrategy.Bubble,
+        typeof(RoutedEventHandler),
+        typeof(CompactDatePicker)
+    );
+
+    public CompactDatePicker()
     {
-        public static readonly DependencyProperty SelectedDateProperty =
-            DependencyProperty.Register(
-                nameof(SelectedDate),
-                typeof(DateTime?),
-                typeof(CompactDatePicker),
-                new FrameworkPropertyMetadata(
-                    null,
-                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-                    OnSelectedDateChanged));
+        InitializeComponent();
+        PART_DatePicker.Loaded += OnDatePickerLoaded;
+        PART_DatePicker.SelectedDateChanged += OnInternalDatePickerSelectedDateChanged;
 
-        public static readonly RoutedEvent DatePickerLoadedEvent =
-            EventManager.RegisterRoutedEvent(
-                nameof(DatePickerLoaded),
-                RoutingStrategy.Bubble,
-                typeof(RoutedEventHandler),
-                typeof(CompactDatePicker));
+        this.PreviewKeyDown += OnPreviewKeyDown;
+    }
 
-        public CompactDatePicker()
+    public DateTime? SelectedDate
+    {
+        get => (DateTime?)GetValue(SelectedDateProperty);
+        set => SetValue(SelectedDateProperty, value);
+    }
+
+    public event RoutedEventHandler DatePickerLoaded
+    {
+        add => AddHandler(DatePickerLoadedEvent, value);
+        remove => RemoveHandler(DatePickerLoadedEvent, value);
+    }
+
+    public new bool Focus()
+    {
+        if (
+            PART_DatePicker.Template?.FindName("PART_TextBox", PART_DatePicker)
+            is DatePickerTextBox textBox
+        )
         {
-            InitializeComponent();
-            PART_DatePicker.Loaded += OnDatePickerLoaded;
-            PART_DatePicker.SelectedDateChanged += OnInternalDatePickerSelectedDateChanged;
-
-            // Handle PreviewKeyDown on this UserControl directly, not the internal DatePicker
-            this.PreviewKeyDown += OnPreviewKeyDown;
+            return textBox.Focus();
         }
+        return PART_DatePicker.Focus();
+    }
 
-        public DateTime? SelectedDate
+    private static void OnSelectedDateChanged(
+        DependencyObject d,
+        DependencyPropertyChangedEventArgs e
+    )
+    {
+        if (d is CompactDatePicker picker)
         {
-            get => (DateTime?)GetValue(SelectedDateProperty);
-            set => SetValue(SelectedDateProperty, value);
+            picker.PART_DatePicker.SelectedDate = picker.SelectedDate;
         }
+    }
 
-        public event RoutedEventHandler DatePickerLoaded
+    private void OnInternalDatePickerSelectedDateChanged(
+        object? sender,
+        SelectionChangedEventArgs e
+    )
+    {
+        if (PART_DatePicker.SelectedDate != SelectedDate)
         {
-            add => AddHandler(DatePickerLoadedEvent, value);
-            remove => RemoveHandler(DatePickerLoadedEvent, value);
+            SelectedDate = PART_DatePicker.SelectedDate;
         }
+    }
 
-        // Method to focus on the text input part of the DatePicker
-        public new bool Focus()
-        {
-            if (PART_DatePicker.Template?.FindName("PART_TextBox", PART_DatePicker) is DatePickerTextBox textBox)
-            {
-                return textBox.Focus();
-            }
-            return PART_DatePicker.Focus();
-        }
+    private void OnPreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        // Let the parent handle PreviewKeyDown normally - don't interfere
+        // The event will bubble up naturally to your DateInputBox_PreviewKeyDown handler
+    }
 
-        private static void OnSelectedDateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is CompactDatePicker picker)
-            {
-                picker.PART_DatePicker.SelectedDate = picker.SelectedDate;
-            }
-        }
-
-        private void OnInternalDatePickerSelectedDateChanged(object? sender, SelectionChangedEventArgs e)
-        {
-            if (PART_DatePicker.SelectedDate != SelectedDate)
-            {
-                SelectedDate = PART_DatePicker.SelectedDate;
-            }
-        }
-
-        private void OnPreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            // Let the parent handle PreviewKeyDown normally - don't interfere
-            // The event will bubble up naturally to your DateInputBox_PreviewKeyDown handler
-        }
-
-        private void OnDatePickerLoaded(object sender, RoutedEventArgs e)
-        {
-            var args = new RoutedEventArgs(DatePickerLoadedEvent);
-            RaiseEvent(args);
-        }
+    private void OnDatePickerLoaded(object sender, RoutedEventArgs e)
+    {
+        var args = new RoutedEventArgs(DatePickerLoadedEvent);
+        RaiseEvent(args);
     }
 }

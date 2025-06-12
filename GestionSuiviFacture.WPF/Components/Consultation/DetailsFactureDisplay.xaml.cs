@@ -1,20 +1,11 @@
-﻿using GestionSuiviFacture.WPF.Models;
-using GestionSuiviFacture.WPF.ViewModels;
-using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Windows.Controls;
 
-namespace GestionSuiviFacture.WPF.Components.Consultation
+namespace GestionSuiviFacture.WPF.Components.Consultation;
+
+public partial class DetailsFactureDisplay : UserControl
 {
-    /// <summary>
-    /// Interaction logic for DetailsFacture.xaml
-    /// </summary>
-    public partial class DetailsFactureDisplay : UserControl
+    public DetailsFactureDisplay()
     {
-        public DetailsFactureDisplay()
-        {
-            InitializeComponent();
-        }
-
-
+        InitializeComponent();
     }
 }

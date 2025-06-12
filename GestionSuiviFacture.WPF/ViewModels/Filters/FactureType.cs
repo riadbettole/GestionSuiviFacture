@@ -1,9 +1,8 @@
-﻿namespace GestionSuiviFacture.WPF.ViewModels.Filters
+﻿namespace GestionSuiviFacture.WPF.ViewModels.Filters;
+
+public enum FactureType
 {
-    public enum FactureType
-    {
-        None,
-        Normal,
-        Emballage
-    }
+    None,
+    Normal,
+    Emballage,
 }

@@ -6,16 +6,20 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-	 <Version>0.2.2</Version>
+	 <Version>0.3.0</Version>
 	 <ApplicationIcon>logoApp.ico</ApplicationIcon>
   </PropertyGroup>
 
 	
 
   <ItemGroup>
+    <Compile Remove="Exceptions\**" />
     <Compile Remove="Resources\**" />
+    <EmbeddedResource Remove="Exceptions\**" />
     <EmbeddedResource Remove="Resources\**" />
+    <None Remove="Exceptions\**" />
     <None Remove="Resources\**" />
+    <Page Remove="Exceptions\**" />
     <Page Remove="Resources\**" />
   </ItemGroup>
 
@@ -71,7 +75,6 @@
 
   <ItemGroup>
     <Folder Include="HostBuilders\" />
-    <Folder Include="Exceptions\" />
   </ItemGroup>
 
   <ItemGroup>

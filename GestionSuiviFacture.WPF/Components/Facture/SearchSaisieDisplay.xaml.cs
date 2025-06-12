@@ -1,69 +1,60 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using GestionSuiviFacture.WPF.ViewModels;
 using System.Windows.Input;
-using System.Windows.Controls.Primitives;
+using GestionSuiviFacture.WPF.ViewModels;
 
-namespace GestionSuiviFacture.WPF.Components.Facture
+namespace GestionSuiviFacture.WPF.Components.Facture;
+
+public partial class SearchSaisieDisplay : UserControl
 {
-    /// <summary>
-    /// Interaction logic for SearchSaisieDisplay.xaml
-    /// </summary>
-    public partial class SearchSaisieDisplay : UserControl
+    public event EventHandler? EnterPressed;
+
+    public SearchSaisieDisplay()
     {
+        InitializeComponent();
+    }
 
-        public event EventHandler? EnterPressed;
+    private void DateTextBox_Loaded(object sender, RoutedEventArgs e)
+    {
+        DateTextBox.Focus();
+    }
 
-
-        public SearchSaisieDisplay()
+    private void NumCommandeInputBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (
+            e.Key == Key.Enter
+            && DataContext is FactureViewModel vm
+            && vm.FindCommandeCommand.CanExecute(null)
+        )
         {
-            InitializeComponent();
+            vm.FindCommandeCommand.Execute(null);
+            EnterPressed?.Invoke(this, EventArgs.Empty);
         }
+    }
 
-
-        private void DateTextBox_Loaded(object sender, RoutedEventArgs e)
+    private void DateInputBox_PreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
         {
-            DateTextBox.Focus();
+            SiteTextBox.Focus();
+            e.Handled = true;
         }
+    }
 
-        private void NumCommandeInputBox_KeyDown(object sender, KeyEventArgs e)
+    public void CleanAll()
+    {
+        DateTextBox.SelectedDate = DateTime.Now;
+        SiteTextBox.Clear();
+        CommandeTextBox.Clear();
+
+        DateTextBox.Focus();
+    }
+
+    private void SiteInputBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
         {
-            if (e.Key == Key.Enter)
-            {
-                if (DataContext is FactureViewModel vm && vm.FindCommandeCommand.CanExecute(null))
-                {
-                    vm.FindCommandeCommand.Execute(null);
-                    EnterPressed?.Invoke(this, EventArgs.Empty);
-                }
-            }
+            CommandeTextBox.Focus();
         }
-
-        private void DateInputBox_PreviewKeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                SiteTextBox.Focus();
-                e.Handled = true;
-            }
-        }
-
-        public void CleanAll()
-        {
-            DateTextBox.SelectedDate = DateTime.Now;
-            SiteTextBox.Clear();
-            CommandeTextBox.Clear();
-
-            DateTextBox.Focus();
-        }
-
-        private void SiteInputBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                CommandeTextBox.Focus();
-            }
-        }
-
-
     }
 }

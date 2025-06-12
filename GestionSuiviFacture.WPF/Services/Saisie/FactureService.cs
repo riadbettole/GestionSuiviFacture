@@ -1,36 +1,34 @@
 ﻿using GestionSuiviFacture.WPF.DTOs;
 using System.Diagnostics;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
 
-namespace GestionSuiviFacture.WPF.Services.Saisie
+namespace GestionSuiviFacture.WPF.Services;
+
+static class FactureService
 {
-    class FactureService
+    public static async Task<bool> PostEtiquetteAsync(EtiquetteDto etiquetteDto)
     {
-        public async Task<bool> PostEtiquetteAsync(EtiquetteDTO etiquetteDto)
+        try
         {
-            try
-            {
-                var jsonContent = JsonSerializer.Serialize(etiquetteDto, new JsonSerializerOptions
-                {
-                    PropertyNamingPolicy = JsonNamingPolicy.CamelCase
-                });
+            var jsonContent = JsonSerializer.Serialize(
+                etiquetteDto,
+                JsonConfig.DefaultOptions
+            );
 
-                var httpContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            var httpContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
 
-                var response = await AuthenticatedHttpClient.PostAsync("Etiquette", httpContent);
-                response.EnsureSuccessStatusCode();
+            var response = await AuthenticatedHttpClient.PostAsync("Etiquette", httpContent);
+            response.EnsureSuccessStatusCode();
 
-                Debug.WriteLine("Etiquette created successfully");
-                return true;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error posting etiquette: {ex.Message}");
-                return false;
-            }
+            Debug.WriteLine("Etiquette created successfully");
+            return true;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error posting etiquette: {ex.Message}");
+            return false;
         }
     }
 }

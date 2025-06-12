@@ -1,15 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace GestionSuiviFacture.WPF.Components.Facture
+namespace GestionSuiviFacture.WPF.Components.Facture;
+
+public partial class InfoFournisseurDisplay : UserControl
 {
-    /// <summary>
-    /// Interaction logic for InfoFournisseurDisplay.xaml
-    /// </summary>
-    public partial class InfoFournisseurDisplay : UserControl
+    public InfoFournisseurDisplay()
     {
-        public InfoFournisseurDisplay()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

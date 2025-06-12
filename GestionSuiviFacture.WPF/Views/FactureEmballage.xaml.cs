@@ -1,30 +1,23 @@
 ﻿using System.Windows.Controls;
 
-namespace GestionSuiviFacture.WPF.Views
+namespace GestionSuiviFacture.WPF.Views;
+
+public partial class FactureEmballage : UserControl
 {
-    /// <summary>
-    /// Interaction logic for FactureEmballage.xaml
-    /// </summary>
-    public partial class FactureEmballage : UserControl
+    public FactureEmballage()
     {
-        public FactureEmballage()
-        {
-            InitializeComponent();
-            SearchDisplayControl.EnterPressed += SearchDisplayControl_EnterPressed;
-            AlertDisplayControl.ButtonPressed += SearchDisplayControl_ButtonPressed;
-        }
+        InitializeComponent();
+        SearchDisplayControl.EnterPressed += SearchDisplayControl_EnterPressed;
+        AlertDisplayControl.ButtonPressed += SearchDisplayControl_ButtonPressed;
+    }
 
+    private void SearchDisplayControl_EnterPressed(object? sender, EventArgs e)
+    {
+        SaisisInfoFactureDisplay.FocusNumFactureTextBox();
+    }
 
-        private void SearchDisplayControl_EnterPressed(object? sender, EventArgs e)
-        {
-            SaisisInfoFactureDisplay.FocusNumFactureTextBox();
-        }
-
-
-        private void SearchDisplayControl_ButtonPressed(object? sender, EventArgs e)
-        {
-            SearchDisplayControl.CleanAll();
-        }
-
+    private void SearchDisplayControl_ButtonPressed(object? sender, EventArgs e)
+    {
+        SearchDisplayControl.CleanAll();
     }
 }

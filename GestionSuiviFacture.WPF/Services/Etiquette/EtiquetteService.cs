@@ -1,9 +1,10 @@
-﻿using GestionSuiviFacture.WPF.DTOs;
-using GestionSuiviFacture.WPF.Models;
-using GestionSuiviFacture.WPF.Services;
-using Newtonsoft.Json.Linq;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Web;
+using GestionSuiviFacture.WPF.DTOs;
+using GestionSuiviFacture.WPF.Models;
+using Newtonsoft.Json.Linq;
+
+namespace GestionSuiviFacture.WPF.Services;
 
 public class PaginatedResult<T>
 {
@@ -13,74 +14,61 @@ public class PaginatedResult<T>
 
 public class EtiquetteService
 {
-    public async Task<PaginatedResult<Etiquette>> GetEtiquettesByFilterAsync(
-        DateTime? dateDebut = null,
-        DateTime? dateFin = null,
-        int? statut = null,
-        string? n_Sequence = null,
-        string? n_Commande = null,
-        string? cnuf = null,
-        int pageNumber = 1,
-        int pageSize = 10)
+    public class EtiquetteFilterRequest
     {
-        var queryString = BuildFilterQueryString(
-            dateDebut,
-            dateFin,
-            statut,
-            n_Sequence,
-            n_Commande,
-            cnuf,
-            pageNumber,
-            pageSize);
+        public DateTime? DateDebut { get; set; }
+        public DateTime? DateFin { get; set; }
+        public int? Statut { get; set; }
+        public string? N_Sequence { get; set; }
+        public string? N_Commande { get; set; }
+        public string? Cnuf { get; set; }
+        public int PageNumber { get; set; } = 1;
+        public int PageSize { get; set; } = 10;
+    }
 
+    public async Task<PaginatedResult<Etiquette>> GetEtiquettesByFilterAsync(EtiquetteFilterRequest request)
+    {
+        var queryString = BuildFilterQueryString(request);
 
         var response = await FetchPaginatedEtiquetteDTOs(queryString);
-
         return new PaginatedResult<Etiquette>
         {
             Items = response.Items.Select(MapToModel),
-            TotalCount = response.TotalCount
+            TotalCount = response.TotalCount,
         };
     }
 
-    private string BuildFilterQueryString(
-        DateTime? dateDebut,
-        DateTime? dateFin,
-        int? statut,
-        string? n_Sequence,
-        string? n_Commande,
-        string? cnuf,
-        int pageNumber,
-        int pageSize)
+    private static string BuildFilterQueryString(EtiquetteFilterRequest request)
     {
         var parameters = HttpUtility.ParseQueryString(string.Empty);
 
-        if (dateDebut.HasValue)
-            parameters["dateDebut"] = dateDebut.Value.ToString("yyyy-MM-dd");
+        if (request.DateDebut.HasValue)
+            parameters["dateDebut"] = request.DateDebut.Value.ToString("yyyy-MM-dd");
 
-        if (dateFin.HasValue)
-            parameters["dateFin"] = dateFin.Value.ToString("yyyy-MM-dd");
+        if (request.DateFin.HasValue)
+            parameters["dateFin"] = request.DateFin.Value.ToString("yyyy-MM-dd");
 
-        if (statut.HasValue)
-            parameters["statut"] = Convert.ToString(statut);
+        if (request.Statut.HasValue)
+            parameters["statut"] = Convert.ToString(request.Statut);
 
-        if (!string.IsNullOrEmpty(n_Sequence))
-            parameters["n_Sequence"] = n_Sequence;
+        if (!string.IsNullOrEmpty(request.N_Sequence))
+            parameters["n_Sequence"] = request.N_Sequence;
 
-        if (!string.IsNullOrEmpty(n_Commande))
-            parameters["n_Commande"] = n_Commande;
+        if (!string.IsNullOrEmpty(request.N_Commande))
+            parameters["n_Commande"] = request.N_Commande;
 
-        if (!string.IsNullOrEmpty(cnuf))
-            parameters["cnuf"] = cnuf;
+        if (!string.IsNullOrEmpty(request.Cnuf))
+            parameters["cnuf"] = request.Cnuf;
 
-        parameters["PageNumber"] = pageNumber.ToString();
-        parameters["PageSize"] = pageSize.ToString();
+        parameters["PageNumber"] = request.PageNumber.ToString();
+        parameters["PageSize"] = request.PageSize.ToString();
 
         return "?" + parameters.ToString();
     }
 
-
-    private async Task<PaginatedResult<EtiquetteDTO>> FetchPaginatedEtiquetteDTOs(string queryString)
+    private static async Task<PaginatedResult<EtiquetteDto>> FetchPaginatedEtiquetteDTOs(
+        string queryString
+    )
     {
         try
         {
@@ -93,13 +81,9 @@ public class EtiquetteService
             var items = jsonObject["items"] ?? jsonObject["Items"];
             var totalCount = jsonObject["totalCount"]?.Value<int>() ?? 0;
 
-            var last = items?.ToObject<List<EtiquetteDTO>>() ?? new List<EtiquetteDTO>();
+            var last = items?.ToObject<List<EtiquetteDto>>() ?? new List<EtiquetteDto>();
 
-            return new PaginatedResult<EtiquetteDTO>
-            {
-                Items = last,
-                TotalCount = totalCount
-            };
+            return new PaginatedResult<EtiquetteDto> { Items = last, TotalCount = totalCount };
         }
         catch (Exception ex)
         {
@@ -108,20 +92,21 @@ public class EtiquetteService
         }
     }
 
-    private Etiquette MapToModel(EtiquetteDTO dto)
+    private Etiquette MapToModel(EtiquetteDto dto)
     {
-        var lignesFacture = dto.LigneFactureDTOs?.Select(lf => new LigneFacture
-        {
-            Id = 0,  // fix that tmrw urgent
-            Taux = lf.Taux,
-            MontantHT = lf.MontantHT,
-        }).ToList() ?? new List<LigneFacture>();
+        var lignesFacture =
+            dto.LigneFactureDTOs?.Select(lf => new LigneFacture
+                {
+                    Id = 0, // fix that tmrw urgent
+                    Taux = lf.Taux,
+                    MontantHT = lf.MontantHT,
+                })
+                .ToList() ?? new List<LigneFacture>();
 
         return new Etiquette(
             NumSequence: dto.NSequence,
             Status: dto.Statut,
             DateTraitement: dto.DateTraitement,
-
             NumCommande: dto.NumCommande,
             Fournisseur: dto.LibelleFournisseur,
             MontantBRV: dto.MontantBRV ?? 0.0,
@@ -130,14 +115,11 @@ public class EtiquetteService
             Cnuf: dto.Cnuf,
             LibelleSite: dto.Site,
             GroupeSite: dto.Groupe,
-
             NumFacture: dto.NumFacture,
             DateFacture: dto.DateFacture,
             MontantFacture: dto.MontantTTCFacture ?? 0.0,
             LignesFacture: lignesFacture,
-
             Utilisateur: dto.UtilisateurNom,
-
             UtilisateurAnnule: dto.UtilisateurNomAnnulation,
             DateAnnulation: dto.DateAnnulation,
             MotifAnnulation: MapIntMotif(dto.MotifAnnulation ?? 8),
@@ -145,18 +127,18 @@ public class EtiquetteService
         );
     }
 
-    private string MapIntMotif(int motif) =>
-       motif switch
-       {
-           0 => "Erreur de calcul",
-           1 => "Bon de Commande Erroné",
-           2 => "Relevé",
-           3 => "Manque complement",
-           4 => "Dossier non conforme",
-           5 => "Manque HT",
-           6 => "Erreur de prix",
-           7 => "Deja traité",
-           8 => "aucun",
-           _ => throw new ArgumentOutOfRangeException(nameof(motif), "Unknown status value"),
-       };
+    private static string MapIntMotif(int motif) =>
+        motif switch
+        {
+            0 => "Erreur de calcul",
+            1 => "Bon de Commande Erroné",
+            2 => "Relevé",
+            3 => "Manque complement",
+            4 => "Dossier non conforme",
+            5 => "Manque HT",
+            6 => "Erreur de prix",
+            7 => "Deja traité",
+            8 => "aucun",
+            _ => throw new ArgumentOutOfRangeException(nameof(motif), "Unknown status value"),
+        };
 }

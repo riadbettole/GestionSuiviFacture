@@ -1,15 +1,11 @@
 ﻿using System.Windows;
 
-namespace GestionSuiviFacture.WPF.Views
+namespace GestionSuiviFacture.WPF.Views;
+
+public partial class UpdateProgresBar : Window
 {
-    /// <summary>
-    /// Interaction logic for UpdateProgresBar.xaml
-    /// </summary>
-    public partial class UpdateProgresBar : Window
+    public UpdateProgresBar()
     {
-        public UpdateProgresBar()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

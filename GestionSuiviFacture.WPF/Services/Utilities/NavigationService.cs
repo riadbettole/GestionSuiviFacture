@@ -1,28 +1,18 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace GestionSuiviFacture.WPF.Services.Utilities
+namespace GestionSuiviFacture.WPF.Services;
+
+public class NavigationService : ObservableObject
 {
-    public class NavigationService : ObservableObject
+    private ObservableObject? _currentViewModel;
+    public ObservableObject? CurrentViewModel
     {
-        private ObservableObject? _currentViewModel;
-        public ObservableObject? CurrentViewModel
-        {
-            get => _currentViewModel;
-            set
-            {
-                //Simple cleanup for the old ViewModel before replacing it
-                if (_currentViewModel is IDisposable disposable)
-                {
-                    disposable.Dispose();
-                }
+        get => _currentViewModel;
+        set => SetProperty(ref _currentViewModel, value);
+    }
 
-                SetProperty(ref _currentViewModel, value);
-            }
-        }
-
-        public void NavigateTo(ObservableObject viewModel)
-        {
-            CurrentViewModel = viewModel;
-        }
+    public void NavigateTo(ObservableObject viewModel)
+    {
+        CurrentViewModel = viewModel;
     }
 }

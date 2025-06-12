@@ -1,6 +1,8 @@
 ﻿using System.Text.Json.Serialization;
 
-public class CommandeDTO
+namespace GestionSuiviFacture.WPF.DTOs;
+
+public class CommandeDto
 {
     public string? Id { get; set; }
 
@@ -17,10 +19,8 @@ public class CommandeDTO
 
     public DateTime DateEcheance { get; set; }
 
-
     [JsonPropertyName("bonsLivraison")]
     public BonLivraisonWrapper? BonsLivraison { get; set; }
-
 }
 
 public class BonLivraisonWrapper
@@ -29,5 +29,5 @@ public class BonLivraisonWrapper
     public string? Id { get; set; }
 
     [JsonPropertyName("$values")]
-    public IEnumerable<BonDeLivraisonDTO>? Values { get; set; }
+    public IEnumerable<BonDeLivraisonDto>? Values { get; set; }
 }

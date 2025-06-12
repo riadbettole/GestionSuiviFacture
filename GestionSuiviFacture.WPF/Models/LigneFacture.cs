@@ -1,9 +1,8 @@
-﻿namespace GestionSuiviFacture.WPF.Models
+﻿namespace GestionSuiviFacture.WPF.Models;
+
+public class LigneFacture
 {
-    public class LigneFacture
-    {
-        public int Id { get; set; }
-        public double Taux { get; set; }
-        public double MontantHT { get; set; }
-    }
+    public int Id { get; set; }
+    public double Taux { get; set; }
+    public double MontantHT { get; set; }
 }

@@ -1,33 +1,29 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using CommunityToolkit.Mvvm.Input;
 using GestionSuiviFacture.WPF.ViewModels;
 
-namespace GestionSuiviFacture.WPF.Components.Common
+namespace GestionSuiviFacture.WPF.Components.Common;
+
+public partial class AlerteDisplay : UserControl
 {
-    /// <summary>
-    /// Interaction logic for DetailsFacture.xaml
-    /// </summary>
-    public partial class AlerteDisplay : UserControl
+    public event EventHandler? ButtonPressed;
+
+    public AlerteDisplay()
     {
-        public event EventHandler? ButtonPressed;
-        public AlerteDisplay()
-        {
-            InitializeComponent();
-        }   
+        InitializeComponent();
+    }
 
-        public void ClosePopupAndClean()
+    public void ClosePopupAndClean()
+    {
+        if (DataContext is FactureViewModel vm)
         {
-            if (DataContext is FactureViewModel vm)
-            {
-                vm.ClosePopupAndClean();
-                ButtonPressed?.Invoke(this, EventArgs.Empty);
-            }
+            vm.ClosePopupAndClean();
+            ButtonPressed?.Invoke(this, EventArgs.Empty);
         }
+    }
 
-        private void OnClosePopupClicked(object sender, RoutedEventArgs e)
-        {
-            ClosePopupAndClean(); 
-        }
+    private void OnClosePopupClicked(object sender, RoutedEventArgs e)
+    {
+        ClosePopupAndClean();
     }
 }

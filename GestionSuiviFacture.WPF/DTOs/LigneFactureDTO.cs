@@ -1,8 +1,7 @@
-﻿namespace GestionSuiviFacture.WPF.DTOs
+﻿namespace GestionSuiviFacture.WPF.DTOs;
+
+public class LigneFactureDto
 {
-    public class LigneFactureDTO
-    {
-        public double MontantHT { get; set; }
-        public int Taux { get; set; }
-    }
+    public double MontantHT { get; set; }
+    public int Taux { get; set; }
 }

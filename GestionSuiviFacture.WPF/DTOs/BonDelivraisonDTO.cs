@@ -1,4 +1,6 @@
-﻿public class BonDeLivraisonDTO
+﻿namespace GestionSuiviFacture.WPF.DTOs;
+
+public class BonDeLivraisonDto
 {
     public string? Id { get; set; }
     public string? NumeroLivraison { get; set; }

@@ -1,6 +1,6 @@
-﻿namespace GestionSuiviFacture.WPF.Models
-{
-    public record Commande(
+﻿namespace GestionSuiviFacture.WPF.Models;
+
+public record Commande(
     string? NomFournisseur,
     string? CNUF,
     string? Site,
@@ -11,4 +11,3 @@
     DateTime? DateEcheance,
     IEnumerable<BonDeLivraison> BonDeLivraison
 );
-}

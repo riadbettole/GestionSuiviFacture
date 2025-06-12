@@ -1,81 +1,64 @@
-﻿using GestionSuiviFacture.WPF;
-using System.Net.Http;
-using System.Net.NetworkInformation;
+﻿using System.Net.Http;
 using System.Timers;
 
-namespace GestionSuiviFacture.WPF.Services.Utilities
+namespace GestionSuiviFacture.WPF.Services;
+
+public class NetworkService
 {
-    public class NetworkService : IDisposable
+    private readonly System.Timers.Timer _networkCheckTimer;
+    private DateTime _lastConnectedTime;
+    private bool _isConnected = true;
+
+    public event EventHandler<bool>? NetworkStatusChanged;
+
+    public bool IsConnected => _isConnected;
+
+    public NetworkService(int checkIntervalMs = 5000)
     {
-        private readonly System.Timers.Timer _networkCheckTimer;
-        private DateTime _lastConnectedTime;
-        private bool _isConnected = true;
+        _lastConnectedTime = DateTime.UtcNow;
 
-        public event EventHandler<bool>? NetworkStatusChanged;
+        _networkCheckTimer = new System.Timers.Timer(checkIntervalMs);
+        _networkCheckTimer.Elapsed += CheckNetworkStatus;
+    }
 
-        public bool IsConnected => _isConnected;
+    public void StartMonitoring()
+    {
+        _networkCheckTimer.Start();
+    }
 
-        public NetworkService(int checkIntervalMs = 5000)
+    public void StopMonitoring()
+    {
+        _networkCheckTimer.Stop();
+    }
+
+    private static async Task<bool> IsLocalServerAvailable()
+    {
+        try
         {
-            _lastConnectedTime = DateTime.Now;
+            using var client = new HttpClient();
+            client.Timeout = TimeSpan.FromSeconds(3);
 
-            _networkCheckTimer = new System.Timers.Timer(checkIntervalMs);
-            _networkCheckTimer.Elapsed += CheckNetworkStatus;
+            await client.GetAsync("https://localhost:7167/network/health");
+
+            return true;
         }
-
-        public void StartMonitoring()
+        catch
         {
-            _networkCheckTimer.Start();
+            return false;
         }
+    }
 
-        public void StopMonitoring()
+    private async void CheckNetworkStatus(object? sender, ElapsedEventArgs e)
+    {
+        bool isConnected = await IsLocalServerAvailable();
+
+        if (App.Current?.Dispatcher != null)
         {
-            _networkCheckTimer.Stop();
-        }
-
-        private async Task<bool> IsInternetAvailable()
-        {
-            try
-            {
-                using (var ping = new Ping())
-                {
-                    var reply = await ping.SendPingAsync("8.8.8.8", 3000);
-                    return reply.Status == IPStatus.Success;
-                }
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private async Task<bool> IsLocalServerAvailable()
-        {
-            try
-            {
-                using var client = new HttpClient();
-                client.Timeout = TimeSpan.FromSeconds(3);
-
-                var response = await client.GetAsync("https://localhost:7167");
-
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private async void CheckNetworkStatus(object? sender, ElapsedEventArgs e)
-        {
-            bool isConnected = await IsLocalServerAvailable();
-            //bool isConnected = await IsInternetAvailable();
-
-            App.Current?.Dispatcher.Invoke(() =>
+            await App.Current.Dispatcher.InvokeAsync(() =>
             {
                 if (isConnected)
                 {
-                    _lastConnectedTime = DateTime.Now;
+                    _lastConnectedTime = DateTime.UtcNow;
                     if (!_isConnected)
                     {
                         _isConnected = true;
@@ -84,22 +67,13 @@ namespace GestionSuiviFacture.WPF.Services.Utilities
                 }
                 else
                 {
-                    if ((DateTime.Now - _lastConnectedTime).TotalSeconds > 5)
+                    if ((DateTime.UtcNow - _lastConnectedTime).TotalSeconds > 5 && _isConnected)
                     {
-                        if (_isConnected)
-                        {
-                            _isConnected = false;
-                            NetworkStatusChanged?.Invoke(this, false);
-                        }
+                        _isConnected = false;
+                        NetworkStatusChanged?.Invoke(this, false);
                     }
                 }
             });
-        }
-
-        public void Dispose()
-        {
-            _networkCheckTimer?.Stop();
-            _networkCheckTimer?.Dispose();
         }
     }
 }

@@ -1,19 +1,11 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using GestionSuiviFacture.WPF.ViewModels;
+﻿using System.Windows.Controls;
 
-namespace GestionSuiviFacture.WPF.Components.Consultation
+namespace GestionSuiviFacture.WPF.Components.Consultation;
+
+public partial class FilterSearchDisplay : UserControl
 {
-    /// <summary>
-    /// Interaction logic for FilterSearchComponent.xaml
-    /// </summary>
-    public partial class FilterSearchDisplay : UserControl
+    public FilterSearchDisplay()
     {
-        public FilterSearchDisplay()
-        {
-            InitializeComponent();
-        }
-
-        
+        InitializeComponent();
     }
 }

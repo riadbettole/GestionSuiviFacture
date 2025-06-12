@@ -1,15 +1,11 @@
 ﻿using System.Windows.Controls;
 
-namespace GestionSuiviFacture.WPF.Components.Common
+namespace GestionSuiviFacture.WPF.Components.Common;
+
+public partial class NotFoundAlertDisplay : UserControl
 {
-    /// <summary>
-    /// Interaction logic for NotFoundAlertDisplay.xaml
-    /// </summary>
-    public partial class NotFoundAlertDisplay : UserControl
+    public NotFoundAlertDisplay()
     {
-        public NotFoundAlertDisplay()
-        {
-            InitializeComponent();
-        }
+        InitializeComponent();
     }
 }

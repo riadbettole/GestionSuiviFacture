@@ -1,21 +1,11 @@
-﻿using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using GestionSuiviFacture.WPF.Components;
-using GestionSuiviFacture.WPF.ViewModels;
+﻿using System.Windows.Controls;
 
-namespace GestionSuiviFacture.WPF.Views
+namespace GestionSuiviFacture.WPF.Views;
+
+public partial class Consultation : UserControl
 {
-    /// <summary>
-    /// Interaction logic for Consultation.xaml
-    /// </summary>
-    public partial class Consultation : UserControl
+    public Consultation()
     {
-
-        public Consultation()
-        {
-            InitializeComponent();
-        }
-
+        InitializeComponent();
     }
 }

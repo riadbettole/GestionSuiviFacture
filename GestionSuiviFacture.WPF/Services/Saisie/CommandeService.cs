@@ -1,130 +1,116 @@
-﻿using GestionSuiviFacture.WPF.Models;
-using System.Diagnostics;
-using System.Net.Http;
-using System.Net.Http.Headers;
+﻿using System.Diagnostics;
 using System.Text.Json;
 using System.Web;
+using GestionSuiviFacture.WPF.DTOs;
+using GestionSuiviFacture.WPF.Models;
 
-namespace GestionSuiviFacture.WPF.Services
+namespace GestionSuiviFacture.WPF.Services;
+
+class CommandeService
 {
-    class CommandeService
+    public Commande? _commande;
+    public IEnumerable<BonDeLivraisonDto>? _bonDeLivraison;
+
+    public Task<Commande?> GetCommande()
     {
-        public Commande? _commande;
-        public IEnumerable<BonDeLivraisonDTO>? _bonDeLivraison;
+        return Task.FromResult(_commande);
+    }
 
-    
-        public Task<Commande?> GetCommande()
+    public async Task<Commande?> GetCommandeByFilterAsync(
+        string? numSite = null,
+        string? numCommande = null
+    )
+    {
+        var queryString = BuildFilterQueryString(numSite, numCommande);
+
+        var commandeDto = await FetchCommandDTOs(queryString);
+
+        if (commandeDto != null)
         {
-            return Task.FromResult(_commande);
+            _commande = MapToModel(commandeDto);
+            _bonDeLivraison = MapToBonDeLivraison(commandeDto);
+        }
+        else
+        {
+            _commande = null;
         }
 
+        return _commande;
+    }
 
-
-        public async Task<Commande?> GetCommandeByFilterAsync(
-            string? numSite = null,
-            string? numCommande = null)
+    private static async Task<CommandeDto?> FetchCommandDTOs(string queryString)
+    {
+        try
         {
-            var queryString = BuildFilterQueryString(numSite, numCommande);
+            var response = await AuthenticatedHttpClient.GetAsync("Commande" + queryString);
+            response.EnsureSuccessStatusCode();
 
-            var commandeDto = await FetchCommandDTOs(queryString);
+            var jsonString = await response.Content.ReadAsStringAsync();
 
-            if (commandeDto != null)
-            {
-                _commande = MapToModel(commandeDto);
-                _bonDeLivraison = MapToBonDeLivraison(commandeDto);
-            }
-            else
-            {
-                _commande = null;
-            }
+            var commandeDto = JsonSerializer.Deserialize<CommandeDto>(jsonString, JsonConfig.DefaultOptions);
 
-            return _commande;
+            return commandeDto;
+        }
+        catch (Exception ex)
+        {
+            Debug.WriteLine($"Error fetching commandes: {ex.Message}");
+            return null;
+        }
+    }
+
+    private static string BuildFilterQueryString(string? numSite = null, string? numCommande = null)
+    {
+        var parameters = HttpUtility.ParseQueryString(string.Empty);
+
+        if (!string.IsNullOrEmpty(numSite))
+            parameters["n_site"] = numSite;
+        if (!string.IsNullOrEmpty(numCommande))
+            parameters["n_commande"] = numCommande;
+
+        return parameters.Count > 0 ? "?" + parameters.ToString() : "";
+    }
+
+    private static Commande MapToModel(CommandeDto dto)
+    {
+        return new Commande(
+            NomFournisseur: dto.LibelleFournisseur,
+            CNUF: dto.Cnuf,
+            Site: dto.LibelleSite,
+            Rayon: dto.Rayon,
+            Groupe: dto.Groupe,
+            MontantTTC: dto.MontantBRV,
+            DateCommande: dto.DateCommande,
+            DateEcheance: dto.DateEcheance,
+            BonDeLivraison: MapToModelBL(
+                dto.BonsLivraison?.Values ?? Enumerable.Empty<BonDeLivraisonDto>()
+            )
+        );
+    }
+
+    private static List<BonDeLivraison> MapToModelBL(IEnumerable<BonDeLivraisonDto> dtos)
+    {
+        List<BonDeLivraison> bls = [];
+
+        foreach (BonDeLivraisonDto dto in dtos)
+        {
+            bls.Add(new BonDeLivraison(dto.NumeroLivraison, dto.DateReception, dto.MontantTTC));
         }
 
-        private async Task<CommandeDTO?> FetchCommandDTOs(string queryString)
-        {
-            try
-            {
-                var response = await AuthenticatedHttpClient.GetAsync("Commande"+queryString);
-                response.EnsureSuccessStatusCode();
+        return bls;
+    }
 
-                var jsonString = await response.Content.ReadAsStringAsync();
-                Debug.WriteLine($"JSON Response: {jsonString}");
+    private static IEnumerable<BonDeLivraisonDto> MapToBonDeLivraison(CommandeDto dto)
+    {
+        if (dto.BonsLivraison?.Values == null)
+            return Enumerable.Empty<BonDeLivraisonDto>();
 
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true
-                };
-
-                var commandeDto = JsonSerializer.Deserialize<CommandeDTO>(jsonString, options);
-
-                return commandeDto;
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Error fetching commandes: {ex.Message}");
-                return null;
-            }
-        }
-
-        private string BuildFilterQueryString(
-            string? numSite = null,
-            string? numCommande = null)
-        {
-            var parameters = HttpUtility.ParseQueryString(string.Empty);
-
-            //if (dateFacture.HasValue)
-            //    parameters["date_facture"] = dateFacture.Value.ToString("yyyy-MM-dd");
-            if (!string.IsNullOrEmpty(numSite))
-                parameters["n_site"] = numSite;
-            if (!string.IsNullOrEmpty(numCommande))
-                parameters["n_commande"] = numCommande; 
-
-            return parameters.Count > 0 ? "?" + parameters.ToString() : "";
-        }
-
-        private Commande MapToModel(CommandeDTO dto)
-        {
-            return new Commande(
-                NomFournisseur: dto.LibelleFournisseur,
-                CNUF: dto.Cnuf,
-                Site: dto.LibelleSite,
-                Rayon: dto.Rayon,
-                Groupe: dto.Groupe,
-                MontantTTC: dto.MontantBRV,
-                DateCommande: dto.DateCommande,
-                DateEcheance: dto.DateEcheance,
-                BonDeLivraison: MapToModelBL(dto.BonsLivraison?.Values ?? Enumerable.Empty<BonDeLivraisonDTO>())
-            );
-        }
-
-        private IEnumerable<BonDeLivraison> MapToModelBL(IEnumerable<BonDeLivraisonDTO> dtos)
-        {
-            List<BonDeLivraison> bls = [];
-
-            foreach (BonDeLivraisonDTO dto in dtos)
-            {
-                bls.Add(new BonDeLivraison(
-                    dto.NumeroLivraison,
-                    dto.DateReception,
-                    dto.MontantTTC
-                    ));
-            }
-
-            return bls;
-        }
-
-        private IEnumerable<BonDeLivraisonDTO> MapToBonDeLivraison(CommandeDTO dto)
-        {
-            if (dto.BonsLivraison?.Values == null)
-                return Enumerable.Empty<BonDeLivraisonDTO>();
-
-            return dto.BonsLivraison.Values.Select(blDto => new BonDeLivraisonDTO
+        return dto
+            .BonsLivraison.Values.Select(blDto => new BonDeLivraisonDto
             {
                 NumeroLivraison = blDto.NumeroLivraison,
                 DateReception = blDto.DateReception,
-                MontantTTC = blDto.MontantTTC
-            }).ToList();
-        }
+                MontantTTC = blDto.MontantTTC,
+            })
+            .ToList();
     }
 }
