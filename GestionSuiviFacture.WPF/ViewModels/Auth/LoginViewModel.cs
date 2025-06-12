@@ -1,7 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Windows;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GestionSuiviFacture.WPF.Services;
 
@@ -113,7 +110,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 ErrorMessage = string.Empty;
 
             }
-                LoginCommand.NotifyCanExecuteChanged();
+            LoginCommand.NotifyCanExecuteChanged();
         }
 
         partial void OnPasswordChanged(string value)
@@ -123,7 +120,7 @@ namespace GestionSuiviFacture.WPF.ViewModels
                 HasError = false;
                 ErrorMessage = string.Empty;
             }
-                LoginCommand.NotifyCanExecuteChanged();
+            LoginCommand.NotifyCanExecuteChanged();
         }
 
     }
