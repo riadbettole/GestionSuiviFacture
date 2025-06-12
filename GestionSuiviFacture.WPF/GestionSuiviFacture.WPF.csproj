@@ -6,14 +6,11 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-	 <Version>0.2.0</Version>
+	 <Version>0.2.1</Version>
 	 <ApplicationIcon>logoApp.ico</ApplicationIcon>
   </PropertyGroup>
 
-	<PropertyGroup>
-		<StartupObject>GestionSuiviFacture.WPF.App</StartupObject>
-		<EnableDefaultApplicationDefinition>false</EnableDefaultApplicationDefinition>
-	</PropertyGroup>
+	
 
   <ItemGroup>
     <Compile Remove="Resources\**" />
@@ -31,6 +28,7 @@
     <None Remove="Images\factureEmba.png" />
     <None Remove="Images\GroupMarjaneWhite.png" />
     <None Remove="Images\logoApp.png" />
+    <None Remove="Images\logoAppWhite.png" />
     <None Remove="Images\MJlogo.png" />
     <None Remove="Images\search.png" />
     <None Remove="Images\SearchBlue.png" />
@@ -87,6 +85,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\logoApp.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\logoAppWhite.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\MJlogo.png">
