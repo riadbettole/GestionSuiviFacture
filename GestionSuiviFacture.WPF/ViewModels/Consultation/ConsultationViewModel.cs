@@ -146,7 +146,7 @@ public partial class ConsultationViewModel : ObservableObject
         {
             "STATUS OK" => 0,
             "STATUS NOK" => 1,
-            "STATUS ANNULE" => 2,
+            "STATUS ANNULÉ" => 2,
             _ => null,
         };
 

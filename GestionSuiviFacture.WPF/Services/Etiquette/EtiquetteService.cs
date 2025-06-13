@@ -23,7 +23,7 @@ public class EtiquetteService
         public string? N_Commande { get; set; }
         public string? Cnuf { get; set; }
         public int PageNumber { get; set; } = 1;
-        public int PageSize { get; set; } = 10;
+        public int PageSize { get; set; } = 8;
     }
 
     public async Task<PaginatedResult<Etiquette>> GetEtiquettesByFilterAsync(EtiquetteFilterRequest request)
