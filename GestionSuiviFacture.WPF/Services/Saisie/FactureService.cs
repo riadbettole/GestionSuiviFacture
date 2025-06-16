@@ -1,14 +1,22 @@
 ﻿using GestionSuiviFacture.WPF.DTOs;
+using GestionSuiviFacture.WPF.Services.Saisie;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using GestionSuiviFacture.WPF.Configuration;
+using GestionSuiviFacture.WPF.Services;
 
-namespace GestionSuiviFacture.WPF.Services;
-
-static class FactureService
+public class FactureService : IFactureService
 {
-    public static async Task<bool> PostEtiquetteAsync(EtiquetteDto etiquetteDto)
+    private readonly IAuthenticatedHttpClient _httpClient;
+
+    public FactureService(IAuthenticatedHttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
+
+    public async Task<bool> PostEtiquetteAsync(EtiquetteDto etiquetteDto)
     {
         try
         {
@@ -18,11 +26,9 @@ static class FactureService
             );
 
             var httpContent = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-
-            var response = await AuthenticatedHttpClient.PostAsync("Etiquette", httpContent);
+            var response = await _httpClient.PostAsync("Etiquette", httpContent);
             response.EnsureSuccessStatusCode();
 
-            Debug.WriteLine("Etiquette created successfully");
             return true;
         }
         catch (Exception ex)

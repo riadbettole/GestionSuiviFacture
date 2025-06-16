@@ -280,7 +280,7 @@
                 Grid.Row="1"
                 Background="White"
                 CornerRadius="0,0,15,0">
-                <ContentPresenter Content="{Binding DataContext.Navigation.CurrentViewModel, ElementName=root}" />
+                <ContentPresenter Content="{Binding DataContext.NavigationService.CurrentViewModel, ElementName=root}" />
             </Border>
         </Grid>
     </Grid>

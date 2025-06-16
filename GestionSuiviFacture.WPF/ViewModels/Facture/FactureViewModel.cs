@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.Input;
 using GestionSuiviFacture.WPF.DTOs;
 using GestionSuiviFacture.WPF.Models;
 using GestionSuiviFacture.WPF.Services;
+using GestionSuiviFacture.WPF.Services.Saisie;
 using GestionSuiviFacture.WPF.ViewModels.Common;
 using GestionSuiviFacture.WPF.ViewModels.Helpers;
 
@@ -25,8 +26,7 @@ public partial class FactureViewModel : ObservableObject
 
     [ObservableProperty]
     private CommandeViewModel? _commande;
-    private readonly CommandeService _commandeService;
-
+    
     [ObservableProperty]
     private double _montantTotal = 0;
 
@@ -41,12 +41,20 @@ public partial class FactureViewModel : ObservableObject
 
     const string EMPTY = "-----";
 
-    public FactureViewModel()
+    private readonly ICommandeService _commandeService;
+    private readonly IFactureService _factureService;
+    private readonly IAuthService _authService;
+
+
+    public FactureViewModel(IAuthService authService, ICommandeService commandeService, IFactureService factureService)
     {
-        _commandeService = new CommandeService();
+        _commandeService = commandeService;
+        _factureService = factureService;
+        _authService = authService;
 
         SaisieFacture = new InfoSaisieFacture();
         BonDeLivraisons = new ObservableCollection<BonDeLivraisonViewModel>();
+
         CleanUpCommande();
     }
 
@@ -122,6 +130,15 @@ public partial class FactureViewModel : ObservableObject
         SaisieFacture.AddTax(taxDetail);
     }
 
+    [RelayCommand]
+    private void RemoveTaxDetail(TaxDetail taxDetail)
+    {
+        if (taxDetail != null)
+        {
+            SaisieFacture.RemoveTax(taxDetail);
+            UpdateStatus(); 
+        }
+    }
 
     [RelayCommand]
     private async Task SaveFacture()
@@ -137,7 +154,7 @@ public partial class FactureViewModel : ObservableObject
             }
             EtiquetteDto etiquetteDto = MakeEtiquetteDTO();
 
-            await FactureService.PostEtiquetteAsync(etiquetteDto);
+            await _factureService.PostEtiquetteAsync(etiquetteDto);
 
             CleanUpSaisie();
             CleanUpCommande();
@@ -173,7 +190,7 @@ public partial class FactureViewModel : ObservableObject
             NumFacture = SaisieFacture.NumFacture,
             MontantTTCFacture = SaisieFacture.MontantTTC,
 
-            UtilisateurId = AuthService.UserID,
+            UtilisateurId = _authService.UserID,
 
             LigneFactureDTOs = SaisieFacture.LigneFacture.Select(tax => new LigneFactureDto
             {

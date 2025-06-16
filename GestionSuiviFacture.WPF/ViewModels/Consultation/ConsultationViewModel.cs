@@ -7,13 +7,12 @@ using GestionSuiviFacture.WPF.Models;
 using GestionSuiviFacture.WPF.Services;
 using GestionSuiviFacture.WPF.ViewModels.Common;
 using GestionSuiviFacture.WPF.ViewModels.Filters;
-using static GestionSuiviFacture.WPF.Services.EtiquetteService;
 
 namespace GestionSuiviFacture.WPF.ViewModels;
 
 public partial class ConsultationViewModel : ObservableObject
 {
-    private readonly EtiquetteService _etiquetteService;
+    private readonly IEtiquetteService _etiquetteService;
     private readonly ObservableCollection<EtiquetteViewModel> _etiquettes = new();
 
     [ObservableProperty]
@@ -33,18 +32,16 @@ public partial class ConsultationViewModel : ObservableObject
 
     public IEnumerable<EtiquetteViewModel> Etiquettes => _etiquettes;
 
-    public ConsultationViewModel()
+    public ConsultationViewModel(IEtiquetteService etiquetteService)
     {
-        _etiquetteService = new EtiquetteService();
+        _etiquetteService = etiquetteService;
 
-        // Initialize pagination and connect to page change event
         Pagination = new PaginationViewModel();
         Pagination.PageChanged += OnPageChanged;
     }
 
     private void OnPageChanged(object? sender, int page)
     {
-        // When page changes, reload data with the new page
         LoadEtiquettesFilterCommand.Execute(null);
     }
 
@@ -71,8 +68,8 @@ public partial class ConsultationViewModel : ObservableObject
             var result = await _etiquetteService.GetEtiquettesByFilterAsync(
                 new EtiquetteFilterRequest
                 {
-                    DateDebut = StartOfDay(Filters.DebutDateFilter),
-                    DateFin = EndOfDay(Filters.FinDateFilter),
+                    DateDebut = Filters.DebutDateFilter,
+                    DateFin = Filters.FinDateFilter,
                     Statut = ConvertStatusToEnum(Filters.StatusFilter),
                     N_Sequence = Filters.NumSequenceFilter,
                     N_Commande = Filters.NumCommandeFilter,
@@ -124,22 +121,7 @@ public partial class ConsultationViewModel : ObservableObject
             _etiquettes.Add(new EtiquetteViewModel(etiquette));
     }
 
-    private static DateTime StartOfDay(DateTime date) =>
-        new(date.Year, date.Month, date.Day, 00, 00, 00, DateTimeKind.Local);
-
-    private static DateTime EndOfDay(DateTime date)
-    {
-        DateTime newDate = date.AddDays(1);
-        return new DateTime(
-            newDate.Year,
-            newDate.Month,
-            newDate.Day,
-            00,
-            00,
-            01,
-            DateTimeKind.Local
-        );
-    }
+ 
 
     private static int? ConvertStatusToEnum(string status) =>
         status switch

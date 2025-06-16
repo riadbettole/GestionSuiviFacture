@@ -5,10 +5,10 @@ namespace GestionSuiviFacture.WPF;
 
 public partial class MainWindow : Window
 {
-    public MainWindow()
+    public MainWindow(MainViewModel mainViewModel)
     {
         InitializeComponent();
-        var mainViewModel = new MainViewModel();
+        //could break things
         DataContext = mainViewModel;
 
         mainViewModel.NavigateToFacture();

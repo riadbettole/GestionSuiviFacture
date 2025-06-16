@@ -227,7 +227,7 @@
                                     <Setter Property="Foreground" Value="#374151" />
                                     <Setter Property="FontWeight" Value="SemiBold" />
                                     <Setter Property="FontSize" Value="11" />
-                                    <Setter Property="Padding" Value="12,8" />
+                                    <Setter Property="Padding" Value="0,8" />
                                     <Setter Property="BorderBrush" Value="#E5E7EB" />
                                     <Setter Property="BorderThickness" Value="0,0,0,1" />
                                     <Setter Property="HorizontalContentAlignment" Value="Right" />
@@ -246,6 +246,65 @@
                                     </Setter>
                                 </Style>
                             </GridView.ColumnHeaderContainerStyle>
+
+
+                            <GridViewColumn Width="20" Header="">
+                                <GridViewColumn.HeaderContainerStyle>
+                                    <Style TargetType="{x:Type GridViewColumnHeader}">
+                                        <Setter Property="Background" Value="#F8FAFC" />
+                                        <Setter Property="BorderBrush" Value="#E5E7EB" />
+                                        <Setter Property="BorderThickness" Value="0,0,0,1" />
+                                        <Setter Property="Padding" Value="0,8" />
+                                        <Setter Property="Template">
+                                            <Setter.Value>
+                                                <ControlTemplate TargetType="GridViewColumnHeader">
+                                                    <Border
+                                                        Background="{TemplateBinding Background}"
+                                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                                        BorderThickness="{TemplateBinding BorderThickness}" />
+                                                </ControlTemplate>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Style>
+                                </GridViewColumn.HeaderContainerStyle>
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="-6,0,0,0">
+                                            <Button
+                                                Width="12"
+                                                Height="12"
+                                                HorizontalAlignment="Left"
+                                                Background="#FF5C5C"
+                                                BorderThickness="0"
+                                                Command="{Binding DataContext.RemoveTaxDetailCommand, RelativeSource={RelativeSource AncestorType=ListView}}"
+                                                CommandParameter="{Binding}"
+                                                Cursor="Hand">
+                                                <Button.Template>
+                                                    <ControlTemplate TargetType="Button">
+                                                        <Border Background="{TemplateBinding Background}" CornerRadius="2">
+                                                            <TextBlock
+                                                                HorizontalAlignment="Center"
+                                                                VerticalAlignment="Center"
+                                                                FontSize="8"
+                                                                FontWeight="Bold"
+                                                                Foreground="White"
+                                                                Text="✕" />
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsMouseOver" Value="True">
+                                                                <Setter Property="Background" Value="#E53E3E" />
+                                                            </Trigger>
+                                                            <Trigger Property="IsPressed" Value="True">
+                                                                <Setter Property="Background" Value="#C53030" />
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Button.Template>
+                                            </Button>
+                                        </Grid>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
                             <GridViewColumn Width="80" Header="Taux (%)">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>

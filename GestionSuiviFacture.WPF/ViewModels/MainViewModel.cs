@@ -1,16 +1,24 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GestionSuiviFacture.WPF.Services;
+using GestionSuiviFacture.WPF.Services.Utilities;
 
 namespace GestionSuiviFacture.WPF.ViewModels;
 
 public partial class MainViewModel : ObservableObject
 {
-    [ObservableProperty]
-    private string currentUser = AuthService.Username;
+    private readonly NetworkService _networkService;
+    private readonly WindowManager _windowManager;
+    private readonly IAuthService _authService;
+
+    // Expose NavigationService so the View can bind to it
+    public NavigationService NavigationService { get; }
 
     [ObservableProperty]
-    private string firstLetterNameUser = AuthService.Username.Substring(0, 1).ToUpper();
+    private string currentUser;
+
+    [ObservableProperty]
+    private string firstLetterNameUser;
 
     [ObservableProperty]
     private string currentPageTitle = "Tableau de bord";
@@ -24,26 +32,35 @@ public partial class MainViewModel : ObservableObject
     [ObservableProperty]
     private string connexionStatusColor;
 
-    [RelayCommand]
-    private static void Disconnect()
+    [ObservableProperty]
+    private string? activePage;
+
+    public MainViewModel(IAuthService authService, WindowManager windowManager, NetworkService networkService, NavigationService navigationService)
     {
-        App.OnLogout();
-    }
+        _authService = authService;
+        NavigationService = navigationService; // Store as public property instead of private field
+        _networkService = networkService;
+        _windowManager = windowManager;
 
-    public NavigationService Navigation { get; }
-    private readonly NetworkService _networkService;
+        // Initialize properties that depend on injected services
+        CurrentUser = _authService.Username ?? string.Empty;
+        FirstLetterNameUser = !string.IsNullOrEmpty(_authService.Username)
+            ? _authService.Username.Substring(0, 1).ToUpper()
+            : "U";
 
-    public MainViewModel()
-    {
-        Navigation = new NavigationService();
-
-        _networkService = new NetworkService(3000); // Check every 3 seconde
+        // Set up network monitoring
         _networkService.NetworkStatusChanged += OnNetworkStatusChanged;
+        _networkService.StartMonitoring();
 
+        // Initialize connection status
         ConnexionStatus = "Connecté";
         ConnexionStatusColor = "Green";
+    }
 
-        _networkService.StartMonitoring();
+    [RelayCommand]
+    private void Disconnect()
+    {
+        _windowManager.OnLogout();
     }
 
     private void OnNetworkStatusChanged(object? sender, bool isConnected)
@@ -66,7 +83,10 @@ public partial class MainViewModel : ObservableObject
         CurrentPageTitle = "Facture Normales";
         CurrentPageSubtitle = "Gestion des factures standard";
         SetActivePage("Facture");
-        Navigation.NavigateTo(new FactureViewModel());
+
+        // Create FactureViewModel through DI container
+        var factureViewModel = App.GetService<FactureViewModel>();
+        NavigationService.NavigateTo(factureViewModel);
     }
 
     [RelayCommand]
@@ -75,11 +95,11 @@ public partial class MainViewModel : ObservableObject
         CurrentPageTitle = "Consultations";
         CurrentPageSubtitle = "Recherche et consultation d'étiquettes";
         SetActivePage("Consultation");
-        Navigation.NavigateTo(new ConsultationViewModel());
-    }
 
-    [ObservableProperty]
-    private string? activePage;
+        // Create ConsultationViewModel through DI container
+        var consultationViewModel = App.GetService<ConsultationViewModel>();
+        NavigationService.NavigateTo(consultationViewModel);
+    }
 
     public void SetActivePage(string page)
     {

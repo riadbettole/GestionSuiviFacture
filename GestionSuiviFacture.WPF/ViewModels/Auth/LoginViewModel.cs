@@ -1,11 +1,14 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GestionSuiviFacture.WPF.Services;
+using System.Net.Http;
 
 namespace GestionSuiviFacture.WPF.ViewModels;
 
 public partial class LoginViewModel : ObservableObject
 {
+    private readonly IAuthService _authService;
+
     [ObservableProperty]
     private string _username = string.Empty;
 
@@ -28,6 +31,11 @@ public partial class LoginViewModel : ObservableObject
     private string _loginButtonText = "Se connecter";
 
     public event Action? LoginSucceeded;
+
+    public LoginViewModel(IAuthService authService)
+    {
+        _authService = authService;
+    }
 
     public void AssignAction(Action action)
     {
@@ -56,19 +64,26 @@ public partial class LoginViewModel : ObservableObject
                 return;
             }
 
-            bool isAuthenticated = await AuthService.LoginAsync(Username, Password);
+            bool isAuthenticated = await _authService.LoginAsync(Username, Password);
 
             if (isAuthenticated)
             {
                 HasError = false;
                 ErrorMessage = string.Empty;
-
                 LoginSucceeded?.Invoke();
             }
             else
             {
                 ShowError("Nom d'utilisateur ou mot de passe incorrect");
             }
+        }
+        catch (InvalidOperationException ex)
+        {
+            ShowError(ex.Message); // Shows archived message
+        }
+        catch (HttpRequestException ex) when (ex.Data.Contains("StatusCode") && ex.Data["StatusCode"].Equals(423))
+        {
+            throw new InvalidOperationException("Votre compte a été archivé. Contactez le support.");
         }
         catch (System.Net.NetworkInformation.NetworkInformationException)
         {

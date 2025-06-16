@@ -6,20 +6,16 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
-	 <Version>0.3.1</Version>
+	 <Version>0.3.2</Version>
 	 <ApplicationIcon>logoApp.ico</ApplicationIcon>
   </PropertyGroup>
 
 	
 
   <ItemGroup>
-    <Compile Remove="Exceptions\**" />
     <Compile Remove="Resources\**" />
-    <EmbeddedResource Remove="Exceptions\**" />
     <EmbeddedResource Remove="Resources\**" />
-    <None Remove="Exceptions\**" />
     <None Remove="Resources\**" />
-    <Page Remove="Exceptions\**" />
     <Page Remove="Resources\**" />
   </ItemGroup>
 
@@ -65,16 +61,14 @@
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.7.25104.5739" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Serilog" Version="4.3.0" />
     <PackageReference Include="Serilog.Extensions.Logging" Version="9.0.2" />
     <PackageReference Include="Serilog.Sinks.File" Version="7.0.0" />
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.11.0" />
     <PackageReference Include="Velopack" Version="0.0.1298" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="HostBuilders\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 namespace GestionSuiviFacture.WPF.ViewModels;
 
-partial class UpdateViewModel : ObservableObject
+public partial class UpdateViewModel : ObservableObject
 {
     [ObservableProperty]
     private string status = "Initialisation...";

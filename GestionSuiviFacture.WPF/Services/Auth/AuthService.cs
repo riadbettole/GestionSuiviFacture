@@ -1,31 +1,47 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
+using GestionSuiviFacture.WPF.Configuration;
+using GestionSuiviFacture.WPF.Services.Utilities;
+using GestionSuiviFacture.WPF.ViewModels;
 
 namespace GestionSuiviFacture.WPF.Services;
 
-public class AuthService
+class TokenResponse
 {
-    private static string _accessToken = "";
-    private static string _refreshToken = "";
-    private static DateTime _tokenExpiry = DateTime.MinValue;
-    private static int _userId = 0;
-    private static string _username = "";
-    private static string _role = "";
+    public string? AccessToken { get; set; } = string.Empty;
+    public string? RefreshToken { get; set; } = string.Empty;
+}
 
-    private static readonly HttpClient _httpClient = new HttpClient();
+public class AuthService : IAuthService
+{
+    private string _accessToken = "";
+    private string _refreshToken = "";
+    private DateTime _tokenExpiry = DateTime.MinValue;
+    private int _userId = 0;
+    private string _username = "";
+
+    private readonly HttpClient _httpClient;
+    private readonly WindowManager _windowManager;
     private const string API_BASE_URL = "https://localhost:7167/api/v1";
 
-    public static string JwtToken => _accessToken;
-    public static int UserID => _userId;
-    public static string Username => _username;
-    public static string Role => _role;
-    public static bool IsAuthenticated =>
+    public event EventHandler<bool>? AuthenticationChanged;
+
+    public int UserID => _userId;
+    public string Username => _username;
+    public bool IsAuthenticated =>
         !string.IsNullOrEmpty(_accessToken) && DateTime.UtcNow < _tokenExpiry;
 
-    public static async Task<string?> GetValidTokenAsync()
+    public AuthService(HttpClient httpClient, WindowManager windowManager)
+    {
+        _httpClient = httpClient;
+        _windowManager = windowManager;
+    }
+
+    public async Task<string?> GetValidTokenAsync()
     {
         if (DateTime.UtcNow.AddMinutes(5) >= _tokenExpiry && !string.IsNullOrEmpty(_refreshToken))
         {
@@ -35,19 +51,15 @@ public class AuthService
         return IsAuthenticated ? _accessToken : null;
     }
 
-    public static async Task<bool> LoginAsync(string username, string password)
+    public async Task<bool> LoginAsync(string username, string password)
     {
         try
         {
             var payload = new { Username = username, Password = password };
-
             string json = JsonSerializer.Serialize(payload);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            HttpResponseMessage response = await _httpClient.PostAsync(
-                $"{API_BASE_URL}/auth/login",
-                content
-            );
+            var response = await _httpClient.PostAsync($"{API_BASE_URL}/login", content);
 
             if (response.IsSuccessStatusCode)
             {
@@ -56,15 +68,25 @@ public class AuthService
                     result,
                     JsonConfig.DefaultOptions
                 );
-
                 if (tokenResponse != null)
                 {
                     SetTokens(tokenResponse.AccessToken, tokenResponse.RefreshToken);
                     ExtractUserInfo();
+                    AuthenticationChanged?.Invoke(this, true);
                     return true;
                 }
             }
+            else if (response.StatusCode == (HttpStatusCode)423) // Locked
+            {
+                var errorMessage = await response.Content.ReadAsStringAsync();
+                throw new InvalidOperationException(errorMessage);
+            }
+
             return false;
+        }
+        catch (InvalidOperationException)
+        {
+            throw; // Re-throw to preserve the specific error message
         }
         catch (Exception ex)
         {
@@ -73,7 +95,7 @@ public class AuthService
         }
     }
 
-    private static async Task<bool> RefreshTokenAsync()
+    private async Task<bool> RefreshTokenAsync()
     {
         try
         {
@@ -82,7 +104,7 @@ public class AuthService
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
             HttpResponseMessage response = await _httpClient.PostAsync(
-                $"{API_BASE_URL}/auth/refresh",
+                $"{API_BASE_URL}/refresh",
                 content
             );
 
@@ -101,7 +123,7 @@ public class AuthService
                 }
             }
 
-            // If refresh fails, clear all tokens SHOULD REALLY LOGOUT
+            // If refresh fails, clear all tokens
             Logout();
             return false;
         }
@@ -113,17 +135,20 @@ public class AuthService
         }
     }
 
-    public static void Logout()
+    public void Logout()
     {
         _accessToken = "";
         _refreshToken = "";
         _tokenExpiry = DateTime.MinValue;
         _userId = 0;
         _username = "";
-        _role = "";
+
+        AuthenticationChanged?.Invoke(this, false);
+
+        _windowManager.OnLogout();
     }
 
-    private static void SetTokens(string? accessToken, string? refreshToken)
+    private void SetTokens(string? accessToken, string? refreshToken)
     {
         _accessToken = accessToken ?? "";
         _refreshToken = refreshToken ?? "";
@@ -133,7 +158,7 @@ public class AuthService
         _tokenExpiry = jwtToken.ValidTo;
     }
 
-    private static void ExtractUserInfo()
+    private void ExtractUserInfo()
     {
         var handler = new JwtSecurityTokenHandler();
         var jwtToken = handler.ReadJwtToken(_accessToken);
@@ -141,12 +166,5 @@ public class AuthService
 
         _userId = Convert.ToInt32(claims.FirstOrDefault(c => c.Type == "id")?.Value ?? "0");
         _username = claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value ?? string.Empty;
-        _role = claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value ?? string.Empty;
-    }
-
-    private sealed class TokenResponse
-    {
-        public string? AccessToken { get; set; } = string.Empty;
-        public string? RefreshToken { get; set; } = string.Empty;
     }
 }

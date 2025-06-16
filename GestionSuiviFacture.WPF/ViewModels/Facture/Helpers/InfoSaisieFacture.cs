@@ -49,4 +49,20 @@ public partial class InfoSaisieFacture : ObservableObject
         LigneFacture.Add(taxDetail);
         UpdateTotals(taxDetail);
     }
+
+
+    public void RemoveTax(TaxDetail taxDetail)
+    {
+        if (LigneFacture.Remove(taxDetail))
+        {
+            RecalculateTotals();
+        }
+    }
+
+    private void RecalculateTotals()
+    {
+        TotalHT = LigneFacture.Sum(x => x.MontantHT);
+        TotalTVA = LigneFacture.Sum(x => x.MontantTVA);
+        TotalTTC = TotalHT + TotalTVA;
+    }
 }

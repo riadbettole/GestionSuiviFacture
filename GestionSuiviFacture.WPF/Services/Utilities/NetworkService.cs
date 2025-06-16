@@ -13,11 +13,11 @@ public class NetworkService
 
     public bool IsConnected => _isConnected;
 
-    public NetworkService(int checkIntervalMs = 5000)
+    public NetworkService()
     {
         _lastConnectedTime = DateTime.UtcNow;
 
-        _networkCheckTimer = new System.Timers.Timer(checkIntervalMs);
+        _networkCheckTimer = new System.Timers.Timer(3000);
         _networkCheckTimer.Elapsed += CheckNetworkStatus;
     }
 

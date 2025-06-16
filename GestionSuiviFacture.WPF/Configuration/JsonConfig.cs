@@ -1,6 +1,6 @@
 ﻿using System.Text.Json;
 
-namespace GestionSuiviFacture.WPF
+namespace GestionSuiviFacture.WPF.Configuration
 {
     public static class JsonConfig
     {
