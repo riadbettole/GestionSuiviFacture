@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using CommunityToolkit.Mvvm.ComponentModel;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GestionSuiviFacture.WPF.DTOs;
 using GestionSuiviFacture.WPF.Models;
@@ -7,6 +6,8 @@ using GestionSuiviFacture.WPF.Services;
 using GestionSuiviFacture.WPF.Services.Saisie;
 using GestionSuiviFacture.WPF.ViewModels.Common;
 using GestionSuiviFacture.WPF.ViewModels.Helpers;
+using Microsoft.IdentityModel.Tokens;
+using System.Collections.ObjectModel;
 
 namespace GestionSuiviFacture.WPF.ViewModels;
 
@@ -44,16 +45,18 @@ public partial class FactureViewModel : ObservableObject
     private readonly ICommandeService _commandeService;
     private readonly IFactureService _factureService;
     private readonly IAuthService _authService;
+    private readonly IPrintService _printService;
 
-
-    public FactureViewModel(IAuthService authService, ICommandeService commandeService, IFactureService factureService)
+    public FactureViewModel(IAuthService authService, ICommandeService commandeService, IFactureService factureService, IPrintService printService)
     {
         _commandeService = commandeService;
         _factureService = factureService;
         _authService = authService;
+        _printService = printService;
 
         SaisieFacture = new InfoSaisieFacture();
         BonDeLivraisons = new ObservableCollection<BonDeLivraisonViewModel>();
+
 
         CleanUpCommande();
     }
@@ -154,8 +157,11 @@ public partial class FactureViewModel : ObservableObject
             }
             EtiquetteDto etiquetteDto = MakeEtiquetteDTO();
 
-            await _factureService.PostEtiquetteAsync(etiquetteDto);
+            var result = await _factureService.PostEtiquetteAsync(etiquetteDto);
 
+            Etiquette etq = MakeEtiquette(result.NSequence, result.DateTraitement, _authService.Username);
+            _printService.PreviewEtiquette(etq);
+            //_printService.PrintEtiquette(etq);
             CleanUpSaisie();
             CleanUpCommande();
             CleanFilter();
@@ -164,6 +170,28 @@ public partial class FactureViewModel : ObservableObject
         {
             IsLoading = false;
         }
+    }
+
+    private Etiquette MakeEtiquette(string seq, DateTime? date, string user)
+    {
+        return new Etiquette(
+            date,
+            seq,
+            MapStringIntStatus(Statut),
+            Commande?.DateCommande,
+            Commande?.MontantTTC,
+            SaisieFacture?.NumCommande,
+            Commande?.NomFournisseur,
+            Commande?.Site,
+            Commande?.Groupe,
+            "",
+            Commande?.CNUF,
+            SaisieFacture?.DateFacture,
+            SaisieFacture?.NumFacture,
+            SaisieFacture?.MontantTTC,
+            null, null, null, null, null,
+            user
+        );
     }
 
     private EtiquetteDto MakeEtiquetteDTO()

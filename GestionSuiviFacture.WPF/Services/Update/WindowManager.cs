@@ -1,18 +1,28 @@
-﻿using GestionSuiviFacture.WPF.ViewModels;
+﻿using GestionSuiviFacture.WPF.Services.Auth;
+using GestionSuiviFacture.WPF.ViewModels;
 using GestionSuiviFacture.WPF.Views;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace GestionSuiviFacture.WPF.Services.Utilities;
+namespace GestionSuiviFacture.WPF.Services.Update;
 
 public class WindowManager
 {
     private readonly IServiceProvider _serviceProvider;
     private UpdateProgresBar? _updateProgressWindow;
     private UpdateViewModel? _updateViewModel;
+    private IAuthService _authService;
+
 
     public WindowManager(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
+        _authService = _serviceProvider.GetRequiredService<IAuthService>();
+        _authService.LogoutRequired += OnLogoutRequired;
+    }
+
+    private void OnLogoutRequired(object? sender, EventArgs e)
+    {
+        OnLogout();
     }
 
     public void ShowUpdateProgressWindow(Action onCheckSuccess, UpdateViewModel updateViewModel)
@@ -51,11 +61,11 @@ public class WindowManager
     public void OnLoginSuccess()
     {
         var mainWindow = _serviceProvider.GetRequiredService<MainWindow>();
-        App.Current.MainWindow = mainWindow;
+        System.Windows.Application.Current.MainWindow = mainWindow;
         mainWindow.Show();
 
         // Close login window if it exists
-        var loginWindow = App.Current.Windows.OfType<Login>().FirstOrDefault();
+        var loginWindow = System.Windows.Application.Current.Windows.OfType<Login>().FirstOrDefault();
         loginWindow?.Close();
     }
 
@@ -64,13 +74,15 @@ public class WindowManager
         var loginWindow = _serviceProvider.GetRequiredService<Login>();
         var loginViewModel = _serviceProvider.GetRequiredService<LoginViewModel>();
 
+        _authService.Logout();
+
         loginViewModel.AssignAction(() => OnLoginSuccess());
         loginWindow.DataContext = loginViewModel;
 
         loginWindow.Show();
 
         // Close main window if it exists
-        var mainWindow = App.Current.Windows.OfType<MainWindow>().FirstOrDefault();
+        var mainWindow = System.Windows.Application.Current.Windows.OfType<MainWindow>().FirstOrDefault();
         mainWindow?.Close();
     }
 }

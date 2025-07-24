@@ -1,6 +1,5 @@
 ﻿using GestionSuiviFacture.WPF.Configuration;
-using GestionSuiviFacture.WPF.Services;
-using GestionSuiviFacture.WPF.Services.Utilities;
+using GestionSuiviFacture.WPF.Services.Update;
 using GestionSuiviFacture.WPF.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

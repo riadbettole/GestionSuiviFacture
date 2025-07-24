@@ -1,6 +1,6 @@
 ﻿using System.Net.Http;
 
-namespace GestionSuiviFacture.WPF.Services;
+namespace GestionSuiviFacture.WPF.Services.Network;
 
 public interface IAuthenticatedHttpClient
 {

@@ -1,11 +1,9 @@
-﻿using GestionSuiviFacture.WPF.Services.Utilities;
-using GestionSuiviFacture.WPF.ViewModels;
-using Microsoft.Extensions.DependencyInjection;
+﻿using GestionSuiviFacture.WPF.ViewModels;
 using Serilog;
 using Velopack.Exceptions;
 using Velopack.Sources;
 
-namespace GestionSuiviFacture.WPF.Services;
+namespace GestionSuiviFacture.WPF.Services.Update;
 
 public class UpdateWindowManager
 {

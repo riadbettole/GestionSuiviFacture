@@ -5,7 +5,7 @@ public record Etiquette(
     string? NumSequence,
     int? Status,
     DateTime? DateCommande,
-    double MontantBRV,
+    double? MontantBRV,
     string? NumCommande,
     string? Fournisseur,
     string? LibelleSite,

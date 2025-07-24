@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GestionSuiviFacture.WPF.Services;
+using GestionSuiviFacture.WPF.Services.Auth;
 using System.Net.Http;
 
 namespace GestionSuiviFacture.WPF.ViewModels;
@@ -8,6 +9,7 @@ namespace GestionSuiviFacture.WPF.ViewModels;
 public partial class LoginViewModel : ObservableObject
 {
     private readonly IAuthService _authService;
+    private readonly StorageCredential _storageCredential;
 
     [ObservableProperty]
     private string _username = string.Empty;
@@ -32,9 +34,32 @@ public partial class LoginViewModel : ObservableObject
 
     public event Action? LoginSucceeded;
 
-    public LoginViewModel(IAuthService authService)
+    public LoginViewModel(IAuthService authService, StorageCredential storageCredential)
     {
         _authService = authService;
+        _storageCredential = storageCredential;
+
+        LoadSavedCredentials();
+        if (_storageCredential.HasStoredCredentials())
+            Login();
+    }
+
+    private void LoadSavedCredentials()
+    {
+        try
+        {
+            if (_storageCredential.HasStoredCredentials())
+            {
+                var (username, password) = _storageCredential.LoadCredentials();
+                Username = username;
+                Password = password;
+                //RememberMe = true;
+            }
+        }
+        catch (Exception)
+        {
+            // Silently fail credential loading
+        }
     }
 
     public void AssignAction(Action action)
@@ -64,12 +89,13 @@ public partial class LoginViewModel : ObservableObject
                 return;
             }
 
-            bool isAuthenticated = await _authService.LoginAsync(Username, Password);
+            bool isAuthenticated = await _authService.LoginAsync(Username, Password, RememberMe);
 
             if (isAuthenticated)
             {
                 HasError = false;
                 ErrorMessage = string.Empty;
+
                 LoginSucceeded?.Invoke();
             }
             else
@@ -79,17 +105,13 @@ public partial class LoginViewModel : ObservableObject
         }
         catch (InvalidOperationException ex)
         {
-            ShowError(ex.Message); // Shows archived message
-        }
-        catch (HttpRequestException ex) when (ex.Data.Contains("StatusCode") && ex.Data["StatusCode"].Equals(423))
-        {
-            throw new InvalidOperationException("Votre compte a été archivé. Contactez le support.");
+            ShowError(ex.Message); // Probablement archive
         }
         catch (System.Net.NetworkInformation.NetworkInformationException)
         {
             ShowError("Problème de connexion réseau. Vérifiez votre connexion internet.");
         }
-        catch (System.Net.Http.HttpRequestException)
+        catch (HttpRequestException)
         {
             ShowError("Impossible de se connecter au serveur. Réessayez plus tard.");
         }
@@ -110,7 +132,7 @@ public partial class LoginViewModel : ObservableObject
             IsLogging = false;
             LoginButtonText = "Se connecter";
         }
-    }
+    }   
 
     private void ShowError(string message)
     {

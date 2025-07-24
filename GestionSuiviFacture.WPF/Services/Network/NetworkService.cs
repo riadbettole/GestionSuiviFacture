@@ -1,7 +1,7 @@
 ﻿using System.Net.Http;
 using System.Timers;
 
-namespace GestionSuiviFacture.WPF.Services;
+namespace GestionSuiviFacture.WPF.Services.Network;
 
 public class NetworkService
 {
@@ -38,7 +38,7 @@ public class NetworkService
             using var client = new HttpClient();
             client.Timeout = TimeSpan.FromSeconds(3);
 
-            await client.GetAsync("https://localhost:7167/network/health");
+            await client.GetAsync("https://localhost:7167/api/v1/network/health");
 
             return true;
         }
@@ -52,9 +52,9 @@ public class NetworkService
     {
         bool isConnected = await IsLocalServerAvailable();
 
-        if (App.Current?.Dispatcher != null)
+        if (System.Windows.Application.Current?.Dispatcher != null)
         {
-            await App.Current.Dispatcher.InvokeAsync(() =>
+            await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
             {
                 if (isConnected)
                 {

@@ -1,6 +1,7 @@
 ﻿using GestionSuiviFacture.WPF.DTOs;
 using GestionSuiviFacture.WPF.Models;
 using GestionSuiviFacture.WPF.Services;
+using GestionSuiviFacture.WPF.Services.Network;
 using Newtonsoft.Json.Linq;
 using System.Diagnostics;
 

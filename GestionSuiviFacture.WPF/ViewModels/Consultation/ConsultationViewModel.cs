@@ -13,6 +13,7 @@ namespace GestionSuiviFacture.WPF.ViewModels;
 public partial class ConsultationViewModel : ObservableObject
 {
     private readonly IEtiquetteService _etiquetteService;
+    private readonly IPrintService _printService;
     private readonly ObservableCollection<EtiquetteViewModel> _etiquettes = new();
 
     [ObservableProperty]
@@ -32,10 +33,10 @@ public partial class ConsultationViewModel : ObservableObject
 
     public IEnumerable<EtiquetteViewModel> Etiquettes => _etiquettes;
 
-    public ConsultationViewModel(IEtiquetteService etiquetteService)
+    public ConsultationViewModel(IEtiquetteService etiquetteService, IPrintService printService)
     {
         _etiquetteService = etiquetteService;
-
+        _printService = printService;
         Pagination = new PaginationViewModel();
         Pagination.PageChanged += OnPageChanged;
     }
@@ -139,7 +140,7 @@ public partial class ConsultationViewModel : ObservableObject
     private void PreviewEtiquette(object parameter)
     {
         if (SelectedEtiquette != null)
-            PrintService.ShowPrintPreview(SelectedEtiquette._etiquette);
+            _printService.PreviewEtiquette(SelectedEtiquette._etiquette);
     }
 
     [RelayCommand]

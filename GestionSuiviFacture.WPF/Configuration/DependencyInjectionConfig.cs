@@ -1,6 +1,8 @@
 ﻿using GestionSuiviFacture.WPF.Services;
+using GestionSuiviFacture.WPF.Services.Auth;
+using GestionSuiviFacture.WPF.Services.Network;
 using GestionSuiviFacture.WPF.Services.Saisie;
-using GestionSuiviFacture.WPF.Services.Utilities;
+using GestionSuiviFacture.WPF.Services.Update;
 using GestionSuiviFacture.WPF.ViewModels;
 using GestionSuiviFacture.WPF.Views;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,6 +33,7 @@ public static class DependencyInjectionConfig
         // Application Services
         services.AddSingleton<NavigationService>();
         services.AddSingleton<NetworkService>();
+        services.AddSingleton<StorageCredential>();
         services.AddSingleton<IPrintService, PrintService>();
         services.AddSingleton<IAuthenticatedHttpClient, AuthenticatedHttpClient>();
 

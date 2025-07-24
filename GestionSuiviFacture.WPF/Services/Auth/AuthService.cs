@@ -1,12 +1,11 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using GestionSuiviFacture.WPF.Configuration;
+using GestionSuiviFacture.WPF.Services.Auth;
+using System.IdentityModel.Tokens.Jwt;
 using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
-using GestionSuiviFacture.WPF.Configuration;
-using GestionSuiviFacture.WPF.Services.Utilities;
-using GestionSuiviFacture.WPF.ViewModels;
 
 namespace GestionSuiviFacture.WPF.Services;
 
@@ -23,22 +22,21 @@ public class AuthService : IAuthService
     private DateTime _tokenExpiry = DateTime.MinValue;
     private int _userId = 0;
     private string _username = "";
-
+    private StorageCredential _storageCredential;
     private readonly HttpClient _httpClient;
-    private readonly WindowManager _windowManager;
     private const string API_BASE_URL = "https://localhost:7167/api/v1";
 
-    public event EventHandler<bool>? AuthenticationChanged;
+    public event EventHandler? LogoutRequired;
 
     public int UserID => _userId;
     public string Username => _username;
     public bool IsAuthenticated =>
         !string.IsNullOrEmpty(_accessToken) && DateTime.UtcNow < _tokenExpiry;
 
-    public AuthService(HttpClient httpClient, WindowManager windowManager)
+    public AuthService(HttpClient httpClient, StorageCredential storageCredential)
     {
         _httpClient = httpClient;
-        _windowManager = windowManager;
+        _storageCredential = storageCredential;
     }
 
     public async Task<string?> GetValidTokenAsync()
@@ -51,48 +49,52 @@ public class AuthService : IAuthService
         return IsAuthenticated ? _accessToken : null;
     }
 
-    public async Task<bool> LoginAsync(string username, string password)
+    public async Task<bool> TryAutoLoginAsync()
     {
-        try
+        if (!_storageCredential.HasStoredCredentials())
+            return false;
+
+        var (username, password) = _storageCredential.LoadCredentials();
+        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            return false;
+
+        return await LoginAsync(username, password, false); // Don't save again
+    }
+
+    public async Task<bool> LoginAsync(string username, string password, bool rememberMe)
+    {
+
+        var payload = new { Username = username, Password = password };
+        string json = JsonSerializer.Serialize(payload);
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        var response = await _httpClient.PostAsync($"{API_BASE_URL}/login", content);
+
+        if (response.IsSuccessStatusCode)
         {
-            var payload = new { Username = username, Password = password };
-            string json = JsonSerializer.Serialize(payload);
-            var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await _httpClient.PostAsync($"{API_BASE_URL}/login", content);
-
-            if (response.IsSuccessStatusCode)
+            var result = await response.Content.ReadAsStringAsync();
+            var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(
+                result,
+                JsonConfig.DefaultOptions
+            );
+            if (tokenResponse != null)
             {
-                var result = await response.Content.ReadAsStringAsync();
-                var tokenResponse = JsonSerializer.Deserialize<TokenResponse>(
-                    result,
-                    JsonConfig.DefaultOptions
-                );
-                if (tokenResponse != null)
+                SetTokens(tokenResponse.AccessToken, tokenResponse.RefreshToken);
+                ExtractUserInfo();
+
+                if (rememberMe)
                 {
-                    SetTokens(tokenResponse.AccessToken, tokenResponse.RefreshToken);
-                    ExtractUserInfo();
-                    AuthenticationChanged?.Invoke(this, true);
-                    return true;
+                    _storageCredential.SaveCredentials(username, password);
                 }
-            }
-            else if (response.StatusCode == (HttpStatusCode)423) // Locked
-            {
-                var errorMessage = await response.Content.ReadAsStringAsync();
-                throw new InvalidOperationException(errorMessage);
-            }
 
-            return false;
+                return true;
+            }
         }
-        catch (InvalidOperationException)
+        else if (response.StatusCode == HttpStatusCode.Locked)
         {
-            throw; // Re-throw to preserve the specific error message
+            throw new InvalidOperationException("Votre compte a été archivé. Contactez le support.");
         }
-        catch (Exception ex)
-        {
-            Console.WriteLine($"Login error: {ex.Message}");
-            return false;
-        }
+        return false;
     }
 
     private async Task<bool> RefreshTokenAsync()
@@ -125,13 +127,19 @@ public class AuthService : IAuthService
 
             // If refresh fails, clear all tokens
             Logout();
+            LogoutRequired?.Invoke(this, EventArgs.Empty);
             return false;
         }
         catch (Exception ex)
         {
             Console.WriteLine($"Token refresh error: {ex.Message}");
             Logout();
+            LogoutRequired?.Invoke(this, EventArgs.Empty);
             return false;
+        }
+        finally
+        {
+            // do repeated
         }
     }
 
@@ -142,10 +150,7 @@ public class AuthService : IAuthService
         _tokenExpiry = DateTime.MinValue;
         _userId = 0;
         _username = "";
-
-        AuthenticationChanged?.Invoke(this, false);
-
-        _windowManager.OnLogout();
+        _storageCredential.ClearCredentials();
     }
 
     private void SetTokens(string? accessToken, string? refreshToken)

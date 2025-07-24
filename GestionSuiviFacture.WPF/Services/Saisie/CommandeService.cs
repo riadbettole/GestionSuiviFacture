@@ -3,6 +3,7 @@ using System.Text.Json;
 using GestionSuiviFacture.WPF.Configuration;
 using GestionSuiviFacture.WPF.DTOs;
 using GestionSuiviFacture.WPF.Models;
+using GestionSuiviFacture.WPF.Services.Network;
 using GestionSuiviFacture.WPF.Services.Saisie;
 
 namespace GestionSuiviFacture.WPF.Services;

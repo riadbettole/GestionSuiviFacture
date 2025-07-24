@@ -5,7 +5,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using GestionSuiviFacture.WPF.Configuration;
-using GestionSuiviFacture.WPF.Services;
+using GestionSuiviFacture.WPF.Services.Network;
 
 public class FactureService : IFactureService
 {
@@ -16,7 +16,7 @@ public class FactureService : IFactureService
         _httpClient = httpClient;
     }
 
-    public async Task<bool> PostEtiquetteAsync(EtiquetteDto etiquetteDto)
+    public async Task<(string NSequence, DateTime DateTraitement)> PostEtiquetteAsync(EtiquetteDto etiquetteDto)
     {
         try
         {
@@ -29,12 +29,22 @@ public class FactureService : IFactureService
             var response = await _httpClient.PostAsync("Etiquette", httpContent);
             response.EnsureSuccessStatusCode();
 
-            return true;
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var responseData = JsonSerializer.Deserialize<EtiquetteApiResponse>(responseContent, JsonConfig.DefaultOptions);
+
+            return (responseData.NSequence, responseData.DateTraitement);
         }
         catch (Exception ex)
         {
             Debug.WriteLine($"Error posting etiquette: {ex.Message}");
-            return false;
+            return ("Erreur", new DateTime());
         }
     }
+}
+
+public class EtiquetteApiResponse
+{
+    public string Message { get; set; }
+    public string NSequence { get; set; }
+    public DateTime DateTraitement { get; set; }
 }
