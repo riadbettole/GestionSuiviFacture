@@ -8,6 +8,7 @@ using GestionSuiviFacture.WPF.ViewModels.Common;
 using GestionSuiviFacture.WPF.ViewModels.Helpers;
 using Microsoft.IdentityModel.Tokens;
 using System.Collections.ObjectModel;
+using System.Windows;
 
 namespace GestionSuiviFacture.WPF.ViewModels;
 
@@ -27,7 +28,7 @@ public partial class FactureViewModel : ObservableObject
 
     [ObservableProperty]
     private CommandeViewModel? _commande;
-    
+
     [ObservableProperty]
     private double _montantTotal = 0;
 
@@ -139,7 +140,7 @@ public partial class FactureViewModel : ObservableObject
         if (taxDetail != null)
         {
             SaisieFacture.RemoveTax(taxDetail);
-            UpdateStatus(); 
+            UpdateStatus();
         }
     }
 
@@ -147,31 +148,38 @@ public partial class FactureViewModel : ObservableObject
     private async Task SaveFacture()
     {
         IsLoading = true;
-
         try
         {
             if (!SaisieFacture.LigneFacture.Any())
             {
                 IsLoading = false;
-                return;
+                return; // ← PROBLÈME ICI : on sort sans sauvegarder
             }
+
             EtiquetteDto etiquetteDto = MakeEtiquetteDTO();
 
+            // ← VÉRIFIEZ QUE CETTE LIGNE S'EXÉCUTE
             var result = await _factureService.PostEtiquetteAsync(etiquetteDto);
 
+            // ← ET QUE CETTE LIGNE AUSSI
             Etiquette etq = MakeEtiquette(result.NSequence, result.DateTraitement, _authService.Username);
+
+            // Prévisualisation (ne devrait pas bloquer la sauvegarde)
             _printService.PreviewEtiquette(etq);
-            //_printService.PrintEtiquette(etq);
+
             CleanUpSaisie();
             CleanUpCommande();
             CleanFilter();
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Erreur: {ex.Message}", "Erreur", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         finally
         {
             IsLoading = false;
         }
     }
-
     private Etiquette MakeEtiquette(string seq, DateTime? date, string user)
     {
         return new Etiquette(
