@@ -149,8 +149,6 @@ namespace GestionSuiviFacture.WPF.Services
             zpl.AppendLine($"^FO5,180^CF0,8^FDDate: {dateText}^FS");
             zpl.AppendLine($"^FO5,195^CF0,8^FDAgent: {userText}^FS");
 
-       
-
             // Fin de l'étiquette
             zpl.AppendLine("^XZ");
 
